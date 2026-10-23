@@ -122,7 +122,7 @@ const METRE_ITEMS=[Y('2/4','2/4',7),Y('3/4','3/4',7),Y('4/4','4/4',7),Y('6/8','6
 // a scale-based tune that resolves on the tonic, for tonality/texture/form
 const TUNE=(root,steps,len)=>colourMelody(root,steps.concat([12]),steps.includes(3)?[3]:steps.includes(4)?[4]:[],len||10);
 
-const UNITS=[
+var UNITS=[
  {name:'Metre', key:'met', ask:'Listen — what is the metre?',
   guide:`<p class="prompt">Pulse &amp; metre</p><ul><li>Tap the beat. Find the <b>strong</b> beat (beat 1) and count until it comes again: 2, 3 or 4 beats a bar.</li>
    <li>Does each beat split in <b>two</b> (simple time — march, waltz) or in <b>three</b> (compound time — a lilt or jig, 6/8)?</li>
@@ -173,7 +173,7 @@ const UNITS=[
     if(ctx.mode==='notate'){return {kind:'notate',clef:'treble',given:1,enharm:true,notes:[[R[0],Math.floor(root/12)-1,R[1]],[topN.letter,topN.octave,topN.acc]],mids:[root,root+iv.s],
         play:()=>AUDIO.interval(root,iv.s,'up'),playLabel:'Ascending interval — write the top note',prompt:'Write the note that completes the interval',why:`${iv.n} above ${noteName(rootN)} is <b>${noteName(topN)}</b> (${iv.s} semitones).`};}
     const dir=A_pick(dirs),names=ivls.map(x=>IVL[x].n);const hook=dir==='down'?(iv.dn?'Descending hook: '+iv.dn+'.':''):(iv.up?'Hook: '+iv.up+'.':'');
-    return {kind:'choice',options:A_shuf(names),answer:iv.n,play:()=>AUDIO.interval(root,iv.s,dir),playLabel:dir==='harm'?'Two notes together':dir==='down'?'Descending interval':'Ascending interval',why:`${iv.n} — ${iv.s} semitones (${noteName(rootN)} to ${noteName(topN)}). ${hook}`};}},
+    return {kind:'choice',options:A_shuf(names),answer:iv.n,play:()=>AUDIO.interval(root,iv.s,dir),playOpt:(lab)=>{const c=ivls.find(x=>IVL[x].n===lab);return c?AUDIO.interval(root,IVL[c].s,dir):0;},playLabel:dir==='harm'?'Two notes together':dir==='down'?'Descending interval':'Ascending interval',why:`${iv.n} — ${iv.s} semitones (${noteName(rootN)} to ${noteName(topN)}). ${hook}`};}},
 
  {name:'Melodic dictation', key:'pd', ask:'Listen — write the notes.',
   guide:`<p class="prompt">Melody patterns</p><ul><li><b>Shape</b> questions: does each note go up, down or stay? Pick the matching contour.</li>
@@ -240,7 +240,8 @@ const UNITS=[
     const spelled=deg.map(d=>spellFrom(R[0],root,d[0],d[1])),rootName=noteName({letter:R[0],acc:R[1]});
     if(ctx.mode==='notate'){const mids=steps.map(s=>root+s);return {kind:'notate',clef:'treble',given:1,enharm:true,notes:spelled.map(n=>[n.letter,n.octave,n.acc]),mids,play:()=>AUDIO.scale(root,steps),playLabel:'Scale going up — write it',prompt:'Write the scale you hear',why:`${disp(ch)} from ${rootName}: ${spelled.map(noteName).join(' ')}.`};}
     const ex=inContext?colourMelody(root,steps,COL[ch],12):null;
-    return {kind:'choice',options:A_shuf(names.map(disp)),answer:disp(ch),play:()=>inContext?AUDIO.melody(ex.mids,ex.durs,0.42):AUDIO.scale(root,steps),playLabel:inContext?'A tune built on this scale':'A scale going up',why:`${disp(ch)} (from ${rootName}) — ${TELL[ch]}.`};}},
+    const undisp=lab=>names.find(n=>disp(n)===lab);
+    return {kind:'choice',options:A_shuf(names.map(disp)),answer:disp(ch),play:()=>inContext?AUDIO.melody(ex.mids,ex.durs,0.42):AUDIO.scale(root,steps),playOpt:(lab)=>{const id=undisp(lab);if(!id)return 0;const st=D[id].map(d=>d[0]);if(inContext){const e2=colourMelody(root,st,COL[id],12);return AUDIO.melody(e2.mids,e2.durs,0.42);}return AUDIO.scale(root,st);},playLabel:inContext?'A tune built on this scale':'A scale going up',why:`${disp(ch)} (from ${rootName}) — ${TELL[ch]}.`};}},
 
  {name:'Tonality & modulation', key:'ton', ask:'Listen — what is the tonality?',
   guide:`<p class="prompt">Tonality</p><ul><li><b>Major</b> = bright; <b>minor</b> = darker, sadder; <b>pentatonic</b> = open, folky, no semitones (hum it — only five different notes).</li>
@@ -281,8 +282,8 @@ const UNITS=[
       return {kind:'choice',options:['One note','Two notes','A triad (three-note chord)'],answer:lab,play:()=>AUDIO.chord(0,notes,style),playLabel:'How many different notes are sounding?',why:n===3?'Three notes stacked in 3rds — a major triad.':n===2?'Two notes together — an interval, not a chord.':'A single note.'};}
     const quals=ctx.cfg('quals').filter(q=>CHORDQ[q]),q=A_pick(quals.length?quals:['Major']),Q=CHORDQ[q];
     if(qt==='inv'){const base=['Diminished 7th','Augmented'].includes(q)?'Major':q;const inv=A_pick([0,1,2]);const INV=['Root position','1st inversion','2nd inversion'];
-      return {kind:'choice',options:INV,answer:INV[inv],play:()=>AUDIO.chord(0,voiced(root,CHORDQ[base].iv,inv),style),playLabel:base+' triad — which note is at the bottom?',why:`${INV[inv]} — the bass note is the ${inv===0?'root':inv===1?'3rd':'5th'}.`};}
-    return {kind:'choice',options:A_shuf(quals),answer:q,play:()=>AUDIO.chord(0,voiced(root,Q.iv,0),style),playLabel:style==='arp'?'A chord, one note at a time':'A chord',why:`${q} — ${Q.cue}.${['Diminished 7th','Augmented'].includes(q)?' (Symmetrical — every inversion sounds the same.)':''}`};}},
+      return {kind:'choice',options:INV,answer:INV[inv],play:()=>AUDIO.chord(0,voiced(root,CHORDQ[base].iv,inv),style),playOpt:(lab)=>{const k=INV.indexOf(lab);return k<0?0:AUDIO.chord(0,voiced(root,CHORDQ[base].iv,k),style);},playLabel:base+' triad — which note is at the bottom?',why:`${INV[inv]} — the bass note is the ${inv===0?'root':inv===1?'3rd':'5th'}.`};}
+    return {kind:'choice',options:A_shuf(quals),answer:q,play:()=>AUDIO.chord(0,voiced(root,Q.iv,0),style),playOpt:(lab)=>CHORDQ[lab]?AUDIO.chord(0,voiced(root,CHORDQ[lab].iv,0),style):0,playLabel:style==='arp'?'A chord, one note at a time':'A chord',why:`${q} — ${Q.cue}.${['Diminished 7th','Augmented'].includes(q)?' (Symmetrical — every inversion sounds the same.)':''}`};}},
 
  {name:'Harmonic dictation', key:'prog', ask:'Listen — write the chords.',
   guide:`<p class="prompt">Chord changes &amp; progressions</p><ul><li>Year 7: can you hear when the chord <b>changes</b>? Count the changes, or say whether two chords are the same or different.</li>
@@ -326,7 +327,7 @@ const UNITS=[
     const cads=ctx.cfg('cads'),fmt=ctx.cfg('format'),ch=A_pick(cads),c=CAD[ch],kl=key.toLowerCase();
     const EXPL={Perfect:'dominant to tonic; the leading note rises to the tonic — closed.',Plagal:'subdominant to tonic; the 4th degree falls to the 3rd — gentle, closed.',Imperfect:'ends on the dominant — open, unfinished.',Interrupted:'the dominant resolves to vi instead of I — the "surprise" chord.'};
     if(fmt==='chords'){const vc=voiceCadenceSATB(ton,c.s,R,ch,isMin);return {kind:'choice',options:A_shuf(cads),answer:ch,
-      play:()=>AUDIO.progression(vc,1.5),playLabel:key+' — tonic chord, then the cadence (SATB)',why:`${ch} cadence (${c.rn}) in ${kl}: ${EXPL[ch]}`};}
+      play:()=>AUDIO.progression(vc,1.5),playOpt:(lab)=>CAD[lab]?AUDIO.progression(voiceCadenceSATB(ton,CAD[lab].s,R,lab,isMin),1.5):0,playLabel:key+' — tonic chord, then the cadence (SATB)',why:`${ch} cadence (${c.rn}) in ${kl}: ${EXPL[ch]}`};}
     if(fmt==='two'){const c1=A_pick(cads),c2=A_pick(cads),label=c1+', then '+c2;
       const prog=voiceProg([ton,pre].concat(CAD[c1].s).concat([ton,pre]).concat(CAD[c2].s),R);
       const mel=chordMelody(prog,2,R,isMin?MINH:MAJ);
@@ -335,7 +336,7 @@ const UNITS=[
         play:()=>AUDIO.progMelody(prog,mel.mids,mel.durs,0.45,2),playLabel:key+' — two phrases: a cadence halfway and at the end',why:`${label} (${kl}). ${EXPL[c1]} Then: ${EXPL[c2]}`};}
     const prog=voiceProg([ton,pre].concat(c.s),R);const mel=chordMelody(prog,2,R,isMin?MINH:MAJ);
     return {kind:'choice',options:A_shuf(cads),answer:ch,
-      play:()=>AUDIO.progMelody(prog,mel.mids,mel.durs,0.45,2),playLabel:key+' — a phrase ending on the cadence',why:`${ch} cadence (${c.rn}) in ${kl}: ${EXPL[ch]}`};}},
+      play:()=>AUDIO.progMelody(prog,mel.mids,mel.durs,0.45,2),playOpt:(lab)=>{if(!CAD[lab])return 0;const p2=voiceProg([ton,pre].concat(CAD[lab].s),R);return AUDIO.progMelody(p2,mel.mids,mel.durs,0.45,2);},playLabel:key+' — a phrase ending on the cadence',why:`${ch} cadence (${c.rn}) in ${kl}: ${EXPL[ch]}`};}},
 
  {name:'Texture', key:'tex', ask:'Listen — what texture?',
   guide:`<p class="prompt">Texture</p><ul><li><b>Unison / monophonic</b>: everyone plays the same tune (even in octaves) — one line.</li>

@@ -174,6 +174,34 @@
   .avchip.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
   .logav svg{width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:6px}
   .streakfire{color:#ff8a3d}
+  .tabs button .ring{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-left:6px}
+  .tabs button .ring circle{fill:none;stroke-width:3}
+  .tabs button .mast{margin-left:5px;color:var(--brass);font-weight:900}
+  .tabs button.special{border-style:dashed}
+  .sfxbtn{background:transparent;border:1px solid rgba(239,233,220,.3);color:#cfc8ba;border-radius:999px;font-size:13px;padding:4px 10px;cursor:pointer;font-family:var(--sans)}
+  .sfxbtn.off{opacity:.5;text-decoration:line-through}
+  .dots .right{margin-left:auto;display:flex;gap:6px}
+  .dots .sprintbtn,.dots .h2hbtn{border:1px solid rgba(239,233,220,.3);background:transparent;color:#cfc8ba;border-radius:999px;font-size:11px;font-weight:600;padding:5px 11px;cursor:pointer;font-family:var(--sans)}
+  .dots .sprintbtn:hover,.dots .h2hbtn:hover{border-color:var(--cream);color:var(--cream)}
+  .sprintbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:var(--cream);border-radius:6px;padding:8px 14px;margin:0 0 10px;font-family:var(--serif);font-size:20px;font-weight:600}
+  .sprintbar .clock{font-size:26px;color:var(--brass)} .sprintbar .sp{font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#a79f91}
+  .h2hbar{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:8px 14px;margin:0 0 10px;font-size:14px}
+  .h2hbar .pl{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid transparent} .h2hbar .pl.turn{border-color:var(--ink);background:#fff;font-weight:700}
+  .h2hbar .sc{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ox)}
+  .hearbtn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+  .hearbtn:disabled{opacity:.5}
+  .xpbonus{font-family:var(--sans);font-size:12px;color:var(--brass);font-weight:700;margin-left:8px}
+  .profgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:8px 0}
+  .profcell{background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .profcell .l{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .profcell .v{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1}
+  .achgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+  .ach{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff}
+  .ach.locked{opacity:.45;filter:grayscale(1)} .ach .ic{font-size:22px;line-height:1} .ach .t{font-weight:700;font-size:13px} .ach .d{font-size:11.5px;color:#4d463c}
+  .masterbars{margin:8px 0} .mrow2{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:13px} .mrow2 .nm{width:170px} .mrow2 .bar{flex:1;height:8px;background:var(--shade);border-radius:999px;overflow:hidden} .mrow2 .bar i{display:block;height:100%;background:var(--green)} .mrow2 .bar i.low{background:var(--red)} .mrow2 .bar i.mid{background:var(--brass)} .mrow2 .pc{width:60px;text-align:right;font-weight:700}
+  .avchip.locked{opacity:.5;border-style:dashed}
+  @keyframes rankpop{0%{transform:translate(-50%,-50%) scale(.7);opacity:0}60%{transform:translate(-50%,-50%) scale(1.06);opacity:1}100%{transform:translate(-50%,-50%) scale(1)}}
+  .guide.rank{animation:rankpop .5s;text-align:center}
   @media (max-width:560px){.avgrid{grid-template-columns:1fr}.avgrid .prev svg{width:110px;height:110px;margin:0 auto}
 header h1{font-size:27px}header .eye{font-size:9.5px;letter-spacing:1.8px}.hud{gap:12px}.hud .stat{min-width:44px}.hud .stat .val{font-size:19px}
     .card{padding:12px 12px 12px}.prompt{font-size:20px}.topbar{gap:8px}.namebar input{width:140px}.playbtn{font-size:15px;padding:11px 20px}.opts{grid-template-columns:1fr 1fr}.opts button{font-size:14px;padding:10px 10px}}
@@ -196,7 +224,9 @@ header h1{font-size:27px}header .eye{font-size:9.5px;letter-spacing:1.8px}.hud{g
     <div class="stat"><span class="lbl">Score</span><span class="val" id="scv">0/0</span></div>
     <div class="stat"><span class="lbl">Accuracy</span><span class="val" id="scp">—</span></div>
     <div class="stat"><span class="lbl">Streak</span><span class="val brass" id="snum">0</span></div>
-    <div class="stat"><span class="lbl" id="lvl">Level 1</span><span class="val" id="xptxt" style="font-size:15px;padding-top:4px">0 XP</span><div class="xp"><i id="xpbar"></i></div></div>
+    <div class="stat"><span class="lbl" id="lvl">Busker</span><span class="val" id="xptxt" style="font-size:15px;padding-top:4px">0 XP</span><div class="xp"><i id="xpbar"></i></div></div>
+    <div class="stat"><span class="lbl">Days</span><span class="val" id="daysv">0</span></div>
+    <button class="sfxbtn" id="sfxbtn" title="Sounds on correct / wrong">🔔</button>
     <button class="rst" id="reset">Reset</button>
   </div>
 </div></header>
@@ -236,6 +266,52 @@ const results={},scored={},uStat={},unitDone={};
 let total=0,correct=0,streak=0,level=1,LOG=[],currentName='';
 let runQs={}, audioUnlocked=false, playing=false, playTimer=null;
 let forceMode=null;
+// ---- special sets: Today's Blitz (seeded by date) and Weak spots (lowest mastery) ----
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const REAL=()=>UNITS.filter(u=>!u.special);
+function withSeed(seed,fn){const save=Math.random;Math.random=mulberry(seed);try{return fn();}finally{Math.random=save;}}
+const TODAY={name:"Today's Blitz",key:'today',special:true,ask:'Listen.',guide:`<p class="prompt">Today's Blitz</p><ul><li>Ten questions drawn from every section, the same ten for everyone in your year today.</li><li>Answer at least five and today counts towards your <b>days in a row</b>.</li><li>Come back tomorrow for a new set.</li></ul>`,
+  gen(ctx){const real=REAL();const seed=hashStr(todayStr()+'|'+YEAR+'|'+ctx.pos);return withSeed(seed,()=>{const r=real[Math.floor(Math.random()*real.length)];const ri=UNITS.indexOf(r);const q=r.gen(Object.assign({},ctx,{mode:r.canNotate?'choice':undefined,cfg:(gk)=>cfgGet(ri,gk)}));q._from=ri;return q;});}};
+const WEAK={name:'Weak spots',key:'weak',special:true,ask:'Listen.',guide:`<p class="prompt">Weak spots</p><ul><li>Questions from the three sections where your recent accuracy is lowest.</li><li>Your mastery rings on the tabs show how each section is going (last 20 answers).</li></ul>`,
+  gen(ctx){const real=REAL();const scored=real.map(u=>({u,acc:mastery(u.key)})).filter(x=>x.acc.n>=3).sort((a,b)=>a.acc.acc-b.acc.acc).slice(0,3).map(x=>x.u);const pool=scored.length?scored:real;
+    const r=pool[Math.floor(Math.random()*pool.length)];const ri=UNITS.indexOf(r);const q=r.gen(Object.assign({},ctx,{mode:resolveMode(ri),cfg:(gk)=>cfgGet(ri,gk)}));q._from=ri;return q;}};
+UNITS=[TODAY,WEAK].concat(UNITS);
+const fromUnit=q=>(q&&q._from!==undefined)?UNITS[q._from]:UNITS[ui];
+// ---- profiles: progress that lasts, per student name ----
+const RANKS=[[0,'Busker'],[150,'Session Player'],[400,'Section Leader'],[800,'Principal'],[1400,'Soloist'],[2200,'Concertmaster'],[3500,'Maestro']];
+let PROFS={};try{PROFS=JSON.parse(localStorage.getItem('blitzAuralProfiles')||'{}');}catch(e){}
+let PROF=null;
+const profKey=()=>(currentName||'(no name)').trim().toLowerCase()||'(no name)';
+function loadProfile(){const k=profKey();PROF=PROFS[k]||(PROFS[k]={xp:0,correct:0,total:0,bestStreak:0,days:[],hist:{},ach:{},sprint:{},name:currentName});PROF.name=currentName||PROF.name;}
+function saveProfiles(){try{localStorage.setItem('blitzAuralProfiles',JSON.stringify(PROFS));}catch(e){}}
+function rankOf(xp){let r=RANKS[0],next=null;for(let i=0;i<RANKS.length;i++){if(xp>=RANKS[i][0]){r=RANKS[i];next=RANKS[i+1]||null;}}return {name:r[1],at:r[0],next};}
+function mastery(key){const h=(PROF&&PROF.hist&&PROF.hist[key])||[];const n=h.length;const acc=n?h.reduce((a,b)=>a+b,0)/n:0;return {n,acc,mastered:n>=20&&acc>=0.9};}
+function dayStreak(){const days=(PROF.days||[]).slice().sort();if(!days.length)return 0;const t=todayStr();const y=new Date();y.setDate(y.getDate()-1);const ys=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+  let last=days[days.length-1];if(last!==t&&last!==ys)return 0;let n=1;for(let i=days.length-2;i>=0;i--){const a=new Date(days[i+1]),b=new Date(days[i]);if(Math.round((a-b)/86400000)===1)n++;else break;}return n;}
+let dayAnswers=0;
+// ---- achievements (unlock avatar gear) ----
+const ACH=[
+  {id:'first',ic:'🎧',t:'First note',d:'Get your first answer right'},
+  {id:'perfect',ic:'💯',t:'Clean sheet',d:'A full set of 10 with none wrong',unlock:'bow'},
+  {id:'streak10',ic:'🔥',t:'On fire',d:'10 correct in a row'},
+  {id:'streak25',ic:'🌋',t:'Unstoppable',d:'25 correct in a row'},
+  {id:'hundred',ic:'💪',t:'Century',d:'100 correct answers',unlock:'headphones'},
+  {id:'days5',ic:'📅',t:'Habit',d:'Practise 5 days in a row',unlock:'beanie'},
+  {id:'oneListen',ic:'👂',t:'One listen',d:'10 questions right on the first hearing'},
+  {id:'master1',ic:'🏅',t:'Mastered',d:'90%+ over 20 answers in a section',unlock:'glasses'},
+  {id:'master5',ic:'🏆',t:'All-rounder',d:'Master five sections'},
+  {id:'sprint15',ic:'⚡',t:'Sprinter',d:'15 correct in a 60-second Sprint'},
+  {id:'concert',ic:'👑',t:'Concertmaster',d:'Reach the Concertmaster rank',unlock:'crown'},
+  {id:'today7',ic:'🗓️',t:'Regular',d:"Finish Today's Blitz 7 times"},
+];
+const ACC_LOCK={headphones:'hundred',glasses:'master1',beanie:'days5',bow:'perfect',crown:'concert'};
+function unlocked(acc){const need=ACC_LOCK[acc];return !need||(PROF&&PROF.ach&&PROF.ach[need])||(avatar.acc===AV.acc.indexOf(acc));}
+function badgesUnlocked(){const m=REAL().filter(u=>mastery(u.key).mastered).length;return m;}
+function grant(id){if(!PROF.ach[id]){PROF.ach[id]=Date.now();saveProfiles();const a=ACH.find(x=>x.id===id);setTimeout(()=>{toast(a.ic+' Achievement: '+a.t+(a.unlock?' — '+a.unlock+' unlocked for your avatar':''));burst('win',innerWidth/2,120,true);},700);}}
+function checkAch(ctx){if(!PROF)return;if(PROF.correct>=1)grant('first');if(streak>=10)grant('streak10');if(streak>=25)grant('streak25');if(PROF.correct>=100)grant('hundred');if(dayStreak()>=5)grant('days5');
+  if((PROF.oneListen||0)>=10)grant('oneListen');const m=REAL().filter(u=>mastery(u.key).mastered).length;if(m>=1)grant('master1');if(m>=5)grant('master5');if(rankOf(PROF.xp).at>=2200)grant('concert');if((PROF.todayDone||0)>=7)grant('today7');}
 let pd=[], me=[], meCursor=0, meSelDur=1, meRest=false, meTieNext=false, scoreMeta=null, pdDrag=null;
 let rn=[], rnCur=1, disMarks={}, disPhase='locate', disWork=[], disRewrite=null, disCursor=0, disLocOk=null;
 let dictSPB=0.55; try{const _t=parseFloat(localStorage.getItem('blitzAuralTempo'));if(_t>0)dictSPB=_t;}catch(e){}
@@ -259,16 +335,17 @@ function saveCfg(){try{localStorage.setItem('blitzAuralCfg',JSON.stringify(CFG))
 function cfgGet(u,gk){const unit=UNITS[u],uk=unit.key,g=unit.cfg.find(x=>x.key===gk),v=CFG[uk][gk];
   if(g.type==='multi'){const on=g.items.filter(it=>v[it.id]).map(it=>it.id);return on.length?on:g.items.map(it=>it.id);}
   return v;}
-function resolveMode(u){if(!UNITS[u].canNotate)return undefined;return forceMode||'choice';}
+function resolveMode(u){if(!UNITS[u].canNotate)return undefined;if(sprintOn)return 'choice';return forceMode||'choice';}
 try{LOG=JSON.parse(localStorage.getItem('auralLogAll')||'[]');}catch(e){}
 try{currentName=localStorage.getItem('blitzName')||'';}catch(e){}
 function saveLog(){try{localStorage.setItem('auralLogAll',JSON.stringify(LOG));}catch(e){}}
 function logComplete(section,pct){const name=currentName||'(no name)',at=Date.now();
   LOG=LOG.filter(e=>!(e.name===name&&e.section===section));LOG.push({name,section,pct,at,av:Object.assign({},avatar)});saveLog();}
 function finishSection(u){const us=uStat[u],pct=Math.round(us.cor/N*100);
-  logComplete(UNITS[u].name,pct);toast('🎉 '+UNITS[u].name+' complete — '+pct+'%');burst('win',innerWidth/2,140,true);}
+  logComplete(UNITS[u].name,pct);toast('🎉 '+UNITS[u].name+' complete — '+pct+'%');burst('win',innerWidth/2,140,true);
+  if(PROF){if(pct===100)grant('perfect');if(UNITS[u].key==='today'){PROF.todayDone=(PROF.todayDone||0)+1;saveProfiles();}checkAch();}}
 const qid=()=>ui+'.'+order[qi];
-function curQ(){const pos=order[qi];if(!runQs[ui])runQs[ui]=[];if(!runQs[ui][pos])runQs[ui][pos]=UNITS[ui].gen({level,diff:dictDiff,mode:resolveMode(ui),year:YEAR,cfg:(gk)=>cfgGet(ui,gk)});return runQs[ui][pos];}
+function curQ(){const pos=order[qi];if(!runQs[ui])runQs[ui]=[];if(!runQs[ui][pos])runQs[ui][pos]=UNITS[ui].gen({level,diff:dictDiff,mode:resolveMode(ui),year:YEAR,pos,cfg:(gk)=>cfgGet(ui,gk)});return runQs[ui][pos];}
 
 // ---- fx: confetti + drifting notes ----
 const cvs=document.getElementById('fx'),fxctx=cvs.getContext('2d');
@@ -323,12 +400,13 @@ function avatarSVG(a,size){a=a||avatar;const sk=AV.skin[a.skin]||AV.skin[0],hc=A
   if(badge)s+=`<circle cx="82" cy="82" r="13" fill="#f6f1e7"/><text x="82" y="87" font-size="15" text-anchor="middle">${badge}</text>`;
   return s+'</svg>';}
 function paintAvatar(){document.getElementById('avmini').innerHTML=avatarSVG(avatar,34);}
-function openAvatar(){const b=document.getElementById('avbody');const row=(key,label,items,swatch)=>`<div class="avopt"><div class="setlabel">${label}</div><div class="setchips">${items.map((it,i)=>swatch?`<span class="sw ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}" style="background:${it}"></span>`:`<button class="avchip ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}">${it===''?'none':it}</button>`).join('')}</div></div>`;
+function openAvatar(){const b=document.getElementById('avbody');const lockOf=(key,it,i)=>{if(key==='acc'&&!unlocked(it)){const a=ACH.find(x=>x.id===ACC_LOCK[it]);return a?a.d:'';}if(key==='badge'&&i>1&&i-1>badgesUnlocked()&&avatar.badge!==i)return 'master '+(i-1)+' section'+(i>2?'s':'');return '';};
+  const row=(key,label,items,swatch)=>`<div class="avopt"><div class="setlabel">${label}</div><div class="setchips">${items.map((it,i)=>{const lk=swatch?'':lockOf(key,it,i);return swatch?`<span class="sw ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}" style="background:${it}"></span>`:`<button class="avchip ${avatar[key]===i?'on':''} ${lk?'locked':''}" data-k="${key}" data-i="${i}" ${lk?`data-lock="${esc(lk)}"`:''} title="${lk?'Locked: '+esc(lk):''}">${lk?'🔒 ':''}${it===''?'none':it}</button>`;}).join('')}</div></div>`;
   b.innerHTML=`<p class="prompt">Your avatar</p><div class="avgrid"><div class="prev" id="avprev">${avatarSVG(avatar)}</div><div>
     ${row('bg','Background',AV.bg,true)}${row('skin','Skin',AV.skin,true)}${row('hair','Hair',AV.hair)}${row('hairc','Hair colour',AV.hairc,true)}${row('eyes','Eyes',AV.eyes)}${row('mouth','Mouth',AV.mouth)}${row('acc','Accessory',AV.acc)}${row('badge','Instrument badge',AV.badge)}
     <div class="controls"><button class="btn-ghost" id="avrandom">Surprise me</button><button class="btn-check" id="avdone">Done</button></div></div></div>`;
-  b.querySelectorAll('[data-k]').forEach(el=>el.onclick=()=>{avatar[el.dataset.k]=+el.dataset.i;saveAvatar();openAvatar();});
-  document.getElementById('avrandom').onclick=()=>{Object.keys(AV).forEach(k=>avatar[k]=(Math.random()*AV[k].length)|0);saveAvatar();openAvatar();};
+  b.querySelectorAll('[data-k]').forEach(el=>el.onclick=()=>{if(el.dataset.lock){toast('🔒 '+el.dataset.lock);return;}avatar[el.dataset.k]=+el.dataset.i;saveAvatar();openAvatar();});
+  document.getElementById('avrandom').onclick=()=>{Object.keys(AV).forEach(k=>{if(k==='acc'||k==='badge')return;avatar[k]=(Math.random()*AV[k].length)|0;});saveAvatar();openAvatar();};
   document.getElementById('avdone').onclick=closeAvatar;
   document.getElementById('avmodal').classList.add('open');document.getElementById('avback').classList.add('open');}
 function closeAvatar(){document.getElementById('avmodal').classList.remove('open');document.getElementById('avback').classList.remove('open');}
@@ -344,24 +422,39 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 // scoring
 function scoreOnce(ok){const k=qid();if(k in scored)return;scored[k]=ok;total++;
   const us=uStat[ui]||(uStat[ui]={ans:0,cor:0});us.ans++;if(ok)us.cor++;
-  if(ok){correct++;streak++;
-    const nl=Math.floor(correct/5)+1, mile=[5,10,15,20,25,30,40,50].includes(streak);
-    if(mile){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);} else if(nl>level){toast('⭐ Level '+nl);burst('win',innerWidth/2,120,true);}
-    level=nl;
+  const q=curQ();const plays=q._plays||1;let bonus=0;
+  if(ok){correct++;streak++;bonus=sprintOn?0:(plays<=1?10:plays===2?5:0);
+    const mile=[5,10,15,20,25,30,40,50].includes(streak);
+    if(mile){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);}
   } else streak=0;
+  lastBonus=bonus;
+  // profile: XP, history, days
+  if(h2h){const who=h2h.turn;if(ok)h2h.score[who]++;h2h.turn=1-who;setTimeout(h2hCheck,900);}
+  else if(PROF){const before=rankOf(PROF.xp).name;PROF.total++;if(ok){PROF.correct++;PROF.xp+=10+bonus;if(plays<=1)PROF.oneListen=(PROF.oneListen||0)+1;}
+    PROF.bestStreak=Math.max(PROF.bestStreak||0,streak);
+    const uk=fromUnit(q).key;const h=PROF.hist[uk]||(PROF.hist[uk]=[]);h.push(ok?1:0);if(h.length>20)h.splice(0,h.length-20);
+    dayAnswers++;const t=todayStr();if(dayAnswers>=5&&!PROF.days.includes(t))PROF.days.push(t);
+    saveProfiles();const after=rankOf(PROF.xp);if(after.name!==before)setTimeout(()=>rankUp(after.name),500);checkAch();}
+  if(ok)sfx(true);else sfx(false);
   paintScore();
-  if(us.ans===N&&!unitDone[ui]){unitDone[ui]=true;finishSection(ui);}}
+  if(!sprintOn&&us.ans===N&&!unitDone[ui]){unitDone[ui]=true;finishSection(ui);}}
+let lastBonus=0;
+function rankUp(name){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<div style="font-size:54px">${name==='Maestro'?'🎼':name==='Concertmaster'?'👑':name==='Soloist'?'🌟':'🎺'}</div><p class="prompt">New rank: ${name}</p><p class="sub">${esc(currentName||'You')} — keep it up. Your rank and XP are saved under your name on this device.</p><div class="controls"><button class="btn-check" id="rankok">Nice</button></div>`;
+  g.classList.add('open','rank');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);document.getElementById('rankok').onclick=()=>{g.classList.remove('rank');closeGuide();};}
 function paintScore(){document.getElementById('scv').textContent=correct+'/'+total;
   const p=total?Math.round(correct/total*100):null;document.getElementById('scp').textContent=p===null?'—':p+'%';
   document.getElementById('snum').textContent=(streak>=3?'🔥':'')+streak;
-  document.getElementById('lvl').textContent='Level '+level;
-  document.getElementById('xptxt').textContent=(correct*10)+' XP';
-  document.getElementById('xpbar').style.width=((correct%5)/5*100)+'%';}
+  if(!PROF)loadProfile();const r=rankOf(PROF.xp);
+  document.getElementById('lvl').textContent=r.name;
+  document.getElementById('xptxt').textContent=PROF.xp+' XP';
+  document.getElementById('xpbar').style.width=(r.next?((PROF.xp-r.at)/(r.next[0]-r.at)*100):100)+'%';
+  document.getElementById('lvl').title=r.next?(r.next[0]-PROF.xp)+' XP to '+r.next[1]:'Top rank';
+  const ds=dayStreak();document.getElementById('daysv').textContent=ds+(ds>=3?'🔥':'');}
 function celebrate(ok,el){if(ok){glowCard();burstAt(el,'win');}else{shakeCard();burstAt(el,'miss');}}
 function pick(a){return a[(Math.random()*a.length)|0];}
 
 // modes
-function setMode(m){if(AUDIO)AUDIO.stop();
+function setMode(m){if(AUDIO)AUDIO.stop();if(sprintOn)endSprint(true);
   mode=m;document.getElementById('mPr').classList.toggle('on',m==='practise');
   document.getElementById('mRe').classList.toggle('on',m==='reference');
   document.getElementById('mRec').classList.toggle('on',m==='record');
@@ -374,27 +467,76 @@ function csvLog(){const rows=[['Name','Section','Score %','Finished']].concat(LO
   return rows.map(r=>r.map(v=>'"'+(''+v).replace(/"/g,'""')+'"').join(',')).join('\r\n');}
 function renderRecord(){document.documentElement.style.setProperty('--accent','#b2862f');
   const c=document.getElementById('card');
-  const grid=UNITS.map((u,i)=>{const us=uStat[i],done=!!unitDone[i];const pct=us&&us.ans?Math.round(us.cor/N*100):null;
+  const grid=UNITS.map((u,i)=>{if(u.special)return '';const us=uStat[i],done=!!unitDone[i];const pct=us&&us.ans?Math.round(us.cor/N*100):null;
     return `<div class="secrow"><span class="secname">${u.name}</span><span class="secprog">${us?us.ans:0}/${N}</span><span class="secpct">${pct===null?'—':pct+'%'}</span><span class="secdone">${done?'✓':''}</span></div>`;}).join('');
   const rows=LOG.slice().sort((a,b)=>b.at-a.at).map(e=>`<tr><td class="logav">${e.av?avatarSVG(e.av,22):''}${esc(e.name)}</td><td>${esc(e.section)}</td><td><b>${e.pct}%</b></td><td>${new Date(e.at).toLocaleString('en-AU',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td></tr>`).join('');
+  if(!PROF)loadProfile();const r=rankOf(PROF.xp);const mrows=REAL().map(u=>({u,m:mastery(u.key)})).filter(x=>x.m.n).sort((a,b)=>b.m.acc-a.m.acc);
+  const prof=`<div class="profgrid"><div class="profcell"><div class="l">Rank</div><div class="v">${r.name}</div><div class="d" style="font-size:11.5px;color:#4d463c">${r.next?(r.next[0]-PROF.xp)+' XP to '+r.next[1]:'top rank'}</div></div>
+    <div class="profcell"><div class="l">XP</div><div class="v">${PROF.xp}</div></div><div class="profcell"><div class="l">All-time</div><div class="v">${PROF.correct}/${PROF.total}</div></div>
+    <div class="profcell"><div class="l">Best streak</div><div class="v">${PROF.bestStreak||0}</div></div><div class="profcell"><div class="l">Days in a row</div><div class="v">${dayStreak()}</div><div style="font-size:11.5px;color:#4d463c">${PROF.days.length} day${PROF.days.length===1?'':'s'} total</div></div>
+    <div class="profcell"><div class="l">Sections mastered</div><div class="v">${REAL().filter(u=>mastery(u.key).mastered).length}</div></div></div>
+    <div class="refhd">Mastery (last 20 answers)</div><div class="masterbars">${mrows.length?mrows.map(x=>`<div class="mrow2"><span class="nm">${esc(x.u.name)}${x.m.mastered?' <span class="mast" style="color:var(--brass)">✓</span>':''}</span><span class="bar"><i class="${x.m.acc>=0.8?'':x.m.acc>=0.5?'mid':'low'}" style="width:${Math.round(x.m.acc*100)}%"></i></span><span class="pc">${Math.round(x.m.acc*100)}%</span></div>`).join(''):'<span style="color:#8a8277;font-size:13px">Answer some questions and your strengths and weak spots appear here.</span>'}</div>
+    ${mrows.length>=3?`<div class="controls"><button class="btn-check" id="goweak">Practise my weak spots</button><button class="btn-ghost" id="gotoday">Today's Blitz</button></div>`:''}
+    <div class="refhd">Achievements</div><div class="achgrid">${ACH.map(a=>`<div class="ach ${PROF.ach[a.id]?'':'locked'}"><span class="ic">${a.ic}</span><div><div class="t">${a.t}</div><div class="d">${a.d}${a.unlock?' · unlocks '+a.unlock:''}</div></div></div>`).join('')}</div>
+    ${Object.keys(PROF.sprint||{}).length?`<div class="refhd">Sprint bests</div><p class="sub">${REAL().filter(u=>PROF.sprint[u.key]).map(u=>esc(u.name)+' <b>'+PROF.sprint[u.key]+'</b>').join(' · ')}</p>`:''}`;
   c.innerHTML=`<p class="prompt">Progress record</p>
-    <p class="sub"><span class="logav">${avatarSVG(avatar,22)}</span>Student: <b>${esc(currentName||'(type your name above)')}</b>. Finish all ${N} questions in a section to log the score.</p>
+    <p class="sub"><span class="logav">${avatarSVG(avatar,22)}</span>Student: <b>${esc(currentName||'(type your name above)')}</b>. Your rank, XP and mastery are saved under your name on this device.</p>${prof}<div class="refhd">This session</div>
     <div class="secgrid"><div class="secrow sechead"><span class="secname">Section</span><span class="secprog">Done</span><span class="secpct">Score</span><span class="secdone">✓</span></div>${grid}</div>
     <div class="refhd">Class log</div>
     <div class="reftable"><table><tr><th>Name</th><th>Section</th><th>%</th><th>Finished</th></tr>${rows||'<tr><td colspan="4" style="color:#8a8277">No finished sections yet.</td></tr>'}</table></div>
     <div class="controls"><button class="btn-ghost" id="csvlog">Export CSV</button><button class="btn-ghost" id="printlog">Print</button><button class="btn-ans" id="clearlog">Clear class log</button></div>`;
+  const gw=document.getElementById('goweak');if(gw)gw.onclick=()=>{setMode('practise');ui=1;openUnit();};const gt=document.getElementById('gotoday');if(gt)gt.onclick=()=>{setMode('practise');ui=0;openUnit();};
   document.getElementById('printlog').onclick=()=>window.print();
   document.getElementById('csvlog').onclick=()=>{const b=new Blob([csvLog()],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='aural-blitz-log.csv';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);};
   document.getElementById('clearlog').onclick=()=>{if(confirm('Clear the whole class log saved on this device?')){LOG=[];saveLog();renderRecord();}};}
 function renderTabs(){const n=document.getElementById('tabs');n.innerHTML='';
   const list=mode==='practise'?UNITS:REFS;
-  list.forEach((u,i)=>{const b=document.createElement('button');b.textContent=u.name;b.className=i===ui?'on':'';
-    b.onclick=()=>{ui=i;mode==='practise'?openUnit():loadRef();};n.appendChild(b);});
+  list.forEach((u,i)=>{const b=document.createElement('button');b.textContent=u.name;b.className=(i===ui?'on':'')+(u.special?' special':'');
+    if(mode==='practise'&&!u.special&&PROF){const m=mastery(u.key);if(m.n){const C=2*Math.PI*5.5;const col=m.mastered?'#d4a017':m.acc>=0.7?'#5d8a63':m.acc>=0.5?'#b2862f':'#b4433a';
+      b.innerHTML=esc(u.name)+`<svg class="ring" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" stroke="rgba(128,128,128,.35)"/><circle cx="7" cy="7" r="5.5" stroke="${col}" stroke-dasharray="${(C*m.acc).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 7 7)"/></svg>`+(m.mastered?'<span class="mast">✓</span>':'');
+      b.title=Math.round(m.acc*100)+'% over your last '+m.n+(m.mastered?' — mastered':'');}}
+    b.onclick=()=>{if(sprintOn)endSprint(true);h2h=null;ui=i;mode==='practise'?openUnit():loadRef();};n.appendChild(b);});
   const on=n.querySelector('.on');if(on&&on.scrollIntoView)try{on.scrollIntoView({inline:'nearest',block:'nearest'});}catch(e){}}
+const SPRINTABLE=u=>!u.special&&!['rd','pd','prog','dis'].includes(u.key);
 function renderDots(){const d=document.getElementById('dots');d.innerHTML='';
-  order.forEach((actual,pos)=>{const s=document.createElement('div');const r=results[ui+'.'+actual];
-    s.className='d'+(pos===qi?' cur':'')+(r?(' '+r):'');s.onclick=()=>{qi=pos;load();};d.appendChild(s);});}
-function openUnit(){runQs[ui]=[];order=[...Array(N).keys()];qi=0;load();}
+  if(sprintOn)return;
+  order.slice(0,N).forEach((actual,pos)=>{const s=document.createElement('div');const r=results[ui+'.'+actual];
+    s.className='d'+(pos===qi?' cur':'')+(r?(' '+r):'');s.onclick=()=>{qi=pos;load();};d.appendChild(s);});
+  const right=document.createElement('div');right.className='right';
+  if(SPRINTABLE(UNITS[ui])&&!h2h){const sb=document.createElement('button');sb.className='sprintbtn';const best=PROF&&PROF.sprint&&PROF.sprint[UNITS[ui].key];sb.textContent='⚡ 60s Sprint'+(best?' · best '+best:'');sb.onclick=startSprint;right.appendChild(sb);}
+  if(!UNITS[ui].special&&!h2h){const hb=document.createElement('button');hb.className='h2hbtn';hb.textContent='⚔ Head-to-head';hb.onclick=askH2H;right.appendChild(hb);}
+  if(h2h){const hb=document.createElement('button');hb.className='h2hbtn';hb.textContent='End head-to-head';hb.onclick=()=>{h2h=null;load();};right.appendChild(hb);}
+  d.appendChild(right);}
+// ---- 60-second Sprint ----
+let sprintOn=false,sprintEnd=0,sprintTick=null,sprintCor=0,sprintN=0;
+function startSprint(){if(!SPRINTABLE(UNITS[ui]))return;audioUnlocked=true;sprintOn=true;sprintCor=0;sprintN=0;sprintEnd=Date.now()+60000;
+  runQs[ui]=[];order=[...Array(400).keys()];qi=0;Object.keys(results).forEach(k=>{if(k.startsWith(ui+'.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith(ui+'.'))delete scored[k];});
+  load();clearInterval(sprintTick);sprintTick=setInterval(()=>{const left=Math.max(0,Math.ceil((sprintEnd-Date.now())/1000));const c=document.getElementById('sprintclock');if(c)c.textContent=left+'s';if(left<=0)endSprint(false);},250);}
+function endSprint(abort){if(!sprintOn)return;sprintOn=false;clearInterval(sprintTick);if(AUDIO)AUDIO.stop();
+  const u=UNITS[ui];const best=(PROF&&PROF.sprint[u.key])||0;const isBest=sprintCor>best;if(PROF&&!abort){if(isBest){PROF.sprint[u.key]=sprintCor;}if(sprintCor>=15)grant('sprint15');saveProfiles();}
+  order=[...Array(N).keys()];runQs[ui]=[];qi=0;
+  if(abort){load();return;}
+  const c=document.getElementById('card');document.getElementById('dots').innerHTML='';
+  c.innerHTML=`<div class="qnum">${esc(u.name)} · Sprint over</div><p class="prompt">${sprintCor} correct in 60 seconds</p><p class="sub">${sprintN} answered · ${sprintN?Math.round(sprintCor/sprintN*100):0}% accuracy${isBest&&sprintCor?' · <b>new best!</b>':best?' · best '+best:''}</p>
+    <div class="controls"><button class="btn-check" id="sprintagain">⚡ Again</button><button class="btn-ghost" id="sprintdone">Back to practice</button></div>`;
+  if(isBest&&sprintCor)burst('win',innerWidth/2,innerHeight/2,true);
+  document.getElementById('sprintagain').onclick=startSprint;document.getElementById('sprintdone').onclick=()=>load();}
+// ---- head-to-head: two players, one device, first to 5 ----
+let h2h=null;
+function askH2H(){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<p class="prompt">Head-to-head</p><p class="sub">Two players take turns on this device in <b>${esc(UNITS[ui].name)}</b>. First to 5 correct wins. Scores don't count towards your saved profile.</p>
+  <div class="setgrp"><div class="setlabel">Player 1</div><input class="h2hin" id="h2ha" maxlength="20" value="${esc(currentName||'')}" placeholder="Name" style="padding:9px 12px;border:1px solid var(--rule);border-radius:6px;font-family:var(--sans);font-size:14px;width:100%"></div>
+  <div class="setgrp"><div class="setlabel">Player 2</div><input class="h2hin" id="h2hb" maxlength="20" placeholder="Name" style="padding:9px 12px;border:1px solid var(--rule);border-radius:6px;font-family:var(--sans);font-size:14px;width:100%"></div>
+  <div class="controls"><button class="btn-check" id="h2hgo">Start</button><button class="btn-ghost" id="h2hno">Cancel</button></div>`;
+  g.classList.add('open');document.getElementById('gback').classList.add('open');
+  document.getElementById('h2hno').onclick=closeGuide;
+  document.getElementById('h2hgo').onclick=()=>{const a=document.getElementById('h2ha').value.trim()||'Player 1',b=document.getElementById('h2hb').value.trim()||'Player 2';h2h={names:[a,b],score:[0,0],turn:0,unit:ui};closeGuide();runQs[ui]=[];order=[...Array(400).keys()];qi=0;load();};}
+function h2hBar(){if(!h2h)return '';return `<div class="h2hbar">${h2h.names.map((n,i)=>`<span class="pl ${h2h.turn===i?'turn':''}">${esc(n)} <span class="sc">${h2h.score[i]}</span></span>`).join('<span style="color:var(--muted)">vs</span>')}<span style="color:var(--muted);font-size:12px">· first to 5</span></div>`;}
+function h2hCheck(){if(!h2h)return;const w=h2h.score.findIndex(s=>s>=5);if(w<0)return;const name=h2h.names[w];const g=document.getElementById('guide');
+  document.getElementById('guidebody').innerHTML=`<div style="font-size:54px;text-align:center">🏆</div><p class="prompt" style="text-align:center">${esc(name)} wins!</p><p class="sub" style="text-align:center">${h2h.score[0]} – ${h2h.score[1]}</p><div class="controls"><button class="btn-check" id="h2hre">Rematch</button><button class="btn-ghost" id="h2hend">Done</button></div>`;
+  g.classList.add('open');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);
+  document.getElementById('h2hre').onclick=()=>{h2h.score=[0,0];h2h.turn=0;closeGuide();runQs[ui]=[];qi=0;load();};
+  document.getElementById('h2hend').onclick=()=>{h2h=null;closeGuide();order=[...Array(N).keys()];runQs[ui]=[];qi=0;load();};}
+function openUnit(){if(sprintOn)endSprint(true);runQs[ui]=[];order=[...Array(N).keys()];qi=0;load();}
 function feedback(msg,cls,why){const f=document.getElementById('fb');if(!f)return;f.innerHTML=msg+(why?`<div class="why">${why}</div>`:'');f.className='feedback '+(cls||'');}
 function loadRef(){document.documentElement.style.setProperty('--accent',RCOL);renderTabs();
   const c=document.getElementById('card');c.innerHTML=REFS[ui].render();c.scrollTop=0;}
@@ -406,7 +548,7 @@ function armBtnTimer(secs){playing=true;const b=document.getElementById('play');
 function doPlay(q){let r;try{r=q.play();}catch(e){r=1.2;}
   if(r&&typeof r.then==='function'){r.then(s=>armBtnTimer(s||1.6)).catch(()=>armBtnTimer(1.6));armBtnTimer(1.6);}
   else armBtnTimer(r||1.2);}
-function playCurrent(){const q=curQ();audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
+function playCurrent(){const q=curQ();q._plays=(q._plays||0)+1;audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
   const b=document.getElementById('play');
   if(q.needsSamples){if(b){b.disabled=true;b.textContent='Loading…';}
     AUDIO.probeSamples().then(ok=>{if(b){b.textContent='▶ Play';}
@@ -419,7 +561,7 @@ function soundingOf(notes){const out=[];for(let i=0;i<notes.length;i++){const n=
   out.push({onset:n.onset,dur:n.dur,midi:n.rest?null:n.midi});}return out;}
 function armPartsTimer(secs){playing=true;document.querySelectorAll('.pp').forEach(b=>b.disabled=true);
   clearTimeout(playTimer);playTimer=setTimeout(()=>{playing=false;document.querySelectorAll('.pp').forEach(b=>b.disabled=false);},Math.max(600,secs*1000));}
-function playPart(which){const q=curQ();if(!q||!q.dict)return;const src=q.kind==='discrep'?q.played:q.dict.notes;
+function playPart(which){const q=curQ();if(!q||!q.dict)return;q._plays=(q._plays||0)+(which==='whole'?1:0.5);const src=q.kind==='discrep'?q.played:q.dict.notes;
   const M=q.dict.metre, bpb=M.bpb||4, half=q.dict.totalBeats/2;
   let sel=soundingOf(src); if(which==='h1')sel=sel.filter(n=>n.onset<half-1e-6);else if(which==='h2')sel=sel.filter(n=>n.onset>=half-1e-6);
   audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
@@ -437,11 +579,12 @@ function playPart(which){const q=curQ();if(!q||!q.dict)return;const src=q.kind==
   let r;try{r=AUDIO.melody(sel.map(n=>n.midi),sel.map(n=>n.dur),spb,q.swing,amps,opts);}catch(e){r=3;}armPartsTimer(r||3);}
 
 // ---- load question ----
-function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty('--accent',UCOL[ui%UCOL.length]);
-  const q=curQ();accMode='';slots=[];nchecked=false;answered=false;renderTabs();renderDots();
+function load(){if(AUDIO)AUDIO.stop();
+  const q=curQ();const FU=fromUnit(q);document.documentElement.style.setProperty('--accent',UCOL[UNITS.indexOf(FU)%UCOL.length]);
+  accMode='';slots=[];nchecked=false;answered=false;renderTabs();renderDots();
   const c=document.getElementById('card');
   const eff=resolveMode(ui);
-  const toggle=UNITS[ui].canNotate?`<div class="modetoggle" id="mtog"><button data-m="choice" class="${eff==='choice'?'on':''}">Listen &amp; pick</button><button data-m="notate" class="${eff==='notate'?'on':''}">Listen &amp; write</button></div>`:'';
+  const toggle=(UNITS[ui].canNotate&&!sprintOn)?`<div class="modetoggle" id="mtog"><button data-m="choice" class="${eff==='choice'?'on':''}">Listen &amp; pick</button><button data-m="notate" class="${eff==='notate'?'on':''}">Listen &amp; write</button></div>`:'';
   const tempos=[['0.85','Slow'],['0.55','Normal'],['0.4','Fast']];
   const playpanel = q.multiPlay
     ? `<div class="playpanel"><div class="playparts">
@@ -453,10 +596,11 @@ function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty
     : `<div class="playpanel"><button class="playbtn" id="play">▶ Play</button><button class="replaybtn" id="replay">Replay</button><span class="plabel">${q.playLabel||''}</span></div>`;
   const diffrow = (q.kind==='pitchdict'||q.kind==='melodydict'||q.kind==='rhythmdict'||q.kind==='discrep')
     ? `<div class="difftog" id="difftog"><span class="tlab">Difficulty</span><div class="tgrp">${[['easy','Easy'],['med','Medium'],['hard','Hard']].map(d=>`<button data-diff="${d[0]}" class="${dictDiff===d[0]?'on':''}">${d[1]}</button>`).join('')}</div></div>` : '';
-  const head=`<div class="qnum">${UNITS[ui].name} · Question ${qi+1} of ${order.length}</div>
-    <p class="prompt">${q.prompt||UNITS[ui].ask}</p>
-    <button class="howbtn" id="howbtn">How do I work this out?</button><button class="howbtn" id="gearbtn">⚙ Customise</button>${toggle}
-    ${diffrow}${playpanel}`;
+  const qlabel=sprintOn?`<div class="sprintbar"><span><span class="sp">Sprint</span> ${esc(FU.name)}</span><span class="clock" id="sprintclock">60s</span><span>${sprintCor} ✓</span></div>`:h2h?h2hBar():'';
+  const head=`<div class="qnum">${esc(UNITS[ui].name)}${UNITS[ui].special?' · '+esc(FU.name):''} · ${sprintOn?'Question '+(sprintN+1):h2h?esc(h2h.names[h2h.turn])+"'s turn":'Question '+(qi+1)+' of '+order.length}</div>${qlabel}
+    <p class="prompt">${q.prompt||FU.ask}</p>
+    ${sprintOn?'':`<button class="howbtn" id="howbtn">How do I work this out?</button><button class="howbtn" id="gearbtn">⚙ Customise</button>`}${toggle}
+    ${sprintOn?'':diffrow}${playpanel}`;
   const accbar=`<div class="toolbar"><span class="lab">Accidental</span><div class="acc" id="acc"><button data-acc="" title="As key signature">○</button><button data-acc="s">♯</button><button data-acc="f">♭</button><button data-acc="n">♮</button></div></div>`;
   let body='';
   if(q.kind==='pitchdict'){pd=[];
@@ -464,7 +608,7 @@ function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty
       <div class="scoreWrap" id="scoreWrap"></div>
       <p class="hint">Click each empty note at its pitch (drag to adjust). A plain note takes the key signature; choose ♯ ♭ ♮ first for a note that needs one. ✕ clears a note.</p>
       <div class="names" id="names"></div>
-      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
+      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="hearme">🎧 Play my answer</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.kind==='melodydict'||q.kind==='rhythmdict'){resetMD(q);
     const vals=[[4,'Semibreve'],[3,'Dotted minim'],[2,'Minim'],[1.5,'Dotted crotchet'],[1,'Crotchet'],[0.75,'Dotted quaver'],[0.5,'Quaver'],[0.25,'Semiquaver'],[T3,'Triplet quaver']];
     body=`<div class="scalebadge">${q.rhythmOnly?esc(q.scaleName):'Key: '+esc(q.scaleName)}</div>
@@ -474,7 +618,7 @@ function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty
       <div class="scoreWrap" id="scoreWrap"></div>
       <p class="hint">${q.rhythmOnly?'Choose a value (or Rest), then tap the stave to enter it at the cursor. "Tie to next" ties the last note into the next one you enter. ✕ removes a note and leaves its space empty; the next value you enter fills that space. Undo takes back the last note.':'Choose a value and accidental, then click the stave at the pitch. "Tie to next" ties the last note into the next one you enter. ✕ removes a note and leaves its space empty; the next value you enter fills that space. Undo takes back the last note.'}</p>
       <div class="names" id="names"></div>
-      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="undo">Undo</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
+      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="hearme">🎧 Play my answer</button><button class="btn-ghost" id="undo">Undo</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.kind==='numerals'){rn=q.answer.map((a,i)=>i<q.given?a:null);rnCur=q.given;
     body=`<div class="slots" id="slots"></div>
       <div class="rnpal" id="rnpal">${q.palette.map((p,i)=>`<button data-rn="${esc(p)}" title="${i+1}">${q.fmt?q.fmt(p):fmtRN(p)}</button>`).join('')}</div>
@@ -508,7 +652,15 @@ function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty
   else if(q.kind==='melodydict'||q.kind==='rhythmdict')renderMD(false);
   else if(q.kind==='numerals')renderRN(false);
   else if(q.kind==='discrep')renderDis(false);
-  if(audioUnlocked)setTimeout(()=>{if(mode!=='practise')return;q.multiPlay?playPart('whole'):playCurrent();},260);}
+  if(audioUnlocked)setTimeout(()=>{if(mode!=='practise')return;q.multiPlay?playPart('whole'):playCurrent();},sprintOn?120:260);}
+// play back what the student has written (dictation) — before Check, so they can self-correct
+function playMine(){const q=curQ();audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();let ev=[];
+  if(q.kind==='pitchdict'){const g0=givenRaw(q);const notes=q.dict.notes.map((n,i)=>{if(n.rest)return {onset:n.onset,dur:n.dur,rest:true};if(i<q.given)return {onset:n.onset,dur:n.dur,d:n.d,acc:g0,tie:n.tie};const v=pd[i];if(v==null)return {onset:n.onset,dur:n.dur,rest:true};return {onset:n.onset,dur:n.dur,d:v.d,acc:v.a,tie:n.tie};});
+    const meta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw'}));ev=soundingOf(notes.map((n,k)=>({onset:n.onset,dur:n.dur,midi:n.rest?null:meta.midi[k],rest:n.rest,tie:n.tie})));}
+  else{let on=0;const notes=me.map(n=>{const o=on;on+=n.dur;if(n.gap)return {onset:o,dur:n.dur,rest:true};return {onset:o,dur:n.dur,rest:n.rest,tie:n.tie,d:n.d,acc:n.a};});
+    if(!notes.some(n=>!n.rest)){feedback('Enter some notes first.','no');return;}
+    const meta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw'}));ev=soundingOf(notes.map((n,k)=>({onset:n.onset,dur:n.dur,midi:n.rest?null:(q.rhythmOnly?(q.dict.tonicMidi||67):meta.midi[k]),rest:n.rest,tie:n.tie})));}
+  const M=q.dict.metre;const spb=M.compound?dictSPB*0.82:dictSPB;let r;try{r=AUDIO.melody(ev.map(n=>n.midi),ev.map(n=>n.dur),spb,q.swing,null,{lens:ev.map((n,i)=>{const nx=ev[i+1];return (nx&&nx.midi==null)?0.5:0.95;})});}catch(e){r=3;}armPartsTimer(r||3);}
 
 // ---- shared score spec ----
 function scoreSpec(q,notes,extra){const M=q.dict.metre||{};const w=document.getElementById('card').clientWidth||800;
@@ -582,7 +734,7 @@ function onScoreMD(ev){const q=curQ();const cl=ev.target.closest('.sclr');
     if(meSelDur>G+1e-6){feedback('That value is bigger than the empty space ('+fmtBeats(G)+' beat'+(G>1?'s':'')+'). Pick a shorter value, or ✕ the next note to make more room.','no');return;}
     const bpb0=q.dict.metre.bpb, pk0=q.dict.pickup||0;
     if(ENGRAVE.barOf(meCursor+1e-4,pk0,bpb0)!==ENGRAVE.barOf(meCursor+meSelDur-1e-4,pk0,bpb0)){feedback('That note would cross a barline — use a shorter value and tie it.','no');return;}
-    if(eq(meSelDur,T3)){const pos=ENGRAVE.posInBar(meCursor,pk0,bpb0);const g=q.dict.metre.g;let gj=0;for(let k=0;k<g.length;k++)if(pos>=g[k]-1e-6)gj=k;const gEnd=g[gj+1]!==undefined?g[gj+1]:bpb0;if(pos+T3>gEnd+1e-6){feedback('A triplet quaver must sit inside one beat.','no');return;}}
+    if(eq(meSelDur,T3)){const pos=ENGRAVE.posInBar(meCursor,pk0,bpb0);let gEnd;if(q.dict.metre.compound){const g=q.dict.metre.g;let gj=0;for(let k=0;k<g.length;k++)if(pos>=g[k]-1e-6)gj=k;gEnd=g[gj+1]!==undefined?g[gj+1]:bpb0;}else gEnd=Math.floor(pos+1e-6)+1;if(pos+T3>gEnd+1e-6){feedback('A triplet quaver must sit inside one beat.','no');return;}}
     const h0=ENGRAVE.hitTest(scoreMeta,document.getElementById('score'),ev);const d0=q.rhythmOnly?34:h0.d;
     const prev0=me[gi-1];const tieIn=meTieNext&&prev0&&!prev0.gap&&!meRest;if(tieIn&&!prev0.rest)prev0.tie=true;
     const rest=splitGap(G-meSelDur);me.splice(gi,ge-gi,{dur:meSelDur,d:(tieIn&&!prev0.rest)?prev0.d:d0,a:(tieIn&&!prev0.rest)?prev0.a:accMode,rest:meRest,tie:false},...rest);
@@ -592,7 +744,7 @@ function onScoreMD(ev){const q=curQ();const cl=ev.target.closest('.sclr');
   if(meCursor+meSelDur>TB+1e-6){feedback('That value would overflow the final bar.','no');return;}
   const bpb=q.dict.metre.bpb, pk=q.dict.pickup||0;
   if(ENGRAVE.barOf(meCursor+1e-4,pk,bpb)!==ENGRAVE.barOf(meCursor+meSelDur-1e-4,pk,bpb)){feedback('That note would cross a barline — use a shorter value and tie it.','no');return;}
-  if(eq(meSelDur,T3)){const pos=ENGRAVE.posInBar(meCursor,pk,bpb);const g=q.dict.metre.g;let gi=0;for(let k=0;k<g.length;k++)if(pos>=g[k]-1e-6)gi=k;const gEnd=g[gi+1]!==undefined?g[gi+1]:bpb;if(pos+T3>gEnd+1e-6){feedback('A triplet quaver must sit inside one beat.','no');return;}}
+  if(eq(meSelDur,T3)){const pos=ENGRAVE.posInBar(meCursor,pk,bpb);let gEnd;if(q.dict.metre.compound){const g=q.dict.metre.g;let gi=0;for(let k=0;k<g.length;k++)if(pos>=g[k]-1e-6)gi=k;gEnd=g[gi+1]!==undefined?g[gi+1]:bpb;}else gEnd=Math.floor(pos+1e-6)+1;if(pos+T3>gEnd+1e-6){feedback('A triplet quaver must sit inside one beat.','no');return;}}
   if(meRest&&meTieNext){meTieNext=false;}
   if(meTieNext&&me.length){me[me.length-1].tie=true;}
   const prev=me[me.length-1];
@@ -607,7 +759,7 @@ function checkMelodyDict(){const q=curQ();const TB=q.dict.totalBeats;
   const ans=soundingOf(q.dict.notes), sEv=soundingOf(stud);
   let ok=ans.length===sEv.length; if(ok)for(let i=0;i<ans.length;i++){const a=ans[i],s=sEv[i];if(!eq(a.onset,s.onset)||!eq(a.dur,s.dur)||(q.rhythmOnly?((a.midi==null)!==(s.midi==null)):a.midi!==s.midi)){ok=false;break;}}
   renderMD(true);scoreOnce(ok);celebrate(ok);
-  if(ok){feedback(pick(WINMSG)+(q.rhythmOnly?' Rhythm correct.':' Rhythm and pitch both right.'),'ok',q.why);results[qid()]='ok';}
+  if(ok){feedback(pick(WINMSG)+(q.rhythmOnly?' Rhythm correct.':' Rhythm and pitch both right.')+bonusTag(),'ok',q.why);results[qid()]='ok';}
   else{feedback(pick(MISSMSG)+' Check the red notes.','no',q.why);results[qid()]='no';}
   renderDots();}
 function answerMelodyDict(){const q=curQ();if(!(qid() in scored))scoreOnce(false);
@@ -689,16 +841,17 @@ function checkDis(){const q=curQ();
   else{feedback((ok?'Corrected, but the location step was wrong.':pick(MISSMSG)+' Check the red notes against the performance.'),'no',q.why);results[qid()]='no';}renderDots();}
 function answerDis(){const q=curQ();if(!(qid() in scored))scoreOnce(false);disMarks=Object.assign({},q.changes);disPhase='fix';disRewrite=null;disWork=q.played.map(n=>Object.assign({},n));renderDis(true);feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 
-function goPrev(){if(mode!=='practise')return;if(qi>0){qi--;load();}else if(ui>0){ui--;openUnit();}}
-function goNext(){if(mode!=='practise')return;if(qi<order.length-1){qi++;load();}else if(ui<UNITS.length-1){ui++;openUnit();}}
+function goPrev(){if(mode!=='practise'||sprintOn)return;if(qi>0){qi--;load();}else if(ui>0){ui--;openUnit();}}
+function goNext(){if(mode!=='practise'||sprintOn)return;if(qi<order.length-1){qi++;load();}else if(ui<UNITS.length-1){ui++;openUnit();}}
 function wireAcc(){document.querySelectorAll('#acc button').forEach(b=>{b.classList.toggle('on',b.dataset.acc===accMode);
   b.onclick=()=>{accMode=b.dataset.acc;document.querySelectorAll('#acc button').forEach(x=>x.classList.toggle('on',x===b));};});}
 function wire(q){
   document.getElementById('prev').onclick=goPrev;document.getElementById('next').onclick=goNext;
   document.getElementById('prev').disabled=(ui===0&&qi===0);document.getElementById('next').disabled=(ui===UNITS.length-1&&qi===order.length-1);
-  document.getElementById('howbtn').onclick=openGuide;
+  const hb0=document.getElementById('howbtn');if(hb0)hb0.onclick=openGuide;
   const gb=document.getElementById('gearbtn');if(gb)gb.onclick=openSettings;
   const pbtn=document.getElementById('play');if(pbtn)pbtn.onclick=playCurrent;
+  const hm=document.getElementById('hearme');if(hm)hm.onclick=playMine;
   const rbtn=document.getElementById('replay');if(rbtn)rbtn.onclick=playCurrent;
   document.querySelectorAll('.pp').forEach(b=>b.onclick=()=>playPart(b.dataset.pt));
   document.querySelectorAll('#tempotog button').forEach(b=>b.onclick=()=>{dictSPB=parseFloat(b.dataset.spb);try{localStorage.setItem('blitzAuralTempo',dictSPB);}catch(e){}
@@ -776,7 +929,7 @@ function checkNotate(){const q=curQ();let right=0;const need=q.notes.length-q.gi
     if(s.ok)right++;}
   const empty=slots.filter((s,k)=>k>=q.given&&!s).length,ok=(right===need);
   nchecked=true;drawStave();scoreOnce(ok);celebrate(ok);
-  if(ok){feedback(pick(WINMSG)+' All '+need+' right.','ok',q.why);results[qid()]='ok';}
+  if(ok){feedback(pick(WINMSG)+' All '+need+' right.'+bonusTag(),'ok',q.why);results[qid()]='ok';}
   else{let m=pick(MISSMSG)+' '+right+' of '+need+' correct.';if(empty)m+=' '+empty+' empty.';feedback(m,'no',q.why);results[qid()]='no';}
   renderDots();}
 function answerNotate(){const q=curQ();if(!(qid() in scored))scoreOnce(false);slots=q.notes.map(t=>({d:dia(t[0],t[1]),a:t[2],reveal:true}));nchecked=false;q.done=true;drawStave();feedback('Answer shown. Clear to try it yourself.','',q.why);results[qid()]='no';renderDots();}
@@ -784,7 +937,14 @@ function answerNotate(){const q=curQ();if(!(qid() in scored))scoreOnce(false);sl
 function pickChoice(btn,q){if(answered)return;answered=true;const ok=btn.dataset.o===(''+q.answer);
   document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b===btn&&!ok)b.classList.add('no');});
   scoreOnce(ok);celebrate(ok);
-  if(ok){feedback(pick(WINMSG),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG),'no',q.why);results[qid()]='no';}renderDots();}
+  if(ok){feedback(pick(WINMSG)+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG),'no',q.why);results[qid()]='no';
+    if(q.playOpt&&!sprintOn){const picked=btn.dataset.o;const f=document.getElementById('fb');const hb=document.createElement('button');hb.className='hearbtn';hb.textContent='🎧 Hear the difference';f.appendChild(hb);
+      hb.onclick=()=>{if(AUDIO)AUDIO.stop();hb.disabled=true;hb.textContent='🎧 Yours: '+picked;let s1=0;try{s1=q.playOpt(picked)||1.5;}catch(e){s1=1.5;}
+        AUDIO.later(()=>{hb.textContent='🎧 Played: '+q.answer;let s2=0;try{s2=q.play()||1.5;}catch(e){s2=1.5;}AUDIO.later(()=>{hb.disabled=false;hb.textContent='🎧 Hear the difference';},(s2+0.3)*1000);},(s1+0.7)*1000);};}}
+  renderDots();
+  if(sprintOn){sprintN++;if(ok)sprintCor++;const sc=document.querySelector('.sprintbar span:last-child');if(sc)sc.textContent=sprintCor+' ✓';setTimeout(()=>{if(sprintOn){qi++;load();}},ok?500:900);}
+  if(h2h){setTimeout(()=>{if(!h2h)return;if(h2h.score.some(x=>x>=5))return;qi++;load();},1300);}}
+const bonusTag=()=>lastBonus>0?`<span class="xpbonus">+${10+lastBonus} XP${lastBonus===10?' · first listen':''}</span>`:'';
 function answerChoice(q){if(!answered)scoreOnce(false);answered=true;
   document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');});
   feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
@@ -805,13 +965,18 @@ document.getElementById('mPr').onclick=()=>setMode('practise');
 document.getElementById('mRe').onclick=()=>setMode('reference');
 document.getElementById('mRec').onclick=()=>setMode('record');
 (function(){const ni=document.getElementById('nameinput');ni.value=currentName;
-  ni.oninput=()=>{currentName=ni.value.trim();try{localStorage.setItem('blitzName',currentName);}catch(e){}};})();
-document.getElementById('reset').onclick=()=>{if(!confirm('Reset score, streak and progress for this session?'))return;total=correct=streak=0;level=1;runQs={};
+  ni.oninput=()=>{currentName=ni.value.trim();try{localStorage.setItem('blitzName',currentName);}catch(e){}loadProfile();paintScore();renderTabs();};})();
+// ---- sounds on check (musical, mutable) ----
+let SFX=true;try{SFX=localStorage.getItem('blitzAuralSfx')!=='0';}catch(e){}
+function paintSfx(){const b=document.getElementById('sfxbtn');b.classList.toggle('off',!SFX);b.textContent=SFX?'🔔':'🔕';b.title=SFX?'Sounds on (tap to mute)':'Sounds off';}
+document.getElementById('sfxbtn').onclick=()=>{SFX=!SFX;try{localStorage.setItem('blitzAuralSfx',SFX?'1':'0');}catch(e){}paintSfx();};paintSfx();
+function sfx(ok){if(!SFX||!window.AUDIO)return;try{if(ok)AUDIO.progression([[53,60,65,69],[48,60,64,67]],0.38);else AUDIO.chord(0,[50,53,56,60],'block');}catch(e){}}
+document.getElementById('reset').onclick=()=>{if(!confirm('Reset this session\'s score and streak? (Your saved rank, XP and mastery stay.)'))return;if(sprintOn)endSprint(true);h2h=null;total=correct=streak=0;level=1;runQs={};
   for(const k in results)delete results[k];for(const k in scored)delete scored[k];
   for(const k in uStat)delete uStat[k];for(const k in unitDone)delete unitDone[k];
   paintScore();mode==='practise'?openUnit():(mode==='reference'?loadRef():renderRecord());};
 
-function openGuide(){document.getElementById('guidebody').innerHTML=UNITS[ui].guide;
+function openGuide(){const u=UNITS[ui].special?fromUnit(curQ()):UNITS[ui];document.getElementById('guidebody').innerHTML=(UNITS[ui].special?UNITS[ui].guide+'<hr style="border:0;border-top:1px solid var(--rule);margin:12px 0">':'')+u.guide;
   document.getElementById('guide').classList.add('open');document.getElementById('gback').classList.add('open');}
 function closeGuide(){document.getElementById('guide').classList.remove('open');document.getElementById('gback').classList.remove('open');}
 document.getElementById('gclose').onclick=closeGuide;document.getElementById('gback').onclick=closeGuide;
@@ -830,11 +995,11 @@ function renderSettings(u){const unit=UNITS[u];let h=`<p class="prompt">${unit.n
   document.getElementById('setall').onclick=()=>{unit.cfg.forEach(g=>{if(g.type==='multi')g.items.forEach(it=>CFG[unit.key][g.key][it.id]=true);});saveCfg();renderSettings(u);};
   document.getElementById('setyear').onclick=()=>{unit.cfg.forEach(g=>{if(g.type==='multi')g.items.forEach(it=>CFG[unit.key][g.key][it.id]=((it.yr||7)<=YEAR&&!(it.junior&&YEAR>=9)));else CFG[unit.key][g.key]=singleDef(g);});saveCfg();renderSettings(u);};
   document.getElementById('setdone').onclick=()=>closeSettings();}
-function openSettings(){renderSettings(ui);document.getElementById('setmodal').classList.add('open');document.getElementById('setback').classList.add('open');}
+function openSettings(){renderSettings(UNITS[ui].special?UNITS.indexOf(fromUnit(curQ())):ui);document.getElementById('setmodal').classList.add('open');document.getElementById('setback').classList.add('open');}
 function closeSettings(){document.getElementById('setmodal').classList.remove('open');document.getElementById('setback').classList.remove('open');runQs[ui]=[];load();}
 document.getElementById('setclose').onclick=closeSettings;document.getElementById('setback').onclick=closeSettings;
 
-cfgInit();paintYear();paintScore();openUnit();
+cfgInit();loadProfile();paintYear();paintScore();ui=2;openUnit();
 try{ if(!localStorage.getItem('blitzAuralYear')) askYear(); }catch(e){}
 try{ if(window.AUDIO&&AUDIO.preloadPiano) AUDIO.preloadPiano(); }catch(e){}
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
