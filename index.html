@@ -472,7 +472,7 @@ function load(){if(AUDIO)AUDIO.stop();document.documentElement.style.setProperty
         <button class="tool" id="restbtn">Rest</button><button class="tool" id="tiebtn">Tie to next</button></div></div>
       ${q.rhythmOnly?'':accbar}
       <div class="scoreWrap" id="scoreWrap"></div>
-      <p class="hint">${q.rhythmOnly?'Choose a value (or Rest), then tap the stave to enter it at the cursor. "Tie to next" ties the last note into the next one you enter. ✕ removes a note.':'Choose a value and accidental, then click the stave at the pitch. "Tie to next" ties the last note into the next one you enter. ✕ removes a note.'}</p>
+      <p class="hint">${q.rhythmOnly?'Choose a value (or Rest), then tap the stave to enter it at the cursor. "Tie to next" ties the last note into the next one you enter. ✕ removes a note and leaves its space empty; the next value you enter fills that space. Undo takes back the last note.':'Choose a value and accidental, then click the stave at the pitch. "Tie to next" ties the last note into the next one you enter. ✕ removes a note and leaves its space empty; the next value you enter fills that space. Undo takes back the last note.'}</p>
       <div class="names" id="names"></div>
       <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="undo">Undo</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.kind==='numerals'){rn=q.answer.map((a,i)=>i<q.given?a:null);rnCur=q.given;
@@ -550,17 +550,22 @@ function answerPitchDict(){const q=curQ();if(!(qid() in scored))scoreOnce(false)
   renderPD(true);feedback('Answer shown. Clear to try again.','',q.why);results[qid()]='no';renderDots();}
 
 // ---- melodic / rhythmic dictation (step entry) ----
+// gaps: a removed note leaves an empty space of its own length, so nothing after it shifts. The cursor sits at the first gap.
+function splitGap(G){const out=[];let r=G;for(const v of [4,3,2,1.5,1,0.75,0.5,0.25]){while(r>=v-1e-6){out.push({gap:true,dur:v});r-=v;}}
+  while(r>T3-1e-6){out.push({gap:true,dur:T3});r-=T3;}return out;}
+function mdTrim(){while(me.length>1&&me[me.length-1].gap)me.pop();const gi=me.findIndex(x=>x.gap);let on=0;for(let i=0;i<(gi<0?me.length:gi);i++)on+=me[i].dur;meCursor=on;}
+const fmtBeats=b=>{const w=Math.floor(b+1e-6),f=b-w;const fr=f<1e-6?'':Math.abs(f-0.5)<1e-6?'½':Math.abs(f-0.25)<1e-6?'¼':Math.abs(f-0.75)<1e-6?'¾':String(Math.round(f*100)/100).slice(1);return (w||!fr?w:'')+fr;};
 function resetMD(q){const f=q.dict.notes[0];me=[{dur:f.dur,d:f.d,a:givenRaw(q),rest:!!f.rest,tie:!!f.tie,given:true}];meCursor=f.dur;meSelDur=1;meRest=false;meTieNext=!!f.tie;}
 function renderMD(checked){const q=curQ();let on=0;
-  const notes=me.map((n,i)=>{const o=on;on+=n.dur;return {onset:o,dur:n.dur,rest:n.rest,tie:n.tie,trip:eq(n.dur,T3),d:n.d,acc:n.a,showD:n.d,color:n.given?'#8a8277':'var(--ink)',clearable:(!checked&&!n.given),idx:i};});
+  const notes=me.map((n,i)=>{const o=on;on+=n.dur;if(n.gap)return {onset:o,dur:n.dur,state:'empty',trip:eq(n.dur,T3),idx:i};return {onset:o,dur:n.dur,rest:n.rest,tie:n.tie,trip:eq(n.dur,T3),d:n.d,acc:n.a,showD:n.d,color:n.given?'#8a8277':'var(--ink)',clearable:(!checked&&!n.given),idx:i};});
   const TB=q.dict.totalBeats;
   let meta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw',cursorBeat:(!checked&&meCursor<TB-1e-6)?meCursor:undefined}));
   if(checked){ // compare sounding events
-    const stud=me.map((n,k)=>({onset:notes[k].onset,dur:n.dur,rest:n.rest,tie:n.tie,midi:n.rest?null:meta.midi[k]}));
+    const stud=me.map((n,k)=>({onset:notes[k].onset,dur:n.dur,rest:n.rest,tie:n.tie,midi:n.rest?null:meta.midi[k]})).filter((x,k)=>!me[k].gap);
     const ans=soundingOf(q.dict.notes), sEv=soundingOf(stud);
     const good=k=>{const s=sEv.find(e=>eq(e.onset,notes[k].onset)||(e.onset<notes[k].onset+1e-6&&e.onset+e.dur>notes[k].onset+1e-6));if(!s)return false;
       return ans.some(a=>eq(a.onset,s.onset)&&eq(a.dur,s.dur)&&(q.rhythmOnly?((a.midi==null)===(s.midi==null)):a.midi===s.midi));};
-    notes.forEach((n,k)=>{n.color=good(k)?'var(--green)':'var(--red)';n.clearable=false;});
+    notes.forEach((n,k)=>{if(n.state==='empty')return;n.color=good(k)?'var(--green)':'var(--red)';n.clearable=false;});
     meta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw'})); }
   scoreMeta=meta;
   document.getElementById('scoreWrap').innerHTML=meta.svg;
@@ -570,7 +575,18 @@ function renderMD(checked){const q=curQ();let on=0;
   const nm=document.getElementById('names');
   if(checked){nm.style.display='block';nm.textContent=q.rhythmOnly?'Rhythm shown — '+q.dict.notes.length+' notes/rests.':'Answer: '+q.dict.notes.filter(n=>!n.rest).map(n=>n.letter+ACCSYM[n.acc]).join(' ');}else nm.style.display='none';}
 function onScoreMD(ev){const q=curQ();const cl=ev.target.closest('.sclr');
-  if(cl){const k=+cl.dataset.i;const n=scoreMeta.order[k];if(n&&n.idx!==undefined&&n.idx>0){me.splice(n.idx,1);if(me[n.idx-1])me[n.idx-1].tie=false;meCursor=me.reduce((s,x)=>s+x.dur,0);feedback('','');renderMD(false);}ev.preventDefault();return;}
+  if(cl){const k=+cl.dataset.i;const n=scoreMeta.order[k];if(n&&n.idx!==undefined&&n.idx>0){const x=me[n.idx];me.splice(n.idx,1,{gap:true,dur:x.dur});if(me[n.idx-1])me[n.idx-1].tie=false;mdTrim();feedback('','');renderMD(false);}ev.preventDefault();return;}
+  // fill a gap first if there is one: the new value must fit inside the empty space
+  const gi=me.findIndex(x=>x.gap);
+  if(gi>=0){let G=0,ge=gi;while(ge<me.length&&me[ge].gap){G+=me[ge].dur;ge++;}
+    if(meSelDur>G+1e-6){feedback('That value is bigger than the empty space ('+fmtBeats(G)+' beat'+(G>1?'s':'')+'). Pick a shorter value, or ✕ the next note to make more room.','no');return;}
+    const bpb0=q.dict.metre.bpb, pk0=q.dict.pickup||0;
+    if(ENGRAVE.barOf(meCursor+1e-4,pk0,bpb0)!==ENGRAVE.barOf(meCursor+meSelDur-1e-4,pk0,bpb0)){feedback('That note would cross a barline — use a shorter value and tie it.','no');return;}
+    if(eq(meSelDur,T3)){const pos=ENGRAVE.posInBar(meCursor,pk0,bpb0);const g=q.dict.metre.g;let gj=0;for(let k=0;k<g.length;k++)if(pos>=g[k]-1e-6)gj=k;const gEnd=g[gj+1]!==undefined?g[gj+1]:bpb0;if(pos+T3>gEnd+1e-6){feedback('A triplet quaver must sit inside one beat.','no');return;}}
+    const h0=ENGRAVE.hitTest(scoreMeta,document.getElementById('score'),ev);const d0=q.rhythmOnly?34:h0.d;
+    const prev0=me[gi-1];const tieIn=meTieNext&&prev0&&!prev0.gap&&!meRest;if(tieIn&&!prev0.rest)prev0.tie=true;
+    const rest=splitGap(G-meSelDur);me.splice(gi,ge-gi,{dur:meSelDur,d:(tieIn&&!prev0.rest)?prev0.d:d0,a:(tieIn&&!prev0.rest)?prev0.a:accMode,rest:meRest,tie:false},...rest);
+    meTieNext=false;mdTrim();feedback('','');renderMD(false);ev.preventDefault();return;}
   const TB=q.dict.totalBeats; if(meCursor>=TB-1e-6){feedback('All the bars are full — remove a note first.','no');return;}
   const h=ENGRAVE.hitTest(scoreMeta,document.getElementById('score'),ev); const d=q.rhythmOnly?34:h.d;
   if(meCursor+meSelDur>TB+1e-6){feedback('That value would overflow the final bar.','no');return;}
@@ -583,6 +599,7 @@ function onScoreMD(ev){const q=curQ();const cl=ev.target.closest('.sclr');
   me.push({dur:meSelDur,d:(meTieNext&&prev&&!prev.rest)?prev.d:d,a:(meTieNext&&prev&&!prev.rest)?prev.a:accMode,rest:meRest,tie:false});
   meTieNext=false;meCursor+=meSelDur;feedback('','');renderMD(false);ev.preventDefault();}
 function checkMelodyDict(){const q=curQ();const TB=q.dict.totalBeats;
+  if(me.some(x=>x.gap)){feedback('Fill the empty space first (the dashed notes).','no');return;}
   if(meCursor<TB-0.001){feedback('Fill all the bars first ('+(Math.round(meCursor*100)/100)+' of '+TB+' beats).','no');return;}
   let on=0;const notes=me.map(n=>{const o=on;on+=n.dur;return {onset:o,dur:n.dur,rest:n.rest,tie:n.tie,d:n.d,acc:n.a};});
   const meta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw'}));
@@ -698,7 +715,7 @@ function wire(q){
     document.getElementById('restbtn').onclick=()=>{meRest=!meRest;document.getElementById('restbtn').classList.toggle('on',meRest);};
     document.getElementById('tiebtn').onclick=()=>{const last=me[me.length-1];if(!last||last.rest){feedback('A tie needs a note before it.','no');return;}meTieNext=!meTieNext;document.getElementById('tiebtn').classList.toggle('on',meTieNext);};
     document.getElementById('check').onclick=checkMelodyDict;document.getElementById('answer').onclick=answerMelodyDict;
-    document.getElementById('undo').onclick=()=>{if(me.length>1){const x=me.pop();meCursor-=x.dur;if(me[me.length-1])me[me.length-1].tie=false;meTieNext=false;feedback('','');renderMD(false);}};
+    document.getElementById('undo').onclick=()=>{if(me.length>1){me.pop();if(me[me.length-1])me[me.length-1].tie=false;meTieNext=false;mdTrim();feedback('','');renderMD(false);}};
     document.getElementById('clear').onclick=()=>{resetMD(q);feedback('','');renderMD(false);};
   } else if(q.kind==='numerals'){
     document.querySelectorAll('#rnpal button').forEach(b=>b.onclick=()=>rnPick(b.dataset.rn));

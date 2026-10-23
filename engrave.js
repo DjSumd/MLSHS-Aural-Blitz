@@ -309,7 +309,7 @@
         s+=`<path d="M${p[0]} L${p[1]} L${p[2]} L${p[3]} C${p[4]} ${p[5]} ${p[6]}" fill="none" stroke="${col}" stroke-width="${(SS*0.3).toFixed(1)}" stroke-linejoin="round" stroke-linecap="round"/>`;
         if(eq(d,1.5))s+=dotEl(x-SS*0.1,mid-SS*0.5,top-3,col); }
       else { // quaver / semiquaver rests
-        const flags=d<0.5-1e-6?2:1; const x0=x+SS*0.3, y0=mid-SS*0.55;
+        const flags=(d<0.5-1e-6&&!n.trip)?2:1; const x0=x+SS*0.3, y0=mid-SS*0.55;
         s+=`<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${(x-SS*0.25).toFixed(1)}" y2="${(mid+SS*(flags===2?1.2:0.75)).toFixed(1)}" stroke="${col}" stroke-width="${(SS*0.16).toFixed(1)}" stroke-linecap="round"/>`;
         for(let f=0;f<flags;f++){const fy=y0+f*SS*0.75, fx=x0-f*SS*0.22; s+=`<circle cx="${(fx-SS*0.42).toFixed(1)}" cy="${(fy+SS*0.02).toFixed(1)}" r="${(SS*0.2).toFixed(1)}" fill="${col}"/>`;
           s+=`<path d="M${(fx-SS*0.42).toFixed(1)},${(fy+SS*0.1).toFixed(1)} Q${(fx-SS*0.1).toFixed(1)},${(fy+SS*0.32).toFixed(1)} ${fx.toFixed(1)},${(fy).toFixed(1)}" fill="none" stroke="${col}" stroke-width="${(SS*0.12).toFixed(1)}"/>`;}
@@ -328,7 +328,7 @@
         const gi=inGroup[i]; const up=(gi!==undefined)?groupDir[gi]==='up':false; const sx=up?x+rx*0.88:x-rx*0.88;
         if(gi===undefined){ const sy2=up?y-stemLen:y+stemLen;
           E.push(`<line x1="${sx.toFixed(2)}" y1="${y.toFixed(2)}" x2="${sx.toFixed(2)}" y2="${sy2.toFixed(2)}" stroke="#b9b3a6" stroke-width="1.6"/>`); track(up?sy2-SS*2.4:sy2+SS*2.4);
-          if(n.dur<1-1e-6){ const nf=n.dur<0.5-1e-6?2:1; for(let f=0;f<nf;f++)E.push(flagPath(sx,sy2+(up?1:-1)*f*SS*0.8,up,'#b9b3a6')); } }
+          if(n.dur<1-1e-6){ const nf=(n.dur<0.5-1e-6&&!n.trip)?2:1; for(let f=0;f<nf;f++)E.push(flagPath(sx,sy2+(up?1:-1)*f*SS*0.8,up,'#b9b3a6')); } }
         return; }
       ledgerYs(top,bot,d).forEach(ed=>{const ly=oy+yOf(top,ed);E.push(`<line x1="${(x-rx*1.75).toFixed(1)}" y1="${ly.toFixed(1)}" x2="${(x+rx*1.75).toFixed(1)}" y2="${ly.toFixed(1)}" stroke="var(--line)" stroke-width="1.25"/>`);track(ly);});
       const shown=res.shown[i]; if(shown)E.push(accEl(shown,x-rx-SS*0.14,y,col));
@@ -344,7 +344,7 @@
       const sx=up?x+rx*0.88:x-rx*0.88;
       if(gi===undefined){ const sy2=up?y-stemLen:y+stemLen;
         E.push(`<line x1="${sx.toFixed(2)}" y1="${y.toFixed(2)}" x2="${sx.toFixed(2)}" y2="${sy2.toFixed(2)}" stroke="${col}" stroke-width="1.6"/>`); track(up?sy2-SS*2.4:sy2+SS*2.4);
-        if(n.dur<1-1e-6){ const nf=n.dur<0.5-1e-6?2:1; for(let f=0;f<nf;f++)E.push(flagPath(sx,sy2+(up?1:-1)*f*SS*0.8,up,col)); }
+        if(n.dur<1-1e-6){ const nf=(n.dur<0.5-1e-6&&!n.trip)?2:1; for(let f=0;f<nf;f++)E.push(flagPath(sx,sy2+(up?1:-1)*f*SS*0.8,up,col)); }
       }
     });
     // ---- beams ----
@@ -358,7 +358,7 @@
       track(beamY-beamT*2);track(beamY+beamT*2);
       // secondary beams (semiquavers): full between adjacent semiquavers, else a stub
       const y2=beamY+dir*(beamT+SS*0.2) - (up?0:beamT);
-      const isSemi=k=>notes[k].dur<0.5-1e-6;
+      const isSemi=k=>notes[k].dur<0.5-1e-6&&!notes[k].trip;
       for(let j=0;j<gp.idx.length;j++){const k=gp.idx[j]; if(!isSemi(k))continue;
         const nxt=gp.idx[j+1], prv=gp.idx[j-1];
         if(nxt!==undefined&&isSemi(nxt)){E.push(`<rect x="${Math.min(sxOf(k),sxOf(nxt)).toFixed(2)}" y="${y2.toFixed(2)}" width="${Math.abs(sxOf(nxt)-sxOf(k)).toFixed(2)}" height="${beamT.toFixed(2)}" fill="${bcol}"/>`);}
