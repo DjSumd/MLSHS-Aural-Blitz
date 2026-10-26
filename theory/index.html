@@ -240,6 +240,35 @@
   .sfpal{display:flex;gap:5px;flex-wrap:wrap} .sfpal button{border:1px solid var(--rule);background:#fff;border-radius:999px;padding:7px 13px;font-family:var(--serif);font-size:17px;font-weight:600;cursor:pointer;color:var(--ink)}
   .sfpal button:hover{border-color:var(--ink)}
   body.paper .solfarow{display:none}
+  .tabs button .ring{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-left:6px}
+  .tabs button .ring circle{fill:none;stroke-width:3}
+  .tabs button .mast{margin-left:5px;color:var(--brass);font-weight:900}
+  .tabs button.special{border-style:dashed}
+  .sfxbtn{background:transparent;border:1px solid rgba(239,233,220,.3);color:#cfc8ba;border-radius:999px;font-size:13px;padding:4px 10px;cursor:pointer;font-family:var(--sans)}
+  .sfxbtn.off{opacity:.5;text-decoration:line-through}
+  .dots .right{margin-left:auto;display:flex;gap:6px}
+  .dots .sprintbtn,.dots .h2hbtn{border:1px solid rgba(239,233,220,.3);background:transparent;color:#cfc8ba;border-radius:999px;font-size:11px;font-weight:600;padding:5px 11px;cursor:pointer;font-family:var(--sans)}
+  .dots .sprintbtn:hover,.dots .h2hbtn:hover{border-color:var(--cream);color:var(--cream)}
+  .sprintbar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:var(--cream);border-radius:6px;padding:8px 14px;margin:0 0 10px;font-family:var(--serif);font-size:20px;font-weight:600}
+  .sprintbar .clock{font-size:26px;color:var(--brass)} .sprintbar .sp{font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#a79f91}
+  .h2hbar{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:8px 14px;margin:0 0 10px;font-size:14px}
+  .h2hbar .pl{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid transparent} .h2hbar .pl.turn{border-color:var(--ink);background:#fff;font-weight:700}
+  .h2hbar .sc{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--ox)}
+  .xpbonus{font-family:var(--sans);font-size:12px;color:var(--brass);font-weight:700;margin-left:8px}
+  .profgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:8px 0}
+  .profcell{background:var(--paper2);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+  .profcell .l{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .profcell .v{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1}
+  .achgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+  .ach{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--rule);border-radius:6px;padding:8px 10px;background:#fff}
+  .ach.locked{opacity:.45;filter:grayscale(1)} .ach .ic{font-size:22px;line-height:1} .ach .t{font-weight:700;font-size:13px} .ach .d{font-size:11.5px;color:#4d463c}
+  .masterbars{margin:8px 0} .mrow2{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:13px} .mrow2 .nm{width:170px} .mrow2 .bar{flex:1;height:8px;background:var(--shade);border-radius:999px;overflow:hidden} .mrow2 .bar i{display:block;height:100%;background:var(--green)} .mrow2 .bar i.low{background:var(--red)} .mrow2 .bar i.mid{background:var(--brass)}
+  .avchip.locked{opacity:.5;border-style:dashed}
+  .guide.rank{animation:rankpop .5s;text-align:center}
+  @keyframes rankpop{0%{transform:translate(-50%,-50%) scale(.7);opacity:0}60%{transform:translate(-50%,-50%) scale(1.06);opacity:1}100%{transform:translate(-50%,-50%) scale(1)}}
+  .hearbtn{display:inline-flex;align-items:center;gap:6px;margin:4px 6px 8px 0;border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+  .hearbtn:disabled{opacity:.4;cursor:default} .hearbtn.on{background:var(--ink);color:var(--cream)}
+  body.paper .hearbtn,body.paper .sprintbtn,body.paper .h2hbtn{display:none!important}
   @media print{body{background:#fff;overflow:visible;height:auto}header,.topbar,.tabs,.dots,footer,.controls,#musicfx,#fx{display:none!important}.card{box-shadow:none;overflow:visible}}
 </style>
 </head>
@@ -259,7 +288,9 @@
     <div class="stat"><span class="lbl">Score</span><span class="val" id="scv">0/0</span></div>
     <div class="stat"><span class="lbl">Accuracy</span><span class="val" id="scp">—</span></div>
     <div class="stat"><span class="lbl">Streak</span><span class="val brass" id="snum">0</span></div>
-    <div class="stat"><span class="lbl" id="lvl">Level 1</span><span class="val" id="xptxt" style="font-size:15px;padding-top:4px">0 XP</span><div class="xp"><i id="xpbar"></i></div></div>
+    <div class="stat"><span class="lbl" id="lvl">Busker</span><span class="val" id="xptxt" style="font-size:15px;padding-top:4px">0 XP</span><div class="xp"><i id="xpbar"></i></div></div>
+    <div class="stat"><span class="lbl">Days</span><span class="val" id="daysv">0</span></div>
+    <button class="sfxbtn" id="sfxbtn" title="Sounds on correct / wrong">🔔</button>
     <button class="rst" id="reset">Reset</button>
   </div>
 </div></header>
@@ -278,6 +309,9 @@
 </main>
 <footer>Mount Lawley SHS · Music · theory for Years 7–10 (WA curriculum) and Years 11–12 (SCSA ATAR). Keys: 1–9 answer · ← → move · Enter check · # b n 0 accidentals</footer>
 
+<script>window.SAMPLE_BASE='aural/samples/';</script>
+<script src="aural/audio.js"></script>
+<script src="aural/samples.js"></script>
 <script src="glyphs.js"></script>
 <script src="theory.js"></script>
 <script src="engrave.js"></script>
@@ -288,7 +322,13 @@
 const APP='theoryAll';
 // ---- Exam: Section One Part B in the WACE shape (two score-based theory questions, ~9 marks each) ----
 const EXAM={id:'exam',name:'Exam',short:'Exam',exam:true,yr:11,guide:`<b>Exam practice — Section One, Part B: Theory</b><ul><li>Two questions of about nine marks each, built from the kinds of parts the paper asks: name chords and intervals at points in a score, time signature, symbols and articulations, TAB or chord diagrams, devices, writing named chords on different clefs, and a transposition rewrite worth four marks.</li><li>Marks are awarded in proportion to what you get right. The paper allows roughly 20 minutes for Part B; the clock runs from Start.</li></ul>`};
-const UNITS=GEN.UNITS.concat([EXAM]);
+// ---- special sections: a daily set for the whole class, and a set built from your own weak spots ----
+const TODAY={id:'today',name:"Today's Blitz",short:"Today's Blitz",special:true,yr:7,guide:`<b>Today's Blitz</b><ul><li>Ten questions drawn from every unit, the same ten for everyone in your year today.</li><li>Answer at least five and today counts towards your <b>days in a row</b>.</li><li>Come back tomorrow for a new set.</li></ul>`,
+  make(){const real=REAL().filter(u=>unitOn(UNITS.indexOf(u)));const out=[];for(let pos=0;pos<10;pos++){const key=todayStr()+'|'+LEVEL()+'|'+pos;const u=real[hashStr(key+'|unit')%real.length];const q=withSeed(hashStr(key),()=>{Math.random();Math.random();return GEN.makeSet(u.id,1)[0];});if(q)out.push(q);}return out;}};
+const WEAK={id:'weak',name:'Weak spots',short:'Weak spots',special:true,yr:7,guide:`<b>Weak spots</b><ul><li>Questions from the three units where your recent accuracy is lowest.</li><li>The mastery rings on the tabs show how each unit is going (your last 20 answers).</li></ul>`,
+  make(){const real=REAL().filter(u=>unitOn(UNITS.indexOf(u)));const sc=real.map(u=>({u,m:mastery(u.id)})).filter(x=>x.m.n>=3).sort((a,b)=>a.m.acc-b.m.acc).slice(0,3).map(x=>x.u);const pool=sc.length?sc:real;const out=[];let g=0;const seen=new Set();
+    while(out.length<SETN&&g++<SETN*5){const u=pool[Math.floor(Math.random()*pool.length)];const q=GEN.makeSet(u.id,1)[0];if(!q)continue;const key=q.prompt+'|'+(q.answer||'');if(seen.has(key))continue;seen.add(key);out.push(q);}return out;}};
+const UNITS=[TODAY,WEAK].concat(GEN.UNITS,[EXAM]);
 let examPlan=[],examOn=false,examStart=0,examTick=null;const embedRes={};
 const EMBED=(()=>{if(window.__EMBED)return window.__EMBED;try{return new URL(location.href).searchParams.get('embed')||'';}catch(e){return '';}})();
 const EMBED_YEAR=(()=>{if(window.__EMBED_YEAR)return window.__EMBED_YEAR;try{return parseInt(new URL(location.href).searchParams.get('year'),10)||0;}catch(e){return 0;}})();
@@ -338,7 +378,7 @@ function examStartCard(){const c=document.getElementById('card');document.getEle
   document.getElementById('examgo').onclick=startExam;
   document.getElementById('examnew').onclick=()=>{openUnit(true);};}
 function finishExam(){const wasOn=examOn;examOn=false;clearInterval(examTick);const m=examMarks();const tot=m.reduce((a,x)=>a+x.got,0),max=m.reduce((a,x)=>a+(x.max||x.it.m),0);const pct=Math.round(tot/max*100);
-  if(wasOn)logComplete({id:'exam',name:HAS_AURAL()&&!EMBED?'Exam · Section One':'Exam · Part B'},pct);
+  if(wasOn){logComplete({id:'exam',name:HAS_AURAL()&&!EMBED?'Exam · Section One':'Exam · Part B'},pct);if(PROF){PROF.exams=PROF.exams||[];PROF.exams.push({at:Date.now(),tot,max,year:+LEVEL(),theory:true});saveProfiles();}}
   if(EMBED){try{parent.postMessage({type:'blitz-exam-done',part:'B',tot,max},'*');}catch(e){}}
   const c=document.getElementById('card');document.getElementById('dots').innerHTML='';
   const rows=['A',8,9].filter(n=>m.some(x=>x.it.n===n)).map(n=>{const its=m.filter(x=>x.it.n===n);const got=its.reduce((a,x)=>a+x.got,0),mx=its.reduce((a,x)=>a+(x.max||x.it.m),0);const un=its.filter(x=>!x.answered).length;return `<tr><td>${n==='A'?'1–7':n}</td><td>${its.map(x=>x.it.t).filter((v,i,a)=>a.indexOf(v)===i).join(' · ')}${un?' <span style="color:var(--muted);font-size:12px">· '+(n==='A'?'not finished':un+' part'+(un>1?'s':'')+' unanswered')+'</span>':''}</td><td class="r">${got} / ${mx}</td></tr>`;}).join('');
@@ -349,8 +389,8 @@ function finishExam(){const wasOn=examOn;examOn=false;clearInterval(examTick);co
   if(pct>=70)burst('win',innerWidth/2,innerHeight/2,true);
   document.getElementById('examreview').onclick=()=>{qi=0;load();};document.getElementById('examagain').onclick=()=>openUnit(true);}
 const unitOn=i=>(UNITS[i].yr||7)<=+(GEN.getSet().upTo||GEN.getSet().level);
-const firstUnit=()=>{for(let i=0;i<UNITS.length;i++)if(unitOn(i))return i;return 0;};
-const UCOL=['#c0392b','#d4a017','#2e86c1','#27ae60','#8e44ad','#16a085','#e67e22','#5b5fc7','#c2185b','#0e7c86'];
+const firstUnit=()=>{for(let i=0;i<UNITS.length;i++)if(unitOn(i)&&!UNITS[i].special)return i;return 0;};
+const UCOL=['#b2862f','#b2862f','#c0392b','#d4a017','#2e86c1','#27ae60','#8e44ad','#16a085','#e67e22','#5b5fc7','#c2185b','#0e7c86','#b2862f'];
 const RCOL='#2f6f6a';
 const WINMSG=['Correct. 🎯','Yes! ⭐','Spot on. 🎉','Right. 💪','Textbook. 📘','Well done. 🔥'];
 const MISSMSG=['Not quite.','Not this time.','Have another look.'];
@@ -366,10 +406,75 @@ let total=0,correct=0,streak=0,level=1,LOG=LS.get('log',[]),BEST=LS.get('best',{
 let FIRSTRUN=false;(function(){let lv=LS.get('level',null);if(!lv){lv='7';FIRSTRUN=true;}GEN.setLevel(lv);const custom=LS.get('set_'+lv,null);if(custom)GEN.applySet(custom);})();
 const curQ=()=>SETQ[qi], qid=()=>UNITS[ui].id+'.'+qi;
 const LEVEL=()=>GEN.getSet().level;
+// ---------- helpers ----------
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function withSeed(seed,fn){const save=Math.random;Math.random=mulberry(seed);try{return fn();}finally{Math.random=save;}}
+const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const REAL=()=>UNITS.filter(u=>!u.special&&!u.exam);
+const fromUnit=q=>(q&&q.unit&&UNITS.find(u=>u.id===q.unit))||UNITS[ui];
+// ---------- profiles: progress that lasts, per student name (shared with Aural Blitz on this device) ----------
+const RANKS=[[0,'Busker'],[150,'Session Player'],[400,'Section Leader'],[800,'Principal'],[1400,'Soloist'],[2200,'Concertmaster'],[3500,'Maestro']];
+let PROFS={};try{PROFS=JSON.parse(localStorage.getItem('blitzAuralProfiles')||'{}');}catch(e){}
+let PROF=null;
+const profKey=()=>(currentName||'(no name)').trim().toLowerCase()||'(no name)';
+function loadProfile(){const k=profKey();PROF=PROFS[k]||(PROFS[k]={xp:0,correct:0,total:0,bestStreak:0,days:[],hist:{},ach:{},sprint:{},name:currentName});PROF.hist=PROF.hist||{};PROF.ach=PROF.ach||{};PROF.sprint=PROF.sprint||{};PROF.days=PROF.days||[];PROF.name=currentName||PROF.name;}
+function saveProfiles(){try{localStorage.setItem('blitzAuralProfiles',JSON.stringify(PROFS));}catch(e){}}
+function rankOf(xp){let r=RANKS[0],next=null;for(let i=0;i<RANKS.length;i++){if(xp>=RANKS[i][0]){r=RANKS[i];next=RANKS[i+1]||null;}}return {name:r[1],at:r[0],next};}
+const HK=id=>'t:'+id;
+function mastery(id){const h=(PROF&&PROF.hist&&PROF.hist[HK(id)])||[];const n=h.length;const acc=n?h.reduce((a,b)=>a+b,0)/n:0;return {n,acc,mastered:n>=20&&acc>=0.9};}
+function dayStreak(){const days=(PROF.days||[]).slice().sort();if(!days.length)return 0;const t=todayStr();const y=new Date();y.setDate(y.getDate()-1);const ys=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
+  let last=days[days.length-1];if(last!==t&&last!==ys)return 0;let n=1;for(let i=days.length-2;i>=0;i--){const a=new Date(days[i+1]),b=new Date(days[i]);if(Math.round((a-b)/86400000)===1)n++;else break;}return n;}
+let dayAnswers=0,lastBonus=0;
+const bonusTag=()=>lastBonus>0?`<span class="xpbonus">+${10+lastBonus} XP · on a roll</span>`:'';
+// ---- achievements (unlock avatar gear) ----
+const ACH=[
+  {id:'first',ic:'✏️',t:'First note',d:'Get your first answer right'},
+  {id:'perfect',ic:'💯',t:'Clean sheet',d:'A full set with none wrong',unlock:'bow'},
+  {id:'streak10',ic:'🔥',t:'On fire',d:'10 correct in a row'},
+  {id:'streak25',ic:'🌋',t:'Unstoppable',d:'25 correct in a row'},
+  {id:'hundred',ic:'💪',t:'Century',d:'100 correct answers',unlock:'headphones'},
+  {id:'days5',ic:'📅',t:'Habit',d:'Practise 5 days in a row',unlock:'beanie'},
+  {id:'sharp',ic:'🖊️',t:'Sharp eye',d:'25 notation questions written correctly'},
+  {id:'master1',ic:'🏅',t:'Mastered',d:'90%+ over 20 answers in a unit',unlock:'glasses'},
+  {id:'master5',ic:'🏆',t:'All-rounder',d:'Master five units'},
+  {id:'sprint15',ic:'⚡',t:'Sprinter',d:'15 correct in a 60-second Sprint'},
+  {id:'concert',ic:'👑',t:'Concertmaster',d:'Reach the Concertmaster rank',unlock:'crown'},
+  {id:'today7',ic:'🗓️',t:'Regular',d:"Finish Today's Blitz 7 times"},
+];
+const ACC_LOCK={headphones:'hundred',glasses:'master1',beanie:'days5',bow:'perfect',crown:'concert'};
+function unlocked(acc){const need=ACC_LOCK[acc];return !need||(PROF&&PROF.ach&&PROF.ach[need])||(avatar.acc===AV.acc.indexOf(acc));}
+function badgesUnlocked(){return REAL().filter(u=>mastery(u.id).mastered).length;}
+function grant(id){if(!PROF.ach[id]){PROF.ach[id]=Date.now();saveProfiles();const a=ACH.find(x=>x.id===id);if(!a)return;setTimeout(()=>{toast(a.ic+' Achievement: '+a.t+(a.unlock?' — '+a.unlock+' unlocked for your avatar':''));burst('win',innerWidth/2,120,true);},700);}}
+function checkAch(){if(!PROF)return;if(PROF.correct>=1)grant('first');if(streak>=10)grant('streak10');if(streak>=25)grant('streak25');if(PROF.correct>=100)grant('hundred');if(dayStreak()>=5)grant('days5');
+  if((PROF.sharp||0)>=25)grant('sharp');const m=REAL().filter(u=>mastery(u.id).mastered).length;if(m>=1)grant('master1');if(m>=5)grant('master5');if(rankOf(PROF.xp).at>=2200)grant('concert');if((PROF.todayDone||0)>=7)grant('today7');}
+function rankUp(name){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<div style="font-size:54px">${name==='Maestro'?'🎼':name==='Concertmaster'?'👑':name==='Soloist'?'🌟':'🎺'}</div><p class="prompt">New rank: ${name}</p><p class="sub">${esc(currentName||'You')} — keep it up. Your rank and XP are saved under your name on this device, and count across Theory Blitz and Aural Blitz.</p><div class="controls"><button class="btn-check" id="rankok">Nice</button></div>`;
+  g.classList.add('open','rank');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);document.getElementById('rankok').onclick=()=>{g.classList.remove('rank');closeGuide();};}
+// ---- sounds on check (musical, mutable) ----
+let SFX=true;try{SFX=localStorage.getItem('blitzTheorySfx')!=='0';}catch(e){}
+function sfx(ok){if(!SFX||!window.AUDIO)return;try{if(ok)AUDIO.progression([[53,60,65,69],[48,60,64,67]],0.38);else AUDIO.chord(0,[50,53,56,60],'block');}catch(e){}}
+function paintSfx(){const b=document.getElementById('sfxbtn');b.classList.toggle('off',!SFX);b.textContent=SFX?'🔔':'🔕';b.title=SFX?'Sounds on (tap to mute)':'Sounds off';}
+document.getElementById('sfxbtn').onclick=()=>{SFX=!SFX;try{localStorage.setItem('blitzTheorySfx',SFX?'1':'0');}catch(e){}paintSfx();};paintSfx();
+// ---- hear it: play what is on the stave (the shown example, your answer, or the correct answer) ----
+const DURB={w:4,h:2,q:1,e:0.5,s:0.25};
+const itemBeats=it=>{const d=it.dur||'q';return (DURB[d.replace('.','')]||1)*((it.dots||/\./.test(d))?1.5:1);};
+let hearTimer=null;
+function hearItems(items,sig,btn){if(!window.AUDIO)return;AUDIO.stop();const ev=[];
+  items.forEach(it=>{if(it.k==='n'||it.k==='slot'){let ps=it.k==='slot'?(it.given?it.p:(it._hear||[])):it.p;ps=(ps||[]).map(p=>T.midi(sounding(p,sig||0)));if(it.k==='n'&&it.p&&it.p.some(p=>p.x))return;ev.push({m:ps.slice().sort((a,b)=>a-b),b:itemBeats(it)});}
+    else if(it.k==='r')ev.push({m:[],b:itemBeats(it)});});
+  if(!ev.length)return;const spb=ev.length>8?0.42:0.55;let secs=0;
+  if(ev.every(e=>e.m.length<=1)){secs=AUDIO.melody(ev.map(e=>e.m[0]===undefined?null:e.m[0]),ev.map(e=>e.b),spb)||ev.reduce((a,e)=>a+e.b,0)*spb;}
+  else if(ev.length===1){secs=AUDIO.chord(0,ev[0].m,'block');}
+  else{const chords=ev.filter(e=>e.m.length).map(e=>e.m);secs=AUDIO.progression(chords,0.95);}
+  if(btn){btn.classList.add('on');btn.disabled=true;clearTimeout(hearTimer);hearTimer=setTimeout(()=>{btn.classList.remove('on');btn.disabled=false;},Math.max(500,(secs||1.5)*1000));}}
+function hearShown(q,btn){const sp=q.show&&q.show.spec;if(!sp)return;hearItems(sp.items,sp.sig||0,btn);}
+function hearMine(q,btn){const sig=curSig(q);const items=q.items.map(it=>it.k==='slot'?Object.assign({},it,{_hear:it.given?it.p:it._p}):it);hearItems(items,sig,btn);}
+function hearAnswer(q,btn){const sig=curSig(q);const items=q.items.map(it=>it.k==='slot'?Object.assign({},it,{_hear:it.given?it.p:it.target}):it);hearItems(items,sig,btn);}
 function saveLog(){LS.set('log',LOG);LS.set('best',BEST);}
 function logComplete(u,pct){const name=currentName||'(no name)',at=Date.now();LOG=LOG.filter(e=>!(e.name===name&&e.section===u.name));LOG.push({name,section:u.name,pct,at,level:LEVEL(),av:Object.assign({},avatar)});
   const b=BEST[name]||(BEST[name]={});if(b[u.id]===undefined||pct>b[u.id])b[u.id]=pct;saveLog();}
-function finishSection(i){const us=uStat[i],pct=Math.round(us.cor/SETQ.length*100);logComplete(UNITS[i],pct);toast('🎉 '+UNITS[i].name+' set complete — '+pct+'%');if(pct>=50)burst('win',innerWidth/2,130,true);}
+function finishSection(i){const us=uStat[i],pct=Math.round(us.cor/SETQ.length*100);logComplete(UNITS[i],pct);toast('🎉 '+UNITS[i].name+' set complete — '+pct+'%');if(pct>=50)burst('win',innerWidth/2,130,true);
+  if(PROF){if(pct===100)grant('perfect');if(UNITS[i].id==='today'){PROF.todayDone=(PROF.todayDone||0)+1;saveProfiles();}checkAch();}}
 // ---------- fx: confetti + drifting notes ----------
 const cvs=document.getElementById('fx'),fxctx=cvs.getContext('2d');
 function sizeFx(){cvs.width=innerWidth;cvs.height=innerHeight;}sizeFx();addEventListener('resize',sizeFx);
@@ -425,12 +530,13 @@ function avatarSVG(a,size){a=a||avatar;const sk=AV.skin[a.skin]||AV.skin[0],hc=A
   if(badge)s+=`<circle cx="82" cy="82" r="13" fill="#f6f1e7"/><text x="82" y="87" font-size="15" text-anchor="middle">${badge}</text>`;
   return s+'</svg>';}
 function paintAvatar(){document.getElementById('avmini').innerHTML=avatarSVG(avatar,34);}
-function openAvatar(){const b=document.getElementById('avbody');const row=(key,label,items,swatch)=>`<div class="avopt"><div class="setlabel">${label}</div><div class="setchips">${items.map((it,i)=>swatch?`<span class="sw ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}" style="background:${it}"></span>`:`<button class="avchip ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}">${it===''?'none':it}</button>`).join('')}</div></div>`;
-  b.innerHTML=`<p class="prompt">Your avatar</p><div class="avgrid"><div class="prev" id="avprev">${avatarSVG(avatar)}</div><div>
+function openAvatar(){const b=document.getElementById('avbody');const lockOf=(key,it,i)=>{if(key==='acc'&&!unlocked(it)){const a=ACH.find(x=>x.id===ACC_LOCK[it]);return a?a.d:'';}if(key==='badge'&&i>1&&i-1>badgesUnlocked()&&avatar.badge!==i)return 'master '+(i-1)+' unit'+(i>2?'s':'');return '';};
+  const row=(key,label,items,swatch)=>`<div class="avopt"><div class="setlabel">${label}</div><div class="setchips">${items.map((it,i)=>{const lk=swatch?'':lockOf(key,it,i);return swatch?`<span class="sw ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}" style="background:${it}"></span>`:`<button class="avchip ${avatar[key]===i?'on':''} ${lk?'locked':''}" data-k="${key}" data-i="${i}" ${lk?`data-lock="${esc(lk)}"`:''} title="${lk?'Locked: '+esc(lk):''}">${lk?'🔒 ':''}${it===''?'none':it}</button>`;}).join('')}</div></div>`;
+  b.innerHTML=`<p class="prompt">Your avatar</p><p class="sub">Accessories and badges unlock with achievements and mastered units.</p><div class="avgrid"><div class="prev" id="avprev">${avatarSVG(avatar)}</div><div>
     ${row('bg','Background',AV.bg,true)}${row('skin','Skin',AV.skin,true)}${row('hair','Hair',AV.hair)}${row('hairc','Hair colour',AV.hairc,true)}${row('eyes','Eyes',AV.eyes)}${row('mouth','Mouth',AV.mouth)}${row('acc','Accessory',AV.acc)}${row('badge','Instrument badge',AV.badge)}
     <div class="controls"><button class="btn-ghost" id="avrandom">Surprise me</button><button class="btn-check" id="avdone">Done</button></div></div></div>`;
-  b.querySelectorAll('[data-k]').forEach(el=>el.onclick=()=>{avatar[el.dataset.k]=+el.dataset.i;saveAvatar();openAvatar();});
-  document.getElementById('avrandom').onclick=()=>{Object.keys(AV).forEach(k=>avatar[k]=(Math.random()*AV[k].length)|0);saveAvatar();openAvatar();};
+  b.querySelectorAll('[data-k]').forEach(el=>el.onclick=()=>{if(el.dataset.lock){toast('🔒 '+el.dataset.lock);return;}avatar[el.dataset.k]=+el.dataset.i;saveAvatar();openAvatar();});
+  document.getElementById('avrandom').onclick=()=>{Object.keys(AV).forEach(k=>{if(k==='acc'||k==='badge')return;avatar[k]=(Math.random()*AV[k].length)|0;});saveAvatar();openAvatar();};
   document.getElementById('avdone').onclick=closeAvatar;
   document.getElementById('avmodal').classList.add('open');document.getElementById('avback').classList.add('open');}
 function closeAvatar(){document.getElementById('avmodal').classList.remove('open');document.getElementById('avback').classList.remove('open');}
@@ -440,30 +546,83 @@ paintAvatar();
 // ---------- scoring ----------
 function scoreOnce(ok){const k=qid();if(k in scored)return;scored[k]=ok;total++;
   const us=uStat[ui]||(uStat[ui]={ans:0,cor:0});us.ans++;if(ok)us.cor++;
-  if(ok){correct++;streak++;const nl=Math.floor(correct/5)+1,mile=[5,10,15,20,25,30,40,50].includes(streak);
-    if(mile){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);}else if(nl>level){toast('⭐ Level '+nl);burst('win',innerWidth/2,120,true);}level=nl;}
+  const q=curQ();let bonus=0;
+  if(ok){correct++;streak++;bonus=(sprintOn||h2h)?0:(streak>=5?5:0);const mile=[5,10,15,20,25,30,40,50].includes(streak);if(mile){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);}}
   else streak=0;
-  paintScore();if(!UNITS[ui].exam&&us.ans===SETQ.length&&!unitDone[ui]){unitDone[ui]=true;finishSection(ui);}}
+  lastBonus=bonus;
+  if(h2h){const who=h2h.turn;if(ok)h2h.score[who]++;h2h.turn=1-who;setTimeout(h2hCheck,900);}
+  else if(sprintOn){sprintN++;if(ok)sprintCor++;const sc=document.getElementById('sprintscore');if(sc)sc.textContent=sprintCor+' ✓';setTimeout(()=>{if(sprintOn){qi++;if(qi>=SETQ.length)SETQ.push(...sprintMore());load();}},ok?500:900);}
+  else if(PROF){const before=rankOf(PROF.xp).name;PROF.total++;if(ok){PROF.correct++;PROF.xp+=10+bonus;if(q&&q.t==='notate')PROF.sharp=(PROF.sharp||0)+1;}
+    PROF.bestStreak=Math.max(PROF.bestStreak||0,streak);
+    if(!UNITS[ui].exam){const uk=HK((q&&q.unit)||UNITS[ui].id);const h=PROF.hist[uk]||(PROF.hist[uk]=[]);h.push(ok?1:0);if(h.length>20)h.splice(0,h.length-20);}
+    dayAnswers++;const t=todayStr();if(dayAnswers>=5&&!PROF.days.includes(t))PROF.days.push(t);
+    saveProfiles();const after=rankOf(PROF.xp);if(after.name!==before)setTimeout(()=>rankUp(after.name),500);checkAch();}
+  sfx(ok);paintScore();
+  if(!sprintOn&&!h2h&&!UNITS[ui].exam&&us.ans===SETQ.length&&!unitDone[ui]){unitDone[ui]=true;finishSection(ui);}}
 function paintScore(){document.getElementById('scv').textContent=correct+'/'+total;const p=total?Math.round(correct/total*100):null;
   document.getElementById('scp').textContent=p===null?'—':p+'%';
   document.getElementById('snum').textContent=(streak>=3?'🔥':'')+streak;
-  document.getElementById('lvl').textContent='Level '+level;document.getElementById('xptxt').textContent=(correct*10)+' XP';document.getElementById('xpbar').style.width=((correct%5)/5*100)+'%';}
+  if(!PROF)loadProfile();const r=rankOf(PROF.xp);
+  document.getElementById('lvl').textContent=r.name;document.getElementById('xptxt').textContent=PROF.xp+' XP';
+  document.getElementById('xpbar').style.width=(r.next?((PROF.xp-r.at)/(r.next[0]-r.at)*100):100)+'%';
+  document.getElementById('lvl').title=r.next?(r.next[0]-PROF.xp)+' XP to '+r.next[1]:'Top rank';
+  const ds=dayStreak();document.getElementById('daysv').textContent=ds+(ds>=3?'🔥':'');}
 // ---------- modes / tabs ----------
-function setMode(m){mode=m;
+function setMode(m){if(window.AUDIO)AUDIO.stop();if(sprintOn)endSprint(true);h2h=null;mode=m;
   document.getElementById('mPr').classList.toggle('on',m==='practise');document.getElementById('mRe').classList.toggle('on',m==='reference');document.getElementById('mRec').classList.toggle('on',m==='record');
   document.getElementById('dots').style.display=m==='practise'?'flex':'none';document.getElementById('tabs').style.display=m==='record'?'none':'flex';
-  if(m==='practise'){ui=Math.min(ui,UNITS.length-1);if(!unitOn(ui))ui=firstUnit();if(!SETQ.length||SETQ[0].unit!==UNITS[ui].id)openUnit();else load();}
+  if(m==='practise'){ui=Math.min(ui,UNITS.length-1);if(!unitOn(ui))ui=firstUnit();if(!SETQ.length||SETQ.forId!==UNITS[ui].id)openUnit();else load();}
   else if(m==='reference'){ui=0;loadRef();}else renderRecord();}
 function renderTabs(){const nv=document.getElementById('tabs');nv.innerHTML='';document.body.classList.toggle('paper',mode==='practise'&&!!(UNITS[ui]&&UNITS[ui].exam));const list=mode==='practise'?UNITS:REFS;
-  list.forEach((u,i)=>{if(mode==='practise'&&!unitOn(i))return;const b=document.createElement('button');const bb=BEST[currentName||'(no name)'];const best=(mode==='practise'&&bb&&bb[u.id]!==undefined)?bb[u.id]:null;
-    b.innerHTML=esc(u.short||u.name)+(best!==null&&!u.exam?'<span class="pc">'+best+'%</span>':'');b.className=(i===ui?'on':'')+(u.exam?' exam':'');
-    b.onclick=()=>{if(ui===i&&mode==='practise')return;if(examOn&&!confirm('Leave the exam? Your marks so far will be lost.'))return;examOn=false;clearInterval(examTick);ui=i;mode==='practise'?openUnit():loadRef();};nv.appendChild(b);});}
-function renderDots(){const d=document.getElementById('dots');d.innerHTML='';
+  list.forEach((u,i)=>{if(mode==='practise'&&!unitOn(i))return;const b=document.createElement('button');
+    b.innerHTML=esc(u.short||u.name);b.className=(i===ui?'on':'')+(u.exam?' exam':'')+(u.special?' special':'');
+    if(mode==='practise'&&!u.special&&!u.exam&&PROF){const m=mastery(u.id);if(m.n){const C=2*Math.PI*5.5;const col=m.mastered?'#d4a017':m.acc>=0.7?'#5d8a63':m.acc>=0.5?'#b2862f':'#b4433a';
+      b.innerHTML=esc(u.short||u.name)+`<svg class="ring" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" stroke="rgba(128,128,128,.35)"/><circle cx="7" cy="7" r="5.5" stroke="${col}" stroke-dasharray="${(C*m.acc).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 7 7)"/></svg>`+(m.mastered?'<span class="mast">✓</span>':'');
+      b.title=Math.round(m.acc*100)+'% over your last '+m.n+(m.mastered?' — mastered':'');}}
+    b.onclick=()=>{if(ui===i&&mode==='practise')return;if(sprintOn)endSprint(true);h2h=null;if(examOn&&!confirm('Leave the exam? Your marks so far will be lost.'))return;examOn=false;clearInterval(examTick);ui=i;mode==='practise'?openUnit():loadRef();};nv.appendChild(b);});
+  const on=nv.querySelector('.on');if(on&&on.scrollIntoView)try{on.scrollIntoView({inline:'nearest',block:'nearest'});}catch(e){}}
+function renderDots(){const d=document.getElementById('dots');d.innerHTML='';if(sprintOn)return;
   SETQ.forEach((q,pos)=>{const s=document.createElement('div');const r=results[UNITS[ui].id+'.'+pos];s.className='d'+(pos===qi?' cur':'')+(r?(' '+r):'');s.title='Q'+(pos+1);s.onclick=()=>{qi=pos;load();};d.appendChild(s);});
-  if(UNITS[ui].exam){const fb=document.createElement('button');fb.className='finishbtn';fb.style.marginLeft='auto';fb.textContent=examOn?'Finish exam':'Back to results';fb.onclick=finishExam;d.appendChild(fb);return;}
-  const nb=document.createElement('button');nb.className='newset';nb.textContent='↻ New set';nb.onclick=()=>{openUnit(true);};d.appendChild(nb);}
-function openUnit(fresh){const u=UNITS[ui];if(u.exam){buildExamPlan();SETQ=examPlan.map(examGen);qi=0;Object.keys(results).forEach(k=>{if(k.startsWith('exam.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith('exam.'))delete scored[k];});delete uStat[ui];delete unitDone[ui];examOn=false;clearInterval(examTick);examStartCard();return;}
-  SETQ=GEN.makeSet(u.id,SETN);qi=0;
+  const right=document.createElement('div');right.className='right';
+  if(UNITS[ui].exam){const fb=document.createElement('button');fb.className='finishbtn';fb.textContent=examOn?'Finish exam':'Back to results';fb.onclick=finishExam;right.appendChild(fb);d.appendChild(right);return;}
+  if(SPRINTABLE(UNITS[ui])&&!h2h){const sb=document.createElement('button');sb.className='sprintbtn';const best=PROF&&PROF.sprint&&PROF.sprint[HK(UNITS[ui].id)];sb.textContent='⚡ 60s Sprint'+(best?' · best '+best:'');sb.onclick=startSprint;right.appendChild(sb);}
+  if(!UNITS[ui].special&&!h2h){const hb=document.createElement('button');hb.className='h2hbtn';hb.textContent='⚔ Head-to-head';hb.onclick=askH2H;right.appendChild(hb);}
+  if(h2h){const hb=document.createElement('button');hb.className='h2hbtn';hb.textContent='End head-to-head';hb.onclick=()=>{h2h=null;openUnit(true);};right.appendChild(hb);}
+  const nb=document.createElement('button');nb.className='newset';nb.textContent='↻ New set';nb.onclick=()=>{h2h=null;openUnit(true);};right.appendChild(nb);d.appendChild(right);}
+// ---- 60-second Sprint ----
+const SPRINTABLE=u=>!u.special&&!u.exam;
+let sprintOn=false,sprintEnd=0,sprintTick=null,sprintCor=0,sprintN=0;
+function clearSetState(){const id=UNITS[ui].id;Object.keys(results).forEach(k=>{if(k.startsWith(id+'.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith(id+'.'))delete scored[k];});delete uStat[ui];delete unitDone[ui];}
+function sprintMore(){const u=UNITS[ui];const qs=GEN.makeSet(u.id,24).filter(q=>q.t==='choice'||q.t==='match');return qs.length>=6?qs:GEN.makeSet(u.id,12);}
+function startSprint(){if(!SPRINTABLE(UNITS[ui]))return;h2h=null;sprintOn=true;sprintCor=0;sprintN=0;sprintEnd=Date.now()+60000;
+  SETQ=sprintMore();SETQ.forId=UNITS[ui].id;qi=0;clearSetState();load();
+  clearInterval(sprintTick);sprintTick=setInterval(()=>{const left=Math.max(0,Math.ceil((sprintEnd-Date.now())/1000));const c=document.getElementById('sprintclock');if(c)c.textContent=left+'s';if(left<=0)endSprint(false);},250);}
+function endSprint(abort){if(!sprintOn)return;sprintOn=false;clearInterval(sprintTick);if(window.AUDIO)AUDIO.stop();
+  const u=UNITS[ui];const best=(PROF&&PROF.sprint[HK(u.id)])||0;const isBest=sprintCor>best;if(PROF&&!abort){if(isBest)PROF.sprint[HK(u.id)]=sprintCor;if(sprintCor>=15)grant('sprint15');saveProfiles();}
+  SETQ=GEN.makeSet(u.id,SETN);SETQ.forId=u.id;qi=0;clearSetState();
+  if(abort){load();return;}
+  const c=document.getElementById('card');document.getElementById('dots').innerHTML='';renderTabs();
+  c.innerHTML=`<div class="qnum">${esc(u.name)} · Sprint over</div><p class="prompt">${sprintCor} correct in 60 seconds</p><p class="sub">${sprintN} answered · ${sprintN?Math.round(sprintCor/sprintN*100):0}% accuracy${isBest&&sprintCor?' · <b>new best!</b>':best?' · best '+best:''}</p>
+    <div class="controls"><button class="btn-check" id="sprintagain">⚡ Again</button><button class="btn-ghost" id="sprintdone">Back to practice</button></div>`;
+  if(isBest&&sprintCor)burst('win',innerWidth/2,innerHeight/2,true);
+  document.getElementById('sprintagain').onclick=startSprint;document.getElementById('sprintdone').onclick=()=>load();}
+// ---- head-to-head: two players, one device, first to 5 ----
+let h2h=null;
+function askH2H(){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<p class="prompt">Head-to-head</p><p class="sub">Two players take turns on this device in <b>${esc(UNITS[ui].name)}</b>. First to 5 correct wins. Scores don't count towards your saved profile.</p>
+  <div class="setgrp"><div class="setlabel">Player 1</div><input id="h2ha" maxlength="20" value="${esc(currentName||'')}" placeholder="Name" style="padding:9px 12px;border:1px solid var(--rule);border-radius:6px;font-family:var(--sans);font-size:14px;width:100%"></div>
+  <div class="setgrp"><div class="setlabel">Player 2</div><input id="h2hb" maxlength="20" placeholder="Name" style="padding:9px 12px;border:1px solid var(--rule);border-radius:6px;font-family:var(--sans);font-size:14px;width:100%"></div>
+  <div class="controls"><button class="btn-check" id="h2hgo">Start</button><button class="btn-ghost" id="h2hno">Cancel</button></div>`;
+  g.classList.add('open');document.getElementById('gback').classList.add('open');
+  document.getElementById('h2hno').onclick=closeGuide;
+  document.getElementById('h2hgo').onclick=()=>{const a=document.getElementById('h2ha').value.trim()||'Player 1',b=document.getElementById('h2hb').value.trim()||'Player 2';h2h={names:[a,b],score:[0,0],turn:0,unit:ui};closeGuide();SETQ=GEN.makeSet(UNITS[ui].id,40);SETQ.forId=UNITS[ui].id;qi=0;clearSetState();load();};}
+function h2hBar(){if(!h2h)return '';return `<div class="h2hbar">${h2h.names.map((n,i)=>`<span class="pl ${h2h.turn===i?'turn':''}">${esc(n)} <span class="sc">${h2h.score[i]}</span></span>`).join('<span style="color:var(--muted)">vs</span>')}<span style="color:var(--muted);font-size:12px">· first to 5</span></div>`;}
+function h2hCheck(){if(!h2h)return;const w=h2h.score.findIndex(s=>s>=5);if(w<0){const bar=document.querySelector('.h2hbar');if(bar)bar.outerHTML=h2hBar();return;}const name=h2h.names[w];const g=document.getElementById('guide');
+  document.getElementById('guidebody').innerHTML=`<div style="font-size:54px;text-align:center">🏆</div><p class="prompt" style="text-align:center">${esc(name)} wins!</p><p class="sub" style="text-align:center">${h2h.score[0]} – ${h2h.score[1]}</p><div class="controls"><button class="btn-check" id="h2hre">Rematch</button><button class="btn-ghost" id="h2hend">Done</button></div>`;
+  g.classList.add('open');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);
+  document.getElementById('h2hre').onclick=()=>{h2h.score=[0,0];h2h.turn=0;closeGuide();SETQ=GEN.makeSet(UNITS[ui].id,40);SETQ.forId=UNITS[ui].id;qi=0;clearSetState();load();};
+  document.getElementById('h2hend').onclick=()=>{h2h=null;closeGuide();openUnit(true);};}
+function openUnit(fresh){if(sprintOn)endSprint(true);const u=UNITS[ui];if(u.exam){buildExamPlan();SETQ=examPlan.map(examGen);qi=0;Object.keys(results).forEach(k=>{if(k.startsWith('exam.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith('exam.'))delete scored[k];});delete uStat[ui];delete unitDone[ui];examOn=false;clearInterval(examTick);examStartCard();return;}
+  SETQ=u.special?u.make():GEN.makeSet(u.id,SETN);SETQ.forId=u.id;qi=0;if(!SETQ.length){SETQ=GEN.makeSet(REAL()[0].id,SETN);SETQ.forId=u.id;}
   Object.keys(results).forEach(k=>{if(k.startsWith(u.id+'.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith(u.id+'.'))delete scored[k];});
   delete uStat[ui];delete unitDone[ui];load();}
 function feedback(msg,cls,why){const f=document.getElementById('fb');if(!f)return;f.innerHTML=msg+(why?`<div class="why">${why}</div>`:'');f.className='feedback '+(cls||'');}
@@ -471,15 +630,26 @@ function feedback(msg,cls,why){const f=document.getElementById('fb');if(!f)retur
 function loadRef(){document.documentElement.style.setProperty('--accent',RCOL);renderTabs();const c=document.getElementById('card');c.innerHTML=REFS[ui].render();if(REFS[ui].wire)REFS[ui].wire();c.scrollTop=0;}
 // ---------- record ----------
 function renderRecord(){document.documentElement.style.setProperty('--accent','#b2862f');const c=document.getElementById('card');const me=currentName||'(no name)';const b=BEST[me]||{};
-  const grid=UNITS.map((u,i)=>{if(!unitOn(i))return '';const us=uStat[i];const pct=us&&us.ans?Math.round(us.cor/SETQ.length*100):null;
+  const grid=UNITS.map((u,i)=>{if(!unitOn(i)||u.special||u.exam)return '';const us=uStat[i];const pct=us&&us.ans?Math.round(us.cor/SETQ.length*100):null;
     return `<div class="secrow"><span class="secname">${esc(u.name)}</span><span class="secprog">${us?us.ans:0}/${SETQ.length||SETN}</span><span class="secpct">${pct===null?'—':pct+'%'}</span><span class="secbest">${b[u.id]!==undefined?b[u.id]+'%':'—'}</span></div>`;}).join('');
   const rows=LOG.slice().sort((a,b)=>b.at-a.at).map(e=>`<tr><td class="logav">${e.av?avatarSVG(e.av,22):''}${esc(e.name)}</td><td>${esc(e.section)}</td><td>Y${e.level||''}</td><td><b>${e.pct}%</b></td><td>${new Date(e.at).toLocaleString('en-AU',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td></tr>`).join('');
+  if(!PROF)loadProfile();const r=rankOf(PROF.xp);const mrows=REAL().map(u=>({u,m:mastery(u.id)})).filter(x=>x.m.n).sort((a,b)=>b.m.acc-a.m.acc);
+  const prof=`<div class="profgrid"><div class="profcell"><div class="l">Rank</div><div class="v">${r.name}</div><div style="font-size:11.5px;color:#4d463c">${r.next?(r.next[0]-PROF.xp)+' XP to '+r.next[1]:'top rank'}</div></div>
+    <div class="profcell"><div class="l">XP</div><div class="v">${PROF.xp}</div></div><div class="profcell"><div class="l">All-time</div><div class="v">${PROF.correct}/${PROF.total}</div></div>
+    <div class="profcell"><div class="l">Best streak</div><div class="v">${PROF.bestStreak||0}</div></div><div class="profcell"><div class="l">Days in a row</div><div class="v">${dayStreak()}</div><div style="font-size:11.5px;color:#4d463c">${PROF.days.length} day${PROF.days.length===1?'':'s'} total</div></div>
+    <div class="profcell"><div class="l">Units mastered</div><div class="v">${REAL().filter(u=>mastery(u.id).mastered).length}</div></div></div>
+    <div class="refhd">Mastery (last 20 answers)</div><div class="masterbars">${mrows.length?mrows.map(x=>`<div class="mrow2"><span class="nm">${esc(x.u.name)}${x.m.mastered?' <span class="mast" style="color:var(--brass)">✓</span>':''}</span><span class="bar"><i class="${x.m.acc>=0.8?'':x.m.acc>=0.5?'mid':'low'}" style="width:${Math.round(x.m.acc*100)}%"></i></span><span class="pc">${Math.round(x.m.acc*100)}%</span></div>`).join(''):'<span style="color:#8a8277;font-size:13px">Answer some questions and your strengths and weak spots appear here.</span>'}</div>
+    ${mrows.length>=3?`<div class="controls"><button class="btn-check" id="goweak">Practise my weak spots</button><button class="btn-ghost" id="gotoday">Today's Blitz</button></div>`:''}
+    <div class="refhd">Achievements</div><div class="achgrid">${ACH.map(a=>`<div class="ach ${PROF.ach[a.id]?'':'locked'}"><span class="ic">${a.ic}</span><div><div class="t">${a.t}</div><div class="d">${a.d}${a.unlock?' · unlocks '+a.unlock:''}</div></div></div>`).join('')}</div>
+    ${(PROF.exams||[]).length?`<div class="refhd">Exam practice</div><p class="sub">${PROF.exams.slice(-6).map(e=>'Y'+e.year+(e.theory?' theory':' aural')+' · <b>'+e.tot+'/'+e.max+'</b> ('+new Date(e.at).toLocaleDateString('en-AU',{day:'2-digit',month:'short'})+')').join(' · ')}</p>`:''}
+    ${REAL().some(u=>PROF.sprint[HK(u.id)])?`<div class="refhd">Sprint bests</div><p class="sub">${REAL().filter(u=>PROF.sprint[HK(u.id)]).map(u=>esc(u.name)+' <b>'+PROF.sprint[HK(u.id)]+'</b>').join(' · ')}</p>`:''}`;
   c.innerHTML=`<p class="prompt">Progress record</p>
-    <p class="sub"><span class="logav">${avatarSVG(avatar,22)}</span>Student: <b>${esc(currentName||'(type your name above)')}</b>. Finish every question in a set to log it. "Best" is your best score for that unit on this device.</p>
+    <p class="sub"><span class="logav">${avatarSVG(avatar,22)}</span>Student: <b>${esc(currentName||'(type your name above)')}</b>. Your rank, XP and mastery are saved under your name on this device and are shared with Aural Blitz.</p>${prof}<div class="refhd">This session</div>
     <div class="secgrid"><div class="secrow sechead"><span class="secname">Unit</span><span class="secprog">This set</span><span class="secpct">Score</span><span class="secbest">Best</span></div>${grid}</div>
     <div class="refhd">Class log</div>
     <div class="reftable"><table><tr><th>Name</th><th>Unit</th><th>Year</th><th>%</th><th>Finished</th></tr>${rows||'<tr><td colspan="5" style="color:#8a8277">No finished sets yet.</td></tr>'}</table></div>
     <div class="controls"><button class="btn-ghost" id="csvlog">Export CSV</button><button class="btn-ghost" id="printlog">Print</button><button class="btn-ans" id="clearlog">Clear class log</button></div>`;
+  const gw=document.getElementById('goweak');if(gw)gw.onclick=()=>{setMode('practise');ui=1;openUnit();};const gt=document.getElementById('gotoday');if(gt)gt.onclick=()=>{setMode('practise');ui=0;openUnit();};
   document.getElementById('printlog').onclick=()=>window.print();
   document.getElementById('csvlog').onclick=()=>{const csv='Name,Unit,Year,Percent,Finished\n'+LOG.map(e=>[e.name,e.section,'Year '+(e.level||''),e.pct,new Date(e.at).toLocaleString('en-AU')].map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\n');
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='theory-blitz-log.csv';a.click();};
@@ -504,40 +674,43 @@ function load(){const q=curQ();if(!q)return;
     <iframe class="embedframe" id="embedframe" ${src?`src="${src}"`:''} allow="autoplay"></iframe><div class="pfoot">End of Part A</div><div class="nav"><button id="prev" disabled>‹ Prev</button><span class="pos">${qi+1} / ${SETQ.length}</span><button id="next">Part B ›</button></div>`;
     if(!src){const f=document.getElementById('embedframe');f.srcdoc=EMBED_DOC.partA.replace('<head>','<head><script>window.__EMBED="partA";window.__EMBED_YEAR='+LEVEL()+';<\/script>');}
     document.getElementById('next').onclick=goNext;c.scrollTop=0;return;}
-  document.documentElement.style.setProperty('--accent',UCOL[ui]);
+  document.documentElement.style.setProperty('--accent',UCOL[ui%UCOL.length]);
   accMode='';eraseMode=false;selected=null;nchecked=q._checked||false;answered=false;ksBuilt=q._ks||0;renderTabs();renderDots();
   const c=document.getElementById('card');
-  const head=`<div class="qnum">${UNITS[ui].exam?'Exam practice · Section One · Part B':esc(UNITS[ui].name)+' · Q'+(qi+1)+' of '+SETQ.length} · Year ${LEVEL()}</div>${UNITS[ui].exam?examBar(q):''}<p class="prompt">${q.prompt}</p>${q.sub?`<p class="sub">${q.sub}</p>`:''}<button class="howbtn" id="howbtn">💡 How do I work this out?</button>`;
+  const FU=fromUnit(q);const bar=UNITS[ui].exam?examBar(q):sprintOn?`<div class="sprintbar"><span><span class="sp">Sprint</span> ${esc(FU.name)}</span><span class="clock" id="sprintclock">60s</span><span id="sprintscore">${sprintCor} ✓</span></div>`:h2h?h2hBar():'';
+  const head=`<div class="qnum">${UNITS[ui].exam?'Exam practice · Section One · Part B':esc(UNITS[ui].name)+(UNITS[ui].special?' · '+esc(FU.name):'')+' · '+(sprintOn?'Question '+(sprintN+1):h2h?esc(h2h.names[h2h.turn])+"'s turn":'Q'+(qi+1)+' of '+SETQ.length)} · Year ${LEVEL()}</div>${bar}<p class="prompt">${q.prompt}</p>${q.sub?`<p class="sub">${q.sub}</p>`:''}${sprintOn?'':`<button class="howbtn" id="howbtn">💡 How do I work this out?</button><button class="howbtn" id="gearbtn">⚙ Customise</button>`}${q.show&&q.show.spec&&!UNITS[ui].exam?`<button class="hearbtn" id="hearshown">🔊 Hear it</button>`:''}`;
   const showHtml=(q.show?`<div class="showbox${q.show.spec&&q.show.spec.time?' tall':''}">${q.show.svg||E.render(q.show.spec).svg}</div>`:'')+(q.legend||'');
   let body='';
   if(q.t==='notate'){q.items.forEach(it=>{if(it.k==='slot'){if(it.given){it.p=it.p||[];}else if(!it._p)it._p=[];}});
     const needsKs=!!q.keysigEdit;
-    body=showHtml+`<div class="toolbar"><span class="lab">Accidental</span><div class="acc" id="acc"><button data-acc="" title="No accidental">○</button><button data-acc="s">♯</button><button data-acc="f">♭</button><button data-acc="n">♮</button>${GEN.getSet().dbl?'<button data-acc="x">𝄪</button><button data-acc="ff">𝄫</button>':''}<button class="erase" data-acc="erase" title="Remove a note">⌫ erase</button></div>
+    body=showHtml+`<div class="toolbar"><span class="lab">${q.ksPlace?'Place':'Accidental'}</span><div class="acc" id="acc">${q.ksPlace?'':'<button data-acc="" title="No accidental">○</button>'}<button data-acc="s">♯</button><button data-acc="f">♭</button>${q.ksPlace?'':'<button data-acc="n">♮</button>'}${GEN.getSet().dbl&&!q.ksPlace?'<button data-acc="x">𝄪</button><button data-acc="ff">𝄫</button>':''}<button class="erase" data-acc="erase" title="${q.ksPlace?'Remove an accidental':'Remove a note'}">⌫ erase</button></div>
       ${needsKs?`<span class="lab">Key signature</span><div class="ksb"><button id="ksflat">♭</button><span class="ksv" id="ksv"></span><button id="kssharp">♯</button></div>`:''}</div>
       <div class="staveWrap" id="sw"></div>${q.solfa&&!UNITS[ui].exam?'<div class="solfarow" id="solfarow"></div>':''}
-      <p class="hint">${q.solfa&&!UNITS[ui].exam?'Then name each degree in sol-fa in the boxes. ':''}${q.items.some(i=>i.chord)?'Pick an accidental, then tap in a column to add a note. Tap a note to select it (change its accidental, or drag it); ⌫ erase then tap a note to remove it. Keys: # b n 0, Backspace.':'Pick an accidental, then tap a line or space to place each note. Tap a placed note to select it (change its accidental, or drag it). Keys: # b n 0, Backspace.'}</p>
+      <p class="hint">${q.solfa&&!UNITS[ui].exam?'Then name each degree in sol-fa in the boxes. ':''}${q.ksPlace?'Tap ♯ or ♭, then tap the stave where the next accidental goes: it is added at the next position, on the line or space you tap. ⌫ erase then tap an accidental to remove it. Keys: # b, Backspace removes the last.':q.items.some(i=>i.chord)?'Pick an accidental, then tap in a column to add a note. Tap a note to select it (change its accidental, or drag it); ⌫ erase then tap a note to remove it. Keys: # b n 0, Backspace.':'Pick an accidental, then tap a line or space to place each note. Tap a placed note to select it (change its accidental, or drag it). Keys: # b n 0, Backspace.'}</p>
       <div class="names" id="names"></div>
-      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
+      <div class="controls"><button class="btn-check" id="check">Check</button>${UNITS[ui].exam||q.ksPlace?'':'<button class="btn-ghost" id="hearme">🎧 Play my answer</button><button class="btn-ghost" id="hearans" title="Available after Check or Show answer">🔊 Hear the answer</button>'}<button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.t==='choice'){const svgo=q.opts.some(o=>o.svg);if(!q._order)q._order=T.shuffle(q.opts);
     body=showHtml+`<div class="opts${svgo?' svgopts':''}" id="opts">`+q._order.map((o,i)=>`<button data-o="${esc(o.v)}"><span class="k">${i+1}</span>${o.svg?o.svg:'<span>'+esc(o.v)+'</span>'}</button>`).join('')+`</div><div class="controls"><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.t==='match'){if(!q._shuf)q._shuf=T.shuffle(q.pairs.map(p=>p[1]));
     body=`<div class="match" id="match">`+q.pairs.map((p,r)=>`<div class="mrow" data-r="${r}"><div class="term">${esc(p[0])}</div><select><option value="">— choose —</option>`+q._shuf.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('')+`</select></div>`).join('')+`</div><div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ans" id="answer">Show answer</button></div>`;}
-  c.innerHTML=head+body+`<div class="feedback" id="fb"></div>${UNITS[ui].exam?`<div class="pfoot">${qi>=SETQ.length-1?'End of questions':'See next page'}</div>`:''}<div class="nav"><button id="prev">‹ Prev</button><span class="pos">${qi+1} / ${SETQ.length}</span><button id="next">${UNITS[ui].exam&&qi>=SETQ.length-1?'Finish ›':'Next ›'}</button></div>`;
+  c.innerHTML=head+body+`<div class="feedback" id="fb"></div>${UNITS[ui].exam?`<div class="pfoot">${qi>=SETQ.length-1?'End of questions':'See next page'}</div>`:''}<div class="nav"${sprintOn?' style="visibility:hidden"':''}><button id="prev">‹ Prev</button><span class="pos">${sprintOn?'':(qi+1)+' / '+SETQ.length}</span><button id="next">${UNITS[ui].exam&&qi>=SETQ.length-1?'Finish ›':'Next ›'}</button></div>`;
   c.scrollTop=0;
   wire(q);if(q.t==='notate'){drawStave();if(q.solfa&&!UNITS[ui].exam){sfInit(q,q.solfa,[...new Set(q.solfa)],1);sfRender(q);}}
   const r=results[qid()];if(r&&q.t==='choice'){answered=true;document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b.dataset.o===q._picked&&q._picked!==q.answer)b.classList.add('no');});feedback(r==='ok'?'Correct.':'Answered.',r,q.why);}
   if(r&&q.t==='match'){document.querySelectorAll('#match .mrow').forEach((row,i)=>{row.querySelector('select').value=q.pairs[i][1];row.className='mrow ok';});feedback(r==='ok'?'Correct.':'Answered.',r,q.why);}}
 function goPrev(){if(mode!=='practise')return;if(qi>0){qi--;load();}}
-function goNext(){if(mode!=='practise')return;if(UNITS[ui].exam&&qi>=SETQ.length-1){finishExam();return;}if(qi<SETQ.length-1){qi++;load();}else{let j=ui+1;while(j<UNITS.length&&!unitOn(j))j++;if(j<UNITS.length){ui=j;openUnit();}}}
+function goNext(){if(mode!=='practise'||sprintOn)return;if(UNITS[ui].exam&&qi>=SETQ.length-1){finishExam();return;}if(qi<SETQ.length-1){qi++;load();}else{let j=ui+1;while(j<UNITS.length&&!unitOn(j))j++;if(j<UNITS.length){ui=j;openUnit();}}}
 function wire(q){document.getElementById('prev').onclick=goPrev;document.getElementById('next').onclick=goNext;
   document.getElementById('prev').disabled=(qi===0);const lastUnit=!UNITS.some((u,j)=>j>ui&&unitOn(j));document.getElementById('next').disabled=(lastUnit&&qi===SETQ.length-1);
-  document.getElementById('howbtn').onclick=openGuide;
+  const hb=document.getElementById('howbtn');if(hb)hb.onclick=openGuide;const gb=document.getElementById('gearbtn');if(gb)gb.onclick=()=>openSettings(fromUnit(q));
+  const hs=document.getElementById('hearshown');if(hs)hs.onclick=()=>hearShown(q,hs);
+  const hm=document.getElementById('hearme');if(hm)hm.onclick=()=>hearMine(q,hm);const ha=document.getElementById('hearans');if(ha){ha.disabled=!(nchecked||q._reveal);ha.onclick=()=>hearAnswer(q,ha);}
   if(q.t==='notate'){document.querySelectorAll('#acc button').forEach(b=>{b.onclick=()=>{const a=b.dataset.acc;
       if(a==='erase'){eraseMode=!eraseMode;accMode='';syncAcc();return;}eraseMode=false;accMode=a;
       if(selected){const s=slotItem(q,selected.i);const sorted=s._p.slice().sort((a,b)=>T.dia(a)-T.dia(b));const p=sorted[selected.n];if(p){applyAcc(p,a);nchecked=false;feedback('','');drawStave();}}syncAcc();};});
     syncAcc();
     if(q.keysigEdit){document.getElementById('kssharp').onclick=()=>{ksBuilt=Math.min(7,ksBuilt+1);nchecked=false;feedback('','');drawStave();};document.getElementById('ksflat').onclick=()=>{ksBuilt=Math.max(-7,ksBuilt-1);nchecked=false;feedback('','');drawStave();};}
-    document.getElementById('check').onclick=checkNotate;document.getElementById('clear').onclick=()=>{q.items.forEach(it=>{if(it.k==='slot'&&!it.given){it._p=[];}});q._reveal=false;if(q.solfa&&!UNITS[ui].exam){sfReset(q);sfInit(q,q.solfa,[...new Set(q.solfa)],1);sfRender(q);}ksBuilt=q.keysigEdit?0:ksBuilt;nchecked=false;selected=null;feedback('','');drawStave();};
+    document.getElementById('check').onclick=checkNotate;document.getElementById('clear').onclick=()=>{q.items.forEach(it=>{if(it.k==='slot'&&!it.given){it._p=[];}});q._reveal=false;q._ksp=[];if(q.solfa&&!UNITS[ui].exam){sfReset(q);sfInit(q,q.solfa,[...new Set(q.solfa)],1);sfRender(q);}ksBuilt=q.keysigEdit?0:ksBuilt;nchecked=false;selected=null;feedback('','');drawStave();const ha=document.getElementById('hearans');if(ha)ha.disabled=true;};
     document.getElementById('answer').onclick=answerNotate;}
   else if(q.t==='choice'){document.querySelectorAll('#opts button').forEach(b=>b.onclick=()=>pickChoice(b,q));document.getElementById('answer').onclick=()=>answerChoice(q);}
   else if(q.t==='match'){document.getElementById('check').onclick=()=>checkMatch(q);document.getElementById('answer').onclick=()=>answerMatch(q);}}
@@ -548,7 +721,8 @@ let STV=null;
 const slotItem=(q,i)=>q.items.find(it=>it.k==='slot'&&it.slot===i);
 function curSig(q){return q.keysigEdit?ksBuilt:(q.sig||0);}
 function drawStave(){const q=curQ();const sig=curSig(q);
-  const items=q.items.map((it,idx)=>{if(it.k!=='slot')return Object.assign({},it);
+  const items=q.items.map((it,idx)=>{if(it.k==='ksig'){const t=ksTarget(q);const accs=q._reveal?t.map(a=>Object.assign({},a,{col:'var(--ox)'})):(q._ksp||[]).map((a,i)=>Object.assign({},a,{col:nchecked?(t[i]&&t[i].d===a.d&&t[i].a===a.a?'var(--green)':'var(--red)'):undefined}));return Object.assign({},it,{accs});}
+    if(it.k!=='slot')return Object.assign({},it);
     const s=Object.assign({},it);
     if(it.given){s.p=it.p;s.col='#9a9284';s.explicit=false;}
     else if(q._reveal){s.p=it.target;s.col='var(--ox)';s.explicit=false;s.reveal=true;}
@@ -562,11 +736,21 @@ function drawStave(){const q=curQ();const sig=curSig(q);
   svg.addEventListener('pointerdown',onDown);
   if(q.keysigEdit){const v=document.getElementById('ksv');if(v)v.textContent=T.sigWord(sig);}
   const nm=document.getElementById('names');
+  if(q.ksPlace){if(nchecked||q._reveal){nm.style.display='block';nm.textContent=T.sigWord(q.sigTarget)+(q.sigTarget?': '+T.sigList(q.sigTarget):'');}else nm.style.display='none';return;}
   if(nchecked||q._reveal){nm.style.display='block';nm.innerHTML=esc(q.items.filter(i=>i.k==='slot'&&!i.given).map(i=>i.target.map(p=>T.name(p)).join('·')).join('  '))+(q.solfa?'<br><span style="font-weight:500;color:#5a5347">sol-fa: '+q.solfa.join(' ')+'</span>':'');}else nm.style.display='none';}
 function svgPoint(ev,svg){try{const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const m=svg.getScreenCTM();if(m){const q=pt.matrixTransform(m.inverse());return {x:q.x,y:q.y};}}catch(e){}const r=svg.getBoundingClientRect();return {x:(ev.clientX-r.left)/r.width*STV.W,y:(ev.clientY-r.top)/r.height*STV.H};}
 function pitchAtY(y,clef){const d=E.diaAt(clef,y);const top=E.CLEF[clef].topDia;return Math.max(top-8-7,Math.min(top+7,d));}
 let drag=null;
+const keyName0=q=>(q.prompt.match(/of (.+)\.$/)||[,'This key'])[1];
+function ksTarget(q){const n=Math.abs(q.sigTarget||0),sg=q.sigTarget>0?1:-1;return E.KS[q.clef][sg>0?'s':'f'].slice(0,n).map(sp=>({d:T.dia(T.parse(sp)),a:sg}));}
 function onDown(ev){const q=curQ();if(q._reveal)return;const svg=document.getElementById('stave');
+  if(q.ksPlace){q._ksp=q._ksp||[];const g=ev.target.closest('.ksg');const kh=ev.target.closest('.kshit');
+    if(g){const k=+g.dataset.k;if(eraseMode){q._ksp.splice(k,1);}else{const pt=svgPoint(ev,svg);q._ksp[k].d=pitchAtY(pt.y,q.clef);if(accMode==='s'||accMode==='f')q._ksp[k].a=accMode==='s'?1:-1;}nchecked=false;feedback('','');drawStave();ev.preventDefault();return;}
+    if(!kh||eraseMode)return;if(accMode!=='s'&&accMode!=='f'){toast('Pick ♯ or ♭ first');return;}
+    if(q._ksp.length>=7){toast('A key signature has at most seven accidentals.');return;}
+    const pt=svgPoint(ev,svg);const d=pitchAtY(pt.y,q.clef);const pos=+kh.dataset.pos;const a={d,a:accMode==='s'?1:-1};
+    if(pos<q._ksp.length)q._ksp[pos]=a;else q._ksp.push(a);
+    nchecked=false;feedback('','');drawStave();ev.preventDefault();return;}
   const nh=ev.target.closest('.nh');const hit=ev.target.closest('.hit');
   if(nh&&!eraseMode){const s0=slotItem(q,+nh.dataset.i);if(s0&&!s0.given&&s0.chord){const pt0=svgPoint(ev,svg);const d0=pitchAtY(pt0.y,q.clef);
       if(d0!==+nh.dataset.d&&!s0._p.some(p=>T.dia(p)===d0)&&s0._p.length<(s0.max||4)){const p={l:T.LETTERS[((d0%7)+7)%7],a:0,o:Math.floor(d0/7)};applyAcc(p,accMode);s0._p.push(p);drag={i:s0.slot,p};selected=null;nchecked=false;feedback('','');drawStave();ev.preventDefault();return;}}}
@@ -593,46 +777,53 @@ function checkNotate(){const q=curQ();const sig=curSig(q);let allOk=true,right=0
   q.items.forEach(it=>{if(it.k!=='slot'||it.given)return;need++;const got=it._p.map(p=>sounding(p,sig));
     const targets=[it.target].concat(it.alt||[]);let ok=false;
     for(const tg of targets){if(got.length!==tg.length)continue;
-      if(it.bassCheck){ // the lowest note must be the target's bass note (name); the rest by name in any octave
+      if(it.bassCheck||(it.chord&&q.anyOctaveChord)){ // the lowest note must be the target's bass note (name); the rest by name in any octave — so the inversion is checked but the octave is free
         const gs=got.slice().sort((a,b)=>T.dia(a)-T.dia(b));const ts=tg.slice().sort((a,b)=>T.dia(a)-T.dia(b));
         if(!matchPitch(gs[0],ts[0],true))continue;const used=[];let good=true;
         for(const t of ts){const j=gs.findIndex((g,k)=>!used.includes(k)&&matchPitch(g,t,true));if(j<0){good=false;break;}used.push(j);}
         if(good){ok=true;break;}continue;}
-      const used=[];let good=true;
-      for(const t of tg){const j=got.findIndex((g,k)=>!used.includes(k)&&matchPitch(g,t,it.anyOctave||(it.chord&&q.anyOctaveChord)));if(j<0){good=false;break;}used.push(j);}
-      if(good){ok=true;break;}}
+      // a chord may sit in any octave as long as its voicing is kept: try the target shifted by whole octaves
+      const shifts=(it.chord&&!it.anyOctave)?[0,-1,1,-2,2]:[0];
+      for(const sh of shifts){const tg2=sh?tg.map(p=>T.P(p.l,p.a,p.o+sh)):tg;const used=[];let good=true;
+        for(const t of tg2){const j=got.findIndex((g,k)=>!used.includes(k)&&matchPitch(g,t,it.anyOctave||(it.chord&&q.anyOctaveChord)));if(j<0){good=false;break;}used.push(j);}
+        if(good){ok=true;break;}}
+      if(ok)break;}
     it._ok=ok;if(ok)right++;else allOk=false;if(!got.length)empty++;});
   let sigOk=true;if(q.keysigEdit&&q.sigTarget!==undefined){sigOk=(ksBuilt===q.sigTarget);if(!sigOk)allOk=false;}
+  let ksMsg='';if(q.ksPlace){const t=ksTarget(q),pl=q._ksp||[];const match=t.filter((a,i)=>pl[i]&&pl[i].d===a.d&&pl[i].a===a.a).length;sigOk=(match===t.length&&pl.length===t.length);if(!sigOk)allOk=false;
+    need=Math.max(1,t.length);right=sigOk?need:Math.min(match,need-(pl.length>t.length?1:0));
+    if(!sigOk){ksMsg=t.length?' '+T.sigWord(q.sigTarget)+': '+T.sigList(q.sigTarget)+'.'+(pl.length>t.length?' Too many accidentals.':pl.length<t.length?' Only '+pl.length+' of '+t.length+' placed.':' Check the order and the lines/spaces.'):' '+keyName0(q)+' has no sharps or flats — the signature should be empty.';}}
   q._frac=(need+(q.keysigEdit?1:0))?((right+(q.keysigEdit&&sigOk?1:0))/(need+(q.keysigEdit?1:0))):(allOk?1:0);
-  nchecked=true;q._checked=true;drawStave();scoreOnce(allOk);celebrate(allOk,document.getElementById('sw'));
-  if(allOk){feedback(pick(WINMSG)+(need?' All '+need+' right.':' Key signature correct.'),'ok',q.why);results[qid()]='ok';}
-  else{let m=pick(MISSMSG)+(need?' '+right+' / '+need+' correct.':'');if(empty)m+=' '+empty+' empty.';if(!sigOk)m+=' Key signature should be '+T.sigWord(q.sigTarget)+'.';
+  nchecked=true;q._checked=true;drawStave();scoreOnce(allOk);celebrate(allOk,document.getElementById('sw'));{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}
+  if(allOk){feedback(pick(WINMSG)+(q.ksPlace?' Key signature correct.':need?' All '+need+' right.':' Key signature correct.')+bonusTag(),'ok',q.why);results[qid()]='ok';}
+  else{let m=pick(MISSMSG)+(need?' '+right+' / '+need+' correct.':'');if(empty)m+=' '+empty+' empty.';if(!sigOk&&q.keysigEdit)m+=' Key signature should be '+T.sigWord(q.sigTarget)+'.';
+    if(ksMsg)m+=ksMsg;
     const wrong=q.items.filter(i=>i.k==='slot'&&!i.given&&!i._ok);const nm=(i,p)=>(i.anyOctave||i.bassCheck||(i.chord&&q.anyOctaveChord))?T.name(p):T.spn(p);if(wrong.length)m+=' Wrong: '+wrong.slice(0,3).map(i=>'slot '+(i.slot+1)+' ('+(i._p.length?i._p.map(p=>nm(i,sounding(p,sig))).join(' '):'empty')+' → '+i.target.map(p=>nm(i,p)).join(' ')+')').join(', ')+'.';
     feedback(m,'no',q.why);results[qid()]='no';}
   sfCheck(q);renderDots();}
-function answerNotate(){const q=curQ();if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._reveal=true;if(q.keysigEdit&&q.sigTarget!==undefined)ksBuilt=q.sigTarget;nchecked=false;selected=null;drawStave();feedback('Answer shown. Clear to try it yourself.','',q.why);sfReveal(q);}
+function answerNotate(){const q=curQ();if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._reveal=true;if(q.keysigEdit&&q.sigTarget!==undefined)ksBuilt=q.sigTarget;if(q.ksPlace)q._ksp=ksTarget(q);nchecked=false;selected=null;drawStave();feedback('Answer shown. Clear to try it yourself.','',q.why);sfReveal(q);{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}}
 // ---------- choice / match ----------
 function pickChoice(btn,q){if(answered)return;answered=true;const ok=btn.dataset.o===(''+q.answer);q._picked=btn.dataset.o;q._frac=ok?1:0;
   document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b===btn&&!ok)b.classList.add('no');});
-  scoreOnce(ok);celebrate(ok,btn);if(ok){feedback(pick(WINMSG),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG),'no',q.why);results[qid()]='no';}renderDots();}
+  scoreOnce(ok);celebrate(ok,btn);if(ok){feedback(pick(WINMSG)+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG),'no',q.why);results[qid()]='no';}renderDots();}
 function answerChoice(q){if(!answered)scoreOnce(false);answered=true;document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');});feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 function checkMatch(q){const rows=document.querySelectorAll('#match .mrow');let right=0;rows.forEach((row,r)=>{const sel=row.querySelector('select'),want=q.pairs[r][1],ok=sel.value===want;row.className='mrow '+(sel.value?(ok?'ok':'no'):'no');if(ok)right++;});
-  const ok=(right===q.pairs.length);q._frac=right/q.pairs.length;scoreOnce(ok);celebrate(ok,document.getElementById('match'));if(ok){feedback(pick(WINMSG)+' All matched.','ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' / '+q.pairs.length+' matched.','no',q.why);results[qid()]='no';}renderDots();}
+  const ok=(right===q.pairs.length);q._frac=right/q.pairs.length;scoreOnce(ok);celebrate(ok,document.getElementById('match'));if(ok){feedback(pick(WINMSG)+' All matched.'+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' / '+q.pairs.length+' matched.','no',q.why);results[qid()]='no';}renderDots();}
 function answerMatch(q){if(!(qid() in scored))scoreOnce(false);document.querySelectorAll('#match .mrow').forEach((row,r)=>{row.querySelector('select').value=q.pairs[r][1];row.className='mrow ok';});feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 // ---------- keyboard ----------
 addEventListener('keydown',e=>{if(mode!=='practise'||e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;if(document.querySelector('.guide.open'))return;const q=curQ();if(!q)return;if(UNITS[ui].exam&&(!examOn&&!document.getElementById('fb')||q.t==='embed'))return;
   if(e.key==='ArrowRight'){goNext();e.preventDefault();return;}if(e.key==='ArrowLeft'){goPrev();e.preventDefault();return;}
   if(q.t==='choice'&&/^[1-9]$/.test(e.key)){const b=document.querySelectorAll('#opts button')[+e.key-1];if(b&&!b.disabled)b.click();}
   if(e.key==='Enter'&&q.t!=='choice'){const ch=document.getElementById('check');if(ch){ch.click();e.preventDefault();}}
-  if(q.t==='notate'){const map={'#':'s','s':'s','b':'f','f':'f','n':'n','0':''};if(e.key in map){const b=document.querySelector(`#acc button[data-acc="${map[e.key]}"]`);if(b)b.click();}if(e.key==='Backspace'||e.key==='Delete'){if(selected){const s=slotItem(q,selected.i);const sorted=s._p.slice().sort((a,b)=>T.dia(a)-T.dia(b));const p=sorted[selected.n];s._p.splice(s._p.indexOf(p),1);selected=null;nchecked=false;drawStave();e.preventDefault();}}}});
+  if(q.t==='notate'){const map={'#':'s','s':'s','b':'f','f':'f','n':'n','0':''};if(e.key in map){const b=document.querySelector(`#acc button[data-acc="${map[e.key]}"]`);if(b)b.click();}if((e.key==='Backspace'||e.key==='Delete')&&q.ksPlace){if(q._ksp&&q._ksp.length){q._ksp.pop();nchecked=false;drawStave();}e.preventDefault();return;}if(e.key==='Backspace'||e.key==='Delete'){if(selected){const s=slotItem(q,selected.i);const sorted=s._p.slice().sort((a,b)=>T.dia(a)-T.dia(b));const p=sorted[selected.n];s._p.splice(s._p.indexOf(p),1);selected=null;nchecked=false;drawStave();e.preventDefault();}}}});
 // ---------- header controls ----------
 document.getElementById('mPr').onclick=()=>setMode('practise');document.getElementById('mRe').onclick=()=>setMode('reference');document.getElementById('mRec').onclick=()=>setMode('record');
-(function(){const ni=document.getElementById('nameinput');ni.value=currentName;ni.oninput=()=>{currentName=ni.value.trim();LS.set('name',currentName);};})();
-document.getElementById('reset').onclick=()=>{total=correct=streak=0;level=1;for(const k in results)delete results[k];for(const k in scored)delete scored[k];for(const k in uStat)delete uStat[k];for(const k in unitDone)delete unitDone[k];paintScore();mode==='practise'?openUnit():(mode==='reference'?loadRef():renderRecord());};
+(function(){const ni=document.getElementById('nameinput');ni.value=currentName;ni.oninput=()=>{currentName=ni.value.trim();LS.set('name',currentName);loadProfile();paintScore();if(mode==='practise')renderTabs();};})();
+document.getElementById('reset').onclick=()=>{if(sprintOn)endSprint(true);h2h=null;total=correct=streak=0;level=1;for(const k in results)delete results[k];for(const k in scored)delete scored[k];for(const k in uStat)delete uStat[k];for(const k in unitDone)delete unitDone[k];paintScore();mode==='practise'?openUnit():(mode==='reference'?loadRef():renderRecord());};
 function paintLevel(){const lv=LEVEL();document.querySelectorAll('#yearbar button').forEach(b=>b.classList.toggle('on',b.dataset.y===lv));}
 const YEARMSG={7:'Year 7: treble clef, 1♯/1♭, major & major pentatonic, major triads, 2/4 3/4 4/4 6/8',8:'Year 8: bass clef, 2♯/2♭, minor & minor pentatonic, minor triads, I IV V, ties & syncopation',9:'Year 9: 3♯/3♭, harmonic minor & blues, 6ths & 7ths, V7, vi, minor keys, cadences, triplets, 12/8',10:'Year 10: 4♯/4♭, melodic minor & chromatic, ii, inversions, irregular metres, augmentation/diminution',11:'Year 11 (ATAR): 5♯/5♭, Mixolydian, 7th chords & symbols, Roman numerals, TAB & drums, B♭ transposition',12:'Year 12 (ATAR): 7♯/7♭, alto & tenor clefs, Dorian, compound intervals, 9ths, aug/dim, every instrument'};
 function setLevelUI(lv,quiet){if(lv===LEVEL()&&!quiet)return;if(!quiet&&total>0&&!confirm('Switch to Year '+lv+'? The question settings go back to that year\'s defaults.'))return;
-  GEN.setLevel(lv);const custom=LS.get('set_'+lv,null);if(custom)GEN.applySet(custom);LS.set('level',lv);paintLevel();if(!quiet)toast(YEARMSG[lv]);if(mode==='practise'){ui=firstUnit();openUnit(true);}}
+  GEN.setLevel(lv);const custom=LS.get('set_'+lv,null);if(custom)GEN.applySet(custom);LS.set('level',lv);loadGensel();paintLevel();if(!quiet)toast(YEARMSG[lv]);if(mode==='practise'){ui=firstUnit();openUnit(true);}}
 document.querySelectorAll('#yearbar button').forEach(b=>b.onclick=()=>setLevelUI(b.dataset.y));
 function askYear(){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<p class="prompt">Which year are you in?</p><p class="sub">The questions default to your year's syllabus. You can open up later content any time with ⚙ Customise, or change year with the Year bar.</p>
   <div class="setchips" id="yearpick">${[7,8,9,10,11,12].map(y=>`<button class="chip" data-y="${y}" style="font-size:16px;padding:12px 22px">Year ${y}</button>`).join('')}</div>`;
@@ -640,30 +831,57 @@ function askYear(){const g=document.getElementById('guide');document.getElementB
   g.querySelectorAll('#yearpick button').forEach(b=>b.onclick=()=>{setLevelUI(b.dataset.y,true);closeGuide();toast(YEARMSG[b.dataset.y]);});}
 // ---------- settings ----------
 const ytag=yr=>yr===undefined?'':(yr==='ext'?'<span class="ytag ext">ext</span>':(yr>+LEVEL()?'<span class="ytag">'+(yr>=11?'ATAR Y'+yr:'Y'+yr)+'</span>':''));
-function openSettings(){const cur=GEN.getSet();const body=document.getElementById('setbody');
-  body.innerHTML=`<p class="prompt">Customise the questions</p><p class="sub">Year ${LEVEL()} defaults follow the ${+LEVEL()>=11?'SCSA ATAR syllabus':'WA curriculum map'} for that year. Items with a year badge come from later years: open them up when you are ready. <span class="ytag ext">ext</span> is beyond the syllabus. Changes apply to the next set.</p>
-    <div class="setgrp"><div class="setlabel">Questions per set</div><div class="setchips">${[8,12,16,20].map(n=>`<button class="chip${SETN===n?' on':''}" data-k="setn" data-v="${n}">${n}</button>`).join('')}</div></div>`+GEN.SCHEMA.map(sc=>{
+const GEN_LABELS={noteNameQ:'Name the note',spnQ:'Scientific pitch names (C4)',notateNoteQ:'Write a note',notateSeqQ:'Write a sequence of notes',enharmonicQ:'Enharmonic equivalents',accidentalQ:'Accidentals',tabQ:'Guitar TAB',drumQ:'Drum notation',drumReadQ:'Read a drum pattern',chordSymBasicQ:'Chord symbols (basics)',
+  timeSigQ:'Time signature',completeBarQ:'Complete the bar',groupingQ:'Beaming & grouping',valueQ:'Note values',restQ:'Rests',metreTheoryQ:'Metre facts',deviceRhythmQ:'Rhythmic devices',
+  termQ:'Terms',artSymbolQ:'Articulation marks',ornamentQ:'Ornaments',
+  keySigIdQ:'Identify a key signature',keySigWriteQ:'Write a key signature',degreeNotateQ:'Write a scale degree',keyFactQ:'Key facts',tonalityQ:'Tonality of a melody',
+  notateScaleQ:'Write a scale',nameScaleQ:'Name a scale',scaleFactQ:'Scale facts',solfaQ:'Sol-fa: name it',solfaNotateQ:'Sol-fa: write it',
+  notateIntervalQ:'Write an interval',nameIntervalQ:'Name an interval',ivFactQ:'Interval facts',
+  notateChordQ:'Write a chord',notateChordSigQ:'Write a chord (key signature)',nameChordQ:'Name a chord',chordSymbolQ:'Chord symbols',chordSymbolExtQ:'Extended chord symbols',chordFactQ:'Chord facts',guitarChordQ:'Guitar chord diagrams',
+  romanQ:'Roman numerals',chordNamesQ:'Chord names in a key',rnToChordQ:'Numeral to chord',seventhRnMinorQ:'7ths in minor keys',writeProgQ:'Write a progression',writeProgFigQ:'Progression with inversions',writeSeventhProgQ:'Write a 7th-chord progression',writeCadenceQ:'Write a cadence',cadenceIdQ:'Identify a cadence',figureQ:'Inversion figures',modulationQ:'Modulation',harmonyFactQ:'Harmony facts',
+  instrFactQ:'Instrument facts',transposeMelodyQ:'Transpose a melody',transposeKeyQ:'Transpose to a new key',clefTransposeQ:'Rewrite in another clef',octaveQ:'Octave transposition',concertNoteQ:'Concert pitch',
+  formQ:'Forms & devices',signRenderQ:'Signs on the score',deviceRenderQ:'Devices on the score'};
+const UNIT_KEYS={pitch:['clefs','dbl'],rhythm:['metres','rhythm'],expr:['ext'],keys:['keysMax','minorKeys','clefs'],scales:['scales','keysMax','clefs','ext'],intervals:['ivNums','ivQ','ivBelow','ivMax','clefs'],chords:['chords','invs','clefs','dbl'],harmony:['progs','figures','cadences','minorKeys','keysMax'],transp:['instruments','clefs'],form:[]};
+let GENSEL={};function loadGensel(){GENSEL=LS.get('gensel_'+LEVEL(),{})||{};if(GEN.setGensel)GEN.setGensel(GENSEL);}function saveGensel(){LS.set('gensel_'+LEVEL(),GENSEL);if(GEN.setGensel)GEN.setGensel(GENSEL);}
+const genOnNow=(fn,yr)=>GENSEL[fn.name]===true||(GENSEL[fn.name]!==false&&(yr||7)<=+(GEN.getSet().upTo||LEVEL()));
+function groupsHtml(cur,keys){return GEN.SCHEMA.filter(sc=>!keys||keys.includes(sc.key)).map(sc=>{
     if(sc.type==='multi')return `<div class="setgrp" data-k="${sc.key}"><div class="setlabel">${sc.label}</div><div class="setchips">`+sc.opts.map(([v,l,yr])=>`<button class="chip${(cur[sc.key]||[]).includes(v)?' on':''}" data-v="${v}">${l}${ytag(yr)}</button>`).join('')+`</div></div>`;
     if(sc.type==='select')return `<div class="setgrp" data-k="${sc.key}"><div class="setlabel">${sc.label}</div><select class="setsel">`+sc.opts.map(([v,l])=>`<option value="${v}"${cur[sc.key]==v?' selected':''}>${l}</option>`).join('')+`</select></div>`;
-    return `<div class="setgrp" data-k="${sc.key}"><div class="setlabel">${sc.label}${ytag(sc.yr)}</div><div class="setchips"><button class="chip${cur[sc.key]?' on':''}" data-v="1">${cur[sc.key]?'On':'Off'}</button></div></div>`;}).join('')
-    +`<div class="controls"><button class="btn-ghost" id="sdefault">Year ${LEVEL()} defaults</button><button class="btn-check" id="sapply">Apply &amp; new set</button></div>`;
-  body.querySelectorAll('.chip').forEach(ch=>ch.onclick=()=>{const grp=ch.closest('.setgrp');const sc=GEN.SCHEMA.find(s=>s.key===grp.dataset.k);
+    return `<div class="setgrp" data-k="${sc.key}"><div class="setlabel">${sc.label}${ytag(sc.yr)}</div><div class="setchips"><button class="chip${cur[sc.key]?' on':''}" data-v="1">${cur[sc.key]?'On':'Off'}</button></div></div>`;}).join('');}
+function readGroups(body){const o={};body.querySelectorAll('.setgrp[data-k]').forEach(grp=>{const k=grp.dataset.k;const sc=GEN.SCHEMA.find(s=>s.key===k);if(!sc)return;
+    if(sc.type==='multi')o[k]=[...grp.querySelectorAll('.chip.on')].map(c=>isNaN(+c.dataset.v)?c.dataset.v:+c.dataset.v);
+    else if(sc.type==='select')o[k]=+grp.querySelector('select').value;else o[k]=grp.querySelector('.chip').classList.contains('on');});return o;}
+function wireChips(body){body.querySelectorAll('.setgrp .chip').forEach(ch=>ch.onclick=()=>{const grp=ch.closest('.setgrp');const sc=GEN.SCHEMA.find(s=>s.key===grp.dataset.k);
     if(ch.dataset.k==='setn'){grp.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));ch.classList.add('on');return;}
-    if(sc.type==='toggle'){ch.classList.toggle('on');ch.textContent=ch.classList.contains('on')?'On':'Off';}else ch.classList.toggle('on');});
-  document.getElementById('sapply').onclick=()=>{const o={};
-    body.querySelectorAll('.setgrp').forEach(grp=>{const k=grp.dataset.k;if(!k){const on=grp.querySelector('.chip.on');if(on){SETN=+on.dataset.v;LS.set('setn',SETN);}return;}const sc=GEN.SCHEMA.find(s=>s.key===k);
-      if(sc.type==='multi')o[k]=[...grp.querySelectorAll('.chip.on')].map(c=>isNaN(+c.dataset.v)?c.dataset.v:+c.dataset.v);
-      else if(sc.type==='select')o[k]=+grp.querySelector('select').value;else o[k]=grp.querySelector('.chip').classList.contains('on');});
-    GEN.applySet(o);LS.set('set_'+LEVEL(),o);closeSettings();toast('Settings applied');if(mode==='practise'){if(!unitOn(ui))ui=firstUnit();openUnit(true);}};
-  document.getElementById('sdefault').onclick=()=>{const lv=LEVEL();GEN.setLevel(lv);LS.set('set_'+lv,null);openSettings();toast('Year '+lv+' defaults restored');};
+    if(ch.dataset.g){ch.classList.toggle('on');return;}
+    if(sc&&sc.type==='toggle'){ch.classList.toggle('on');ch.textContent=ch.classList.contains('on')?'On':'Off';}else ch.classList.toggle('on');});}
+function applyBody(body,unit){const o=Object.assign({},GEN.getSet(),readGroups(body));delete o.level;
+  const sn=body.querySelector('.chip[data-k="setn"].on');if(sn){SETN=+sn.dataset.v;LS.set('setn',SETN);}
+  if(unit){unit.gens.forEach(([fn,w,yr])=>{const ch=body.querySelector(`.chip[data-g="${fn.name}"]`);if(!ch)return;const on=ch.classList.contains('on');const def=(yr||7)<=+(GEN.getSet().upTo||LEVEL());if(on===def)delete GENSEL[fn.name];else GENSEL[fn.name]=on;});saveGensel();}
+  GEN.applySet(o);LS.set('set_'+LEVEL(),o);}
+function openSettings(unit){if(unit&&(unit.special||unit.exam))unit=null;const cur=GEN.getSet();const body=document.getElementById('setbody');
+  if(unit){const keys=UNIT_KEYS[unit.id]||[];
+    body.innerHTML=`<p class="prompt">${esc(unit.name)} — customise</p><p class="sub">Tick what to include. Items with a year badge are from later years than Year ${LEVEL()} — open them up when you're ready. Changes apply to the next set.</p>
+      <div class="setgrp"><div class="setlabel">Question types</div><div class="setchips">${unit.gens.map(([fn,w,yr])=>`<button class="chip${genOnNow(fn,yr)?' on':''}" data-g="${fn.name}">${GEN_LABELS[fn.name]||fn.name}${ytag(yr)}</button>`).join('')}</div></div>`+groupsHtml(cur,keys)
+      +`<div class="controls"><button class="btn-ghost" id="sdefault">Year ${LEVEL()} defaults</button><button class="btn-ghost" id="sall">Enable all (to ATAR)</button><button class="btn-ghost" id="sglobal">All settings</button><button class="btn-check" id="sapply">Done</button></div>`;
+    wireChips(body);
+    document.getElementById('sall').onclick=()=>{body.querySelectorAll('.setgrp[data-k] .chip,.chip[data-g]').forEach(c=>{c.classList.add('on');const sc=GEN.SCHEMA.find(s=>s.key===(c.closest('.setgrp').dataset.k||''));if(sc&&sc.type==='toggle')c.textContent='On';});body.querySelectorAll('select.setsel').forEach(sel=>{sel.value=sel.options[sel.options.length-1].value;});};
+    document.getElementById('sglobal').onclick=()=>openSettings(null);}
+  else{
+    body.innerHTML=`<p class="prompt">Customise the questions</p><p class="sub">Year ${LEVEL()} defaults follow the ${+LEVEL()>=11?'SCSA ATAR syllabus':'WA curriculum map'} for that year. Items with a year badge come from later years: open them up when you are ready. <span class="ytag ext">ext</span> is beyond the syllabus. Each unit's ⚙ Customise button on the question card has its own question-type switches. Changes apply to the next set.</p>
+      <div class="setgrp"><div class="setlabel">Questions per set</div><div class="setchips">${[8,12,16,20].map(n=>`<button class="chip${SETN===n?' on':''}" data-k="setn" data-v="${n}">${n}</button>`).join('')}</div></div>`+groupsHtml(cur,null)
+      +`<div class="controls"><button class="btn-ghost" id="sdefault">Year ${LEVEL()} defaults</button><button class="btn-check" id="sapply">Apply &amp; new set</button></div>`;
+    wireChips(body);}
+  document.getElementById('sapply').onclick=()=>{applyBody(body,unit);closeSettings();toast('Settings applied');if(mode==='practise'){if(!unitOn(ui))ui=firstUnit();openUnit(true);}};
+  document.getElementById('sdefault').onclick=()=>{const lv=LEVEL();GEN.setLevel(lv);LS.set('set_'+lv,null);if(unit){unit.gens.forEach(([fn])=>delete GENSEL[fn.name]);saveGensel();}else{GENSEL={};saveGensel();}openSettings(unit);toast('Year '+lv+' defaults restored');};
   document.getElementById('setmodal').classList.add('open');document.getElementById('setback').classList.add('open');}
 function closeSettings(){document.getElementById('setmodal').classList.remove('open');document.getElementById('setback').classList.remove('open');}
-document.getElementById('gear').onclick=openSettings;document.getElementById('setclose').onclick=closeSettings;document.getElementById('setback').onclick=closeSettings;
+document.getElementById('gear').onclick=()=>openSettings(null);document.getElementById('setclose').onclick=closeSettings;document.getElementById('setback').onclick=closeSettings;
 // ---------- guide ----------
-function openGuide(){document.getElementById('guidebody').innerHTML=UNITS[ui].guide;document.getElementById('guide').classList.add('open');document.getElementById('gback').classList.add('open');}
+function openGuide(){const u=UNITS[ui].special?fromUnit(curQ()):UNITS[ui];document.getElementById('guidebody').innerHTML=(UNITS[ui].special?UNITS[ui].guide+'<hr style="border:0;border-top:1px solid var(--rule);margin:12px 0">':'')+(u.guide||'');document.getElementById('guide').classList.add('open');document.getElementById('gback').classList.add('open');}
 function closeGuide(){document.getElementById('guide').classList.remove('open');document.getElementById('gback').classList.remove('open');}
 document.getElementById('gclose').onclick=closeGuide;document.getElementById('gback').onclick=closeGuide;
-paintLevel();paintScore();ui=firstUnit();openUnit();if(FIRSTRUN&&!EMBED)askYear();
+loadGensel();loadProfile();paintLevel();paintScore();ui=2;if(!unitOn(ui))ui=firstUnit();openUnit();if(FIRSTRUN&&!EMBED)askYear();try{if(window.AUDIO&&AUDIO.preloadPiano)AUDIO.preloadPiano();}catch(e){}
 if(EMBED==='partB'){document.body.classList.add('embed');const yr=String(Math.max(11,Math.min(12,EMBED_YEAR||11)));GEN.setLevel(yr);paintLevel();ui=UNITS.findIndex(u=>u.exam);openUnit();startExam();}
 else if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>

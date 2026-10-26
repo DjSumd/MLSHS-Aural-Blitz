@@ -71,7 +71,7 @@
     const spec=(window.SAMPLES||{})[instr]; if(!spec) throw new Error('no spec '+instr);
     const a=ac(), arr=[];
     for(const e of spec){
-      const url=(e.file.indexOf('data:')===0)?e.file:'samples/'+e.file;
+      const url=(e.file.indexOf('data:')===0)?e.file:(window.SAMPLE_BASE||'samples/')+e.file;
       const resp=await fetch(url);
       if(!resp.ok) throw new Error('fetch '+e.file);
       const ab=await resp.arrayBuffer();

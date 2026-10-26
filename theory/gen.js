@@ -305,7 +305,7 @@ function keySigIdQ(){const k=randKey();const clef=clefPick();const major=T.major
   return choice('Name the '+(askMinor?'minor':'major')+' key of this key signature.',optsFrom(ans,pool,4),ans,{sub:clefWord(clef)+'.',show:show(stave(clef,k.sig,null,[{k:'gap',w:4}])),
     why:k.sig>0?'Last sharp is '+T.SHARP_ORDER[k.sig-1]+'♯; a semitone up gives '+name(major)+' major'+(askMinor?'; its relative minor is a minor 3rd lower: '+name(minor)+' minor.':'.'):k.sig<0?(k.sig===-1?'One flat (B♭) is F major.':'The second-last flat names the key: '+name(major)+' major')+(askMinor?'; relative minor '+name(minor)+' minor.':'.'):'No sharps or flats: C major / A minor.'});}
 function keySigWriteQ(){const k=randKey();const clef=clefPick();
-  return {t:'notate',prompt:'Write the key signature of '+keyName(k)+'.',sub:clefWord(clef)+'. Use the ♯ / ♭ buttons to build it, then Check.',clef,sig:0,keysigEdit:true,sigTarget:k.sig,items:[{k:'gap',w:6}],
+  return {t:'notate',prompt:'Write the key signature of '+keyName(k)+'.',sub:clefWord(clef)+'. Pick ♯ or ♭, then tap the line or space for each accidental in order (first one at position 1). For C major / A minor, leave it empty and Check.',clef,sig:0,ksPlace:true,sigTarget:k.sig,items:[{k:'ksig',n:7}],
     why:keyName(k)+' has '+T.sigWord(k.sig)+(k.sig?' ('+T.sigList(k.sig)+')':'')+'.'};}
 function keyFactQ(){const qs=[
   ()=>choice('The order of sharps in a key signature is…',['F C G D A E B','B E A D G C F','C G D A E B F','F G C D A E B'],'F C G D A E B'),
@@ -461,7 +461,7 @@ function chordFits(notes){if(UPTO()>=11)return true;const m=S('keysMax');for(let
 function notateChordQ(){const clef=clefPick();const type=pick(chordsOn());const nn=T.CHORDS[type].iv.length;const inv=nn>4?0:pick(invsOn().filter(i=>i<nn));
   let root=chordRoot(clef);let notes=T.chord(root,type,inv);if(notes.some(p=>Math.abs(p.a)>2)||!chordFits(notes))return notateChordQ();notes=fitScale(notes,clef);
   const withSym=UPTO()>=11&&Math.random()<0.5;const label=withSym?T.slashSym(root,type,inv)+(inv?'':'')+'':T.chordName(root,type)+', '+T.INV_NAMES[inv];
-  return {t:'notate',prompt:'Write '+(withSym?'the chord '+label:label)+'.',sub:clefWord(clef)+'. Build it as a block chord in one column: tap to add each note.'+(withSym&&inv?' The letter after the slash is the bass note.':''),clef,sig:0,items:[Object.assign(slot(0,notes,'w'),{chord:true,max:nn})],
+  return {t:'notate',prompt:'Write '+(withSym?'the chord '+label:label)+'.',sub:clefWord(clef)+'. Build it as a block chord in one column, in any octave that fits the stave: tap to add each note.'+(withSym&&inv?' The letter after the slash is the bass note.':''),clef,sig:0,items:[Object.assign(slot(0,notes,'w'),{chord:true,max:nn})],
     why:T.chordName(root,type)+' = '+T.chord(root,type,0).map(name).join(' ')+(inv?'; '+T.INV_NAMES[inv]+' puts '+name(notes[0])+' in the bass.':'.')};}
 function nameChordQ(){const clef=clefPick();const type=pick(chordsOn());const nn=T.CHORDS[type].iv.length;const inv=nn>4?0:pick(invsOn().filter(i=>i<nn));
   const root=chordRoot(clef);let notes=T.chord(root,type,inv);if(notes.some(p=>Math.abs(p.a)>2)||!chordFits(notes))return nameChordQ();notes=fitScale(notes,clef);
@@ -746,15 +746,17 @@ function hasDbl(q){const re=/[𝄪𝄫]/;const chk=p=>p&&Math.abs(p.a)===2;
   if(q.opts&&q.opts.some(o=>re.test(String(o.v))))return true;
   if(q.items&&q.items.some(i=>(i.target&&i.target.some(chk))||(i.p&&i.p.some(chk))))return true;
   if(q.show&&q.show.spec&&q.show.spec.items.some(i=>i.p&&i.p.some(chk)))return true;return false;}
-const gensOn=u=>u.gens.filter(g=>(g[2]||7)<=UPTO());
+let GENSEL={};function setGensel(o){GENSEL=o||{};}
+const gensOn=u=>u.gens.filter(g=>GENSEL[g[0].name]===true||(GENSEL[g[0].name]!==false&&(g[2]||7)<=UPTO()));
 const unitsOn=()=>UNITS.filter(u=>(u.yr||7)<=UPTO());
 function makeSet(unitId,count){const u=UNITS.find(x=>x.id===unitId);const bag=[];gensOn(u).forEach(([fn,w])=>{for(let i=0;i<w;i++)bag.push(fn);});if(!bag.length)u.gens.forEach(([fn,w])=>bag.push(fn));
   const out=[];const seen=new Set();let guard=0;
   while(out.length<count&&guard++<count*20){const fn=pick(bag);let q=null;try{q=fn();}catch(e){console.warn('gen error',fn.name,e);continue;}if(!q)continue;if(!S('dbl')&&hasDbl(q)&&fn.name!=='enharmonicQ'&&fn.name!=='accidentalQ')continue;
     const key=q.prompt+'|'+(q.answer||'')+'|'+JSON.stringify(q.items?q.items.map(i=>i.target&&i.target.map(spn)):'')+(q.pairs?JSON.stringify(q.pairs):'');if(seen.has(key))continue;seen.add(key);
-    q.unit=unitId;q.gen=fn.name;out.push(q);}
+    q.unit=unitId;q.gen=fn.name;defaultWhy(q);out.push(q);}
   return out;}
 const BYNAME={};UNITS.forEach(u=>u.gens.forEach(([fn])=>BYNAME[fn.name]=fn));
-function one(name){let q=null;for(let i=0;i<20&&!q;i++)q=BYNAME[name]();const u=UNITS.find(u=>u.gens.some(g=>g[0].name===name));q.unit=u.id;q.gen=name;return q;}
-return {UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,RANGE,MIDD,inClef,fitScale,stave,one};
+function defaultWhy(q){if(q.why)return;if(q.t==='match'&&q.pairs)q.why=q.pairs.map(p=>'<b>'+p[0]+'</b> — '+p[1]).join(' · ');}
+function one(name){let q=null;for(let i=0;i<20&&!q;i++)q=BYNAME[name]();const u=UNITS.find(u=>u.gens.some(g=>g[0].name===name));q.unit=u.id;q.gen=name;defaultWhy(q);return q;}
+return {UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,setGensel,RANGE,MIDD,inClef,fitScale,stave,one};
 })();
