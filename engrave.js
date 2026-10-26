@@ -132,41 +132,60 @@
     }
     return out;
   }
-  // full rhythm: returns {events:[{dur,rest,tie,trip}], pickup}
+  // ---------- phrase-shaped rhythm ----------
+  // A 4-bar phrase is question + answer: A (motif) · B (half-close, held) · A' (motif again, maybe varied) · C (cadence, held tonic).
+  // 2 bars = A C; 8 bars = A B A' C · A B2 A' C. The rhythm of A is the phrase's motif, so bars relate instead of being independent lottery draws.
+  const sumD=a=>a.reduce((t,e)=>t+e.dur,0);
+  function densityRange(diff,M,len){const base=diff==='easy'?[2,5]:diff==='med'?[3,7]:[5,10];const f=len/4;return [Math.max(1,Math.round(base[0]*f)),Math.max(2,Math.round(base[1]*f))];}
+  function motifBar(diff,M,o,len){let best=null;const [lo,hi]=densityRange(diff,M,len);
+    for(let t=0;t<10;t++){const b=fillBar(diff,M,Object.assign({},o,{noWhole:true}),len);const n=b.length;if(n>=lo&&n<=hi)return b;if(!best||Math.abs(n-(lo+hi)/2)<Math.abs(best.length-(lo+hi)/2))best=b;}return best;}
+  function holdFor(M,role){ // how long the phrase-end note is held
+    if(M.compound)return M.bpb>=6?3:1.5;
+    if(eq(M.bpb,3.5))return 1.5; if(M.bpb>=4)return 2; if(eq(M.bpb,3))return role==='C'?2:(Math.random()<0.5?1:2); return 1;}
+  function closeBar(diff,M,o,len,role,A,bars){const hold=Math.min(holdFor(M,role),len);const pre=len-hold;let out=[];
+    if(pre>1e-6){ // the cadence bar opens with the motif's own opening when it fits exactly, so the answer echoes the question
+      let fromA=null;if(A&&role==='C'&&(bars<=2||Math.random()<0.6)){let acc=0;for(let i=0;i<A.length;i++){acc+=A[i].dur;if(eq(acc,pre)){fromA=A.slice(0,i+1).map(e=>({dur:e.dur,trip:e.trip}));break;}if(acc>pre+1e-6)break;}}
+      const d2=role==='C'?(diff==='hard'?'med':'easy'):diff;out=fromA||fillBar(d2,M,Object.assign({},o,{noWhole:true}),pre);}
+    if(role==='C'&&bars>2&&!M.compound&&eq(len,M.bpb)&&M.bpb>=3&&Math.random()<0.12)return [{dur:len}]; // the occasional whole-bar final note
+    out.push({dur:hold,hold:true});return out;}
+  function varyBar(A,diff,M,o,len){ // A' : repeat the motif exactly, or keep its first half and refresh the second
+    const copy=()=>A.map(e=>({dur:e.dur,trip:e.trip,rest:e.rest}));
+    if(diff==='easy'||Math.random()<0.6)return copy();
+    const half=len/2;let acc=0,cut=-1;for(let i=0;i<A.length;i++){acc+=A[i].dur;if(eq(acc,half)){cut=i+1;break;}}
+    if(cut<0)return copy();const first=A.slice(0,cut).map(e=>({dur:e.dur,trip:e.trip,rest:e.rest}));const rest=fillBar(diff,M,Object.assign({},o,{noWhole:true}),len-half);return first.concat(rest);}
+  function roles(bars){if(bars<=1)return ['C'];if(bars===2)return ['A','C'];if(bars===3)return ['A','B','C'];const r=[];for(let b=0;b<bars;b+=4){const left=bars-b;if(left>=4)r.push('A','B',"A'",'C');else if(left===3)r.push('A','B','C');else if(left===2)r.push('A','C');else r.push('C');}return r;}
   function genRhythm(diff,bars,M,o){
     o=o||{}; let pickup=0;
     if(o.anacrusis&&diff!=='easy'&&M.pickups.length&&Math.random()<0.35)pickup=Epick(M.pickups);
-    const ev=[];
-    if(pickup>0){ (pickup===1&&Math.random()<0.4?[0.5,0.5]:[pickup]).forEach(d=>ev.push({dur:d})); }
-    for(let b=0;b<bars;b++){
-      const len=(b===bars-1&&pickup>0)?M.bpb-pickup:M.bpb;
-      const barEv=fillBar(diff,M,o,len); barEv.forEach(e=>e.barStart=false); barEv[0].barStart=true; barEv.forEach(e=>ev.push(e));
-    }
+    const ev=[]; if(pickup>0){(pickup===1&&Math.random()<0.4?[0.5,0.5]:[pickup]).forEach(d=>ev.push({dur:d}));}
+    const R=roles(bars);let A=null;const barsOut=[];
+    for(let b=0;b<bars;b++){const role=R[b];const len=(b===bars-1&&pickup>0)?M.bpb-pickup:M.bpb;let barEv;
+      if(role==='A'){A=motifBar(diff,M,o,len);barEv=A.map(e=>({dur:e.dur,trip:e.trip}));}
+      else if(role==="A'"){barEv=A?varyBar(A,diff,M,o,len):motifBar(diff,M,o,len);}
+      else barEv=closeBar(diff,M,o,len,role,A,bars);
+      barEv.forEach(e=>e.barStart=false);barEv[0].barStart=true;barEv.forEach(e=>{e.role=role;ev.push(e);});barsOut.push(barEv);}
     ev[ev.length-1].last=true;
-    // rests
+    // rests: a breath after the half-close, and a motivic rest in A (copied into A') on a weak beat
     if(o.rests){
-      const p=diff==='easy'?0.06:diff==='med'?0.11:0.15;
-      for(let i=1;i<ev.length-1;i++){const e=ev[i];
-        if(e.trip||eq(e.dur,0.25)||eq(e.dur,0.75)||e.dur>2+1e-6)continue;
-        if(o.restDurs&&!o.restDurs.some(d=>eq(d,e.dur)))continue;
-        if(ev[i-1].rest)continue;
-        if(eq(e.dur,2)&&!(e.barStart||eq(e.dur,2)&&M.bpb===4&&!M.compound))continue;
-        if(Math.random()<p)e.rest=true;}
+      const allowed=d=>!o.restDurs||o.restDurs.some(x=>eq(x,d));
+      barsOut.forEach((bar,b)=>{const role=R[b];
+        if(role==='B'){const h=bar[bar.length-1];const p=diff==='easy'?0.25:0.45;
+          if(h.hold&&Math.random()<p){const half=h.dur/2;const ok=[0.5,0.75,1,1.5,2].some(v=>eq(v,half));if(ok&&allowed(half)){h.dur=half;bar.push({dur:half,rest:true,role});const k=ev.indexOf(h);ev.splice(k+1,0,bar[bar.length-1]);}}}
+        if(role==='A'){const p=diff==='easy'?0.12:diff==='med'?0.3:0.35;
+          let pos=0;const cands=bar.map((e,i)=>{const c={e,i,pos};pos+=e.dur;return c;}).filter(({e,i,pos})=>i>0&&i<bar.length-1&&!e.trip&&allowed(e.dur)&&(M.compound?(eq(e.dur,0.5)&&!eq(pos%1.5,0)):(eq(e.dur,1)&&eq(pos%1,0))||(diff==='hard'&&eq(e.dur,0.5)&&eq(pos%1,0.5))));
+          if(cands.length&&Math.random()<p){const c=Epick(cands);c.e.rest=true;c.e.restIdx=c.i;}}
+        if(role==="A'"&&A){const src=barsOut[R.slice(0,b).lastIndexOf('A')];if(src){const r=src.find(e=>e.rest);if(r){const same=bar[r.restIdx];if(same&&eq(same.dur,r.dur))same.rest=true;}}}});
     }
-    // ties across barlines
+    // ties: only across the A→B or A'→C barline, so the tie is part of the motif's shape rather than a random hazard
     if(o.ties&&diff!=='easy'){
       for(let i=0;i<ev.length-1;i++){const e=ev[i],n=ev[i+1];
-        if(n.barStart&&!e.rest&&!n.rest&&!e.trip&&!n.trip&&e.dur>=0.5-1e-6&&e.dur<=2+1e-6&&n.dur<=2+1e-6&&Math.random()<0.2)e.tie=true;}
+        if(n.barStart&&(e.role==='A'||e.role==="A'")&&!e.rest&&!n.rest&&!e.trip&&!n.trip&&e.dur>=0.5-1e-6&&e.dur<=2+1e-6&&n.dur<=1+1e-6&&Math.random()<0.25)e.tie=true;}
     }
-    return {events:ev,pickup};
+    ev.forEach(e=>{delete e.restIdx;});
+    return {events:ev,pickup,roles:R};
   }
 
-  // ---------- melody ----------
-  function stepChoice(diff){
-    if(diff==='easy')return Epick([-2,-1,-1,-1,1,1,1,2]);
-    if(diff==='med')return Epick([-3,-2,-1,-1,1,1,2,3]);
-    return Epick([-4,-3,-2,-1,-1,1,1,2,3,4,5]);
-  }
+  // ---------- melody: implied harmony, planned contour, motif repetition ----------
   function buildDictation(opts){
     opts=(typeof opts==='string')?{diff:opts}:(opts||{});
     const diff=opts.diff||'easy', bars=opts.bars||4, clef=opts.clef||'treble';
@@ -179,44 +198,78 @@
     const M=METRES[opts.metre]||METRES['4/4'];
     const rh=genRhythm(diff,bars,M,{rests:opts.rests!==false,ties:opts.ties!==false,triplets:!!opts.triplets&&!M.compound,syncopation:opts.syncopation!==false,anacrusis:opts.anacrusis!==false,vocab:opts.vocab,vocabEasy:!!opts.vocabEasy,restDurs:opts.restDurs});
     const ev=rh.events, pickup=rh.pickup;
-    // pitches for sounding events
+    // scale-degree helpers (semitones above the tonic)
+    const semiOf=p=>((p.midi-tm)%12+12)%12;
+    const has=x=>sc.deg.some(d=>d[0]===x);
+    const TON=[0,has(4)?4:3,7].filter(has);                       // I chord tones
+    const DOM=[7,has(11)?11:(has(10)?10:-1),2,has(5)?5:-1].filter(x=>x>=0&&has(x)); // V(7) tones (2 and 5 keep modes/pentatonics playable)
+    const SUB=[5,has(9)?9:(has(8)?8:-1),0].filter(x=>x>=0&&has(x));
     const tonicIdx=(()=>{let b=0;pool.forEach((p,i)=>{if(p.midi===tm)b=i;});return b;})();
-    const ltPc=sc.deg.some(d=>d[0]===11)?((tm+11)%12):-1;
-    let idx=tonicIdx, prevIdx=idx, lastLeap=0; const chosen=[];
-    const tonicIdxs=pool.map((p,i)=>p.midi%12===tm%12?i:-1).filter(i=>i>=0);
-    const soundingLeft=i=>{let c=0;for(let k=i;k<ev.length;k++)if(!ev[k].rest&&!(k>0&&ev[k-1].tie))c++;return c;};
-    for(let i=0;i<ev.length;i++){
-      if(ev[i].rest){chosen.push(null);continue;}
-      if(i>0&&ev[i-1].tie){chosen.push(chosen[i-1]);continue;}
-      if(chosen.filter(x=>x).length===0){chosen.push(pool[idx]);continue;}
-      let ni=idx, tries=0;
-      while(tries++<12){
-        let s=stepChoice(diff);
-        if(lastLeap>4)s=Math.sign(-lastLeap)*Epick([1,1,2]);            // recover a leap by step, contrary
-        if(ltPc>=0&&pool[idx].midi%12===ltPc&&Math.random()<0.8)s=1;    // leading note rises
-        const left=soundingLeft(i); if(left<=3){ const nt=tonicIdxs.reduce((b,ti)=>Math.abs(ti-idx)<Math.abs(b-idx)?ti:b,tonicIdxs[0]); const dist=nt-idx;
-          if(Math.abs(dist)>left*2) s=Math.sign(dist)*Math.min(Math.abs(s),Math.abs(dist)); else if(Math.abs(dist)>left) s=Math.sign(dist)*Math.max(1,Math.min(2,Math.abs(dist)-left+1)); }
-        const cand=Math.max(0,Math.min(pool.length-1,idx+s)); const iv=Math.abs(pool[cand].midi-pool[idx].midi);
-        if(cand===idx)continue; if(iv===6||iv>9)continue; ni=cand; break;
-      }
-      lastLeap=pool[ni].midi-pool[idx].midi; prevIdx=idx; idx=ni; chosen.push(pool[idx]);
+    const tonicIdxs=pool.map((p,i)=>semiOf(p)===0?i:-1).filter(i=>i>=0);
+    const ltSemi=has(11)?11:-1;
+    // range plan: tonic sits low-ish; climax a planned number of scale steps up
+    const spanSteps=diff==='easy'?5:diff==='med'?7:9;
+    const minIdx=Math.max(0,tonicIdx-(diff==='easy'?1:2)), maxIdx=Math.min(pool.length-1,minIdx+spanSteps);
+    const climaxIdx=Math.min(maxIdx,tonicIdx+(diff==='easy'?Epick([3,4,5]):diff==='med'?Epick([4,5,6,7]):Epick([5,6,7,8,9])));
+    // which bar each event is in, its chord, and whether it sits on an accent
+    const barOf=on=>Math.floor((on+pickup)/M.bpb+1e-6);
+    const R=rh.roles;const nb=bars;
+    const chordFor=(b,posInBar,role,isLast)=>{ if(role==='C'){return isLast?TON:(posInBar<M.bpb/2-1e-6?DOM:TON);} if(role==='B')return posInBar<M.bpb/2-1e-6?(Math.random()<0.5?SUB:TON):DOM; return TON; };
+    let onset=0;const meta=ev.map(e=>{const o2=onset;onset+=e.dur;const b=Math.max(0,barOf(o2));const pos=((o2+pickup)%M.bpb+M.bpb)%M.bpb;const role=R[Math.min(b,R.length-1)]||'A';
+      return {on:o2,bar:b,pos,role,strong:M.acc.some(a=>eq(a,pos))||eq(pos,0),last:!!e.last};});
+    // climax placement: in the B bar (or A' for 4+ bars) — the phrase rises to it and falls to the cadence
+    const climaxBar=nb>=4?(Math.random()<0.5?1:2):(nb===2?0:1);
+    const soundIdx=[];ev.forEach((e,i)=>{if(!e.rest&&!(i>0&&ev[i-1].tie))soundIdx.push(i);});
+    const climaxAt=(()=>{const inBar=soundIdx.filter(i=>meta[i].bar===climaxBar);if(!inBar.length)return soundIdx[Math.floor(soundIdx.length/2)];return inBar[Math.floor(inBar.length*0.4)];})();
+    const chosen=new Array(ev.length).fill(null);
+    const nearestOf=(set,from,dir,maxDist)=>{ // nearest pool index whose scale degree is in set, preferring direction dir
+      let best=-1,bd=99;for(let i=minIdx;i<=maxIdx;i++){if(!set.includes(semiOf(pool[i])))continue;const d=Math.abs(i-from);const pen=d+((dir&&Math.sign(i-from)!==dir&&i!==from)?1.5:0);if(d<=maxDist&&pen<bd){bd=pen;best=i;}}return best;};
+    let idx=tonicIdx,dir=1,lastLeap=0,sameRun=0;
+    const motifPitches={}; // bar role 'A' → pitches by sounding position, for A'
+    for(let k=0;k<soundIdx.length;k++){const i=soundIdx[k];const m=meta[i];const e=ev[i];
+      if(k===0){ // start on a tonic-chord tone, usually the tonic
+        const st=Math.random()<0.6?tonicIdx:nearestOf(TON,tonicIdx,1,4);idx=st<0?tonicIdx:st;chosen[i]=pool[idx];continue;}
+      // A': repeat the motif's pitches when the rhythm matches (exact repeat, or a sequence a step away at med/hard)
+      if(m.role==="A'"&&motifPitches.A&&motifPitches.A[k-soundIdx.findIndex(j=>meta[j].role==="A'")]!==undefined){const rel=k-soundIdx.findIndex(j=>meta[j].role==="A'");const src=motifPitches.A[rel];
+        if(src!==undefined){const shift=motifPitches.shift;const ni=Math.max(minIdx,Math.min(maxIdx,src+shift));idx=ni;chosen[i]=pool[idx];lastLeap=0;continue;}}
+      const chord=chordFor(m.bar,m.pos,m.role,m.last);
+      // final note: tonic, approached by step
+      if(m.last){const prevI=soundIdx[k-1];const near=tonicIdxs.reduce((b,ti)=>Math.abs(ti-idx)<Math.abs(b-idx)?ti:b,tonicIdxs[0]);
+        if(Math.abs(near-idx)>2&&prevI!==undefined){const ap=near+(idx<near?-1:1);if(ap>=minIdx&&ap<=maxIdx){chosen[prevI]=pool[ap];let q=prevI;while(q>0&&ev[q-1].tie){chosen[q-1]=pool[ap];q--;}}}
+        idx=near;chosen[i]=pool[idx];continue;}
+      // half-close: last note of a B bar lands on a V tone (2, 5 or 7), by step where possible
+      const isHalfClose=m.role==='B'&&(k+1>=soundIdx.length||meta[soundIdx[k+1]].bar!==m.bar);
+      if(isHalfClose){let t=nearestOf(DOM.filter(x=>x!==5),idx,0,2);if(t<0)t=nearestOf(DOM,idx,0,6);if(t<0)t=idx;idx=t;chosen[i]=pool[idx];lastLeap=0;continue;}
+      // contour intent: towards the climax, then back down towards the tonic
+      const goal=(k<=soundIdx.indexOf(climaxAt))?climaxIdx:tonicIdx;const gdir=Math.sign(goal-idx)||dir;
+      if(Math.random()<(k<soundIdx.indexOf(climaxAt)?0.75:0.65))dir=gdir;else if(Math.random()<0.35)dir=-dir;
+      if(k===soundIdx.indexOf(climaxAt)){dir=Math.sign(climaxIdx-idx)||1;}
+      // step size: mostly steps, some repeats, a few 3rds, rare bigger leaps; a leap is answered by a step back
+      let size;const r=Math.random();
+      if(lastLeap>2){size=1;dir=-Math.sign(lastLeap);}
+      else if(r<(diff==='easy'?0.11:0.09)&&sameRun<1)size=0;
+      else if(r<0.85)size=1;else if(r<(diff==='hard'?0.93:0.96))size=2;else size=diff==='easy'?2:Epick([3,4]);
+      if(k===soundIdx.indexOf(climaxAt))size=Math.max(size,Math.min(Math.abs(climaxIdx-idx),2));
+      let ni=idx+dir*size;
+      if(ni<minIdx||ni>maxIdx){dir=-dir;ni=idx+dir*size;}
+      ni=Math.max(minIdx,Math.min(maxIdx,ni));
+      if(m.strong&&size!==0){const t=nearestOf(chord,ni,dir,1);if(t>=0)ni=t;}
+      if(ltSemi>=0&&semiOf(pool[idx])===ltSemi&&idx+1<=maxIdx&&Math.random()<0.85){ni=idx+1;dir=1;}
+      // keep the leap musical: no tritone, nothing beyond a 6th
+      const iv=Math.abs(pool[ni].midi-pool[idx].midi);if(iv===6||iv>9){ni=idx+dir;ni=Math.max(minIdx,Math.min(maxIdx,ni));}
+      sameRun=ni===idx?sameRun+1:0;lastLeap=Math.abs(ni-idx)>=2?(ni-idx):0;idx=ni;chosen[i]=pool[idx];
+      // remember the motif
+      if(m.role==='A'){const start=soundIdx.findIndex(j=>meta[j].role==='A');motifPitches.A=motifPitches.A||[];motifPitches.A[k-start]=idx;if(motifPitches.shift===undefined)motifPitches.shift=0;}
+      if(m.role==='B'&&motifPitches.shift===0&&diff!=='easy'&&Math.random()<0.35)motifPitches.shift=Epick([-1,1]);
     }
-    // final sounding note -> nearest tonic (and anything tied to it)
-    const tonics=pool.filter(p=>p.midi%12===tm%12);
-    let li=ev.length-1; while(li>0&&ev[li].rest)li--;
-    const near=tonics.reduce((b,p)=>Math.abs(p.midi-chosen[li].midi)<Math.abs(b.midi-chosen[li].midi)?p:b,tonics[0]);
-    chosen[li]=near; let k=li; while(k>0&&ev[k-1].tie){chosen[k-1]=near;k--;}
-    // if the landing leap is unmelodic, re-pitch the previous sounding note to approach the tonic
-    { const badIv=(a,b)=>{const iv=Math.abs(a-b);return iv===6||iv>9;}; let p=k-1; while(p>=0&&ev[p].rest)p--;
-      if(p>0&&badIv(chosen[p].midi,near.midi)){ let pp=p-1; while(pp>=0&&ev[pp].rest)pp--; const ntI=pool.indexOf(near);
-        const cands=[ntI-1,ntI+1,ntI-2,ntI+2,ntI-3,ntI+3].filter(c=>c>=0&&c<pool.length);
-        for(const c of cands){ if(!badIv(pool[c].midi,near.midi)&&(pp<0||!badIv(pool[c].midi,chosen[pp].midi))){ chosen[p]=pool[c]; let q=p; while(q>0&&ev[q-1].tie){chosen[q-1]=pool[c];q--;} break; } } } }
-    let onset=0; const notes=ev.map((e,i)=>{const p=chosen[i];
-      const n={onset,dur:e.dur,rest:!!e.rest,tie:!!e.tie,trip:!!e.trip,midi:p?p.midi:null,d:p?p.d:undefined,acc:p?p.acc:'',letter:p?p.letter:''};
-      onset+=e.dur;return n;});
+    // tied notes repeat their pitch; rests stay silent
+    ev.forEach((e,i)=>{if(e.rest){chosen[i]=null;return;}if(i>0&&ev[i-1].tie&&!e.rest)chosen[i]=chosen[i-1];});
+    let on2=0; const notes=ev.map((e,i)=>{const p=chosen[i];
+      const n={onset:on2,dur:e.dur,rest:!!e.rest,tie:!!e.tie,trip:!!e.trip,midi:p?p.midi:null,d:p?p.d:undefined,acc:p?p.acc:'',letter:p?p.letter:''};
+      on2+=e.dur;return n;});
     const kmT=keyAccMap(ks), tonicName=tl+(kmT[tl]==='f'?'♭':kmT[tl]==='s'?'♯':'');
     const keyName=tonicName+' '+sc.name;
-    return {pool, scaleName:keyName, keyLabel:keyName, tonicName, ks, tonicMidi:tm, tonicLetter:tl, notes, difficulty:diff, bars, pickup, totalBeats:bars*M.bpb, clef,
+    return {pool, scaleName:keyName, scaleType:sc.name, keyLabel:keyName, tonicName, ks, tonicMidi:tm, tonicLetter:tl, notes, difficulty:diff, bars, pickup, totalBeats:bars*M.bpb, clef,
             metre:{id:opts.metre||'4/4',numer:M.numer,denom:M.denom,bpb:M.bpb,g:M.g.slice(),acc:M.acc.slice(),compound:M.compound}};
   }
 
@@ -394,5 +447,10 @@
 
   // exports
   Object.assign(window,{SS,GS,TOPK,dia,clefData,yOf,gEl,ledgerYs,accW,NW,drawWholeNote,midiOf,letterOf,ACCOFF});
-  window.ENGRAVE={buildDictation,fillBar:(diff,metreId,len)=>fillBar(diff,METRES[metreId]||METRES['4/4'],{syncopation:true,noWhole:true},len),drawScore,hitTest,spellNote,resolveLine,keyAccMap,SCALES,METRES,MAJ_KS,KEYNAME,T3,barOf,posInBar};
+  // sol-fa: moveable do, la-based minor. Only the four scales sung in class get syllables.
+  const SOLFA_SET={'major':['do','re','mi','fa','so','la','ti'],'major pentatonic':['do','re','mi','so','la'],'natural minor':['la','ti','do','re','mi','fa','so'],'minor pentatonic':['la','do','re','mi','so']};
+  const CHROM_SOLFA={0:'do',1:'di',2:'re',3:'me',4:'mi',5:'fa',6:'fi',7:'so',8:'si',9:'la',10:'te',11:'ti'};
+  function solfaFor(scaleType){return SOLFA_SET[scaleType]||null;}
+  function solfaOf(midi,tonicMidi,scaleType){const sc=SCALES.find(s=>s.name===scaleType),syl=SOLFA_SET[scaleType];if(!sc||!syl)return '';const off=((midi-tonicMidi)%12+12)%12;const k=sc.deg.findIndex(d=>d[0]===off);if(k>=0)return syl[k];return CHROM_SOLFA[/minor/.test(scaleType)?(off+9)%12:off]||'';}
+  window.ENGRAVE={buildDictation,solfaFor,solfaOf,fillBar:(diff,metreId,len)=>fillBar(diff,METRES[metreId]||METRES['4/4'],{syncopation:true,noWhole:true},len),drawScore,hitTest,spellNote,resolveLine,keyAccMap,SCALES,METRES,MAJ_KS,KEYNAME,T3,barOf,posInBar};
 })();

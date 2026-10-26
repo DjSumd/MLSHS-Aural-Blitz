@@ -2,7 +2,7 @@
 // Caches are namespaced with PREFIX so this app never clears another app's cache
 // on the shared github.io origin.
 const PREFIX = 'blitz-aural-all-';
-const VERSION = PREFIX + "v3";
+const VERSION = PREFIX + "v11";
 const ASSETS = [
   './',
   './index.html',
@@ -29,7 +29,8 @@ const ASSETS = [
   './samples/piano_C4.mp3','./samples/piano_Ds4.mp3','./samples/piano_Fs4.mp3','./samples/piano_A4.mp3',
   './samples/piano_C5.mp3','./samples/piano_Ds5.mp3','./samples/piano_Fs5.mp3','./samples/piano_A5.mp3',
   './samples/piano_C6.mp3',
-  './samples/xylophone_C6.mp3','./samples/xylophone_G5.mp3'
+  './samples/xylophone_C6.mp3','./samples/xylophone_G5.mp3',
+  './theory/index.html','./theory/theory.js','./theory/engrave.js','./theory/gen.js','./theory/glyphs.js','./theory/refs.js','./theory/embed.js','./embed.js'
 ];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
