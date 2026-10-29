@@ -2,7 +2,7 @@
 // Caches are namespaced with PREFIX so this app never clears another app's cache
 // on the shared github.io origin.
 const PREFIX = 'blitz-aural-all-';
-const VERSION = PREFIX + "v27";
+const VERSION = PREFIX + "v29";
 const ASSETS = [
   './',
   './index.html',
@@ -31,15 +31,34 @@ const ASSETS = [
   './samples/piano_C6.mp3',
   './samples/xylophone_C6.mp3','./samples/xylophone_G5.mp3',
   './theory/index.html','./theory/theory.js','./theory/engrave.js','./theory/gen.js','./theory/glyphs.js','./theory/refs.js','./theory/embed.js','./embed.js','./qr.js','./task.js','./theory/qr.js','./theory/task.js','./testkit.js','./theory/testkit.js','./blitzui.js','./theory/blitzui.js','./live.js'];
+// Install: fetch every file fresh from the server (never from the browser's HTTP cache), so one version is cached as a set.
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks =>
     Promise.all(ks.filter(k => k.startsWith(PREFIX) && k !== VERSION).map(k => caches.delete(k)))
   ).then(() => self.clients.claim()));
 });
+// Pages and scripts: network first (always the newest matching set when online), cached copy when offline or the network stalls.
+// Audio samples: cache first (they never change).
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(r => r || fetch(e.request)));
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+  const key = url.origin + url.pathname;
+  if (/\.mp3$/i.test(url.pathname)) {
+    e.respondWith(caches.match(key, { ignoreSearch: true }).then(r => r || fetch(req).then(res => { if (res && res.ok && res.status === 200) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(key, copy)).catch(() => {}); } return res; })));
+    return;
+  }
+  e.respondWith(new Promise(resolve => {
+    let done = false;
+    const fromCache = () => caches.match(key, { ignoreSearch: true }).then(r => r || caches.match(req, { ignoreSearch: true }));
+    const timer = setTimeout(() => { fromCache().then(r => { if (r && !done) { done = true; resolve(r); } }); }, 6000);
+    fetch(new Request(url.href, { cache: 'no-cache', credentials: 'same-origin' })).then(res => {
+      if (res && res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(key, copy)).catch(() => {}); }
+      if (!done) { done = true; clearTimeout(timer); resolve(res); }
+    }).catch(() => fromCache().then(r => { if (!done) { done = true; clearTimeout(timer); resolve(r || Response.error()); } }));
+  }));
 });
