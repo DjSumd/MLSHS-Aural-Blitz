@@ -2,7 +2,7 @@
 // Caches are namespaced with PREFIX so this app never clears another app's cache
 // on the shared github.io origin.
 const PREFIX = 'blitz-aural-all-';
-const VERSION = PREFIX + "v33";
+const VERSION = PREFIX + "v34";
 const ASSETS = [
   './',
   './index.html',
@@ -30,7 +30,7 @@ const ASSETS = [
   './samples/piano_C5.mp3','./samples/piano_Ds5.mp3','./samples/piano_Fs5.mp3','./samples/piano_A5.mp3',
   './samples/piano_C6.mp3',
   './samples/xylophone_C6.mp3','./samples/xylophone_G5.mp3',
-  './theory/index.html','./theory/theory.js','./theory/engrave.js','./theory/gen.js','./theory/glyphs.js','./theory/refs.js','./theory/embed.js','./embed.js','./qr.js','./task.js','./theory/qr.js','./theory/task.js','./testkit.js','./theory/testkit.js','./blitzui.js','./theory/blitzui.js','./live.js'];
+  './theory/index.html','./theory/theory.js','./theory/engrave.js','./theory/gen.js','./theory/glyphs.js','./theory/refs.js','./theory/embed.js','./embed.js','./qr.js','./task.js','./theory/qr.js','./theory/task.js','./testkit.js','./theory/testkit.js','./blitzui.js','./theory/blitzui.js','./live.js','./fonts/fonts.css','./fonts/nunito-latin-600-normal.woff2','./fonts/nunito-latin-700-normal.woff2','./fonts/nunito-latin-800-normal.woff2','./fonts/nunito-latin-900-normal.woff2','./fonts/cormorant-garamond-latin-500-normal.woff2','./fonts/cormorant-garamond-latin-600-normal.woff2','./fonts/cormorant-garamond-latin-700-normal.woff2','./fonts/cormorant-garamond-latin-500-italic.woff2'];
 // Install: fetch every file fresh from the server (never from the browser's HTTP cache), so one version is cached as a set.
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
