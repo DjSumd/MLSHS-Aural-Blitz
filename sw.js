@@ -2,7 +2,7 @@
 // Caches are namespaced with PREFIX so this app never clears another app's cache
 // on the shared github.io origin.
 const PREFIX = 'blitz-aural-all-';
-const VERSION = PREFIX + "v36";
+const VERSION = PREFIX + "v37";
 const ASSETS = [
   './',
   './index.html',
@@ -35,10 +35,17 @@ const ASSETS = [
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(ASSETS.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
+// Pages running this version answer 'blitz-ack' and update themselves; an older page left open in the
+// background (which has no update check of its own) is reloaded so the student comes back to the new version.
+const ACK = new Set();
+self.addEventListener('message', e => { if (e.data === 'blitz-ack' && e.source) ACK.add(e.source.id); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks =>
     Promise.all(ks.filter(k => k.startsWith(PREFIX) && k !== VERSION).map(k => caches.delete(k)))
-  ).then(() => self.clients.claim()));
+  ).then(() => self.clients.claim()).then(() => self.clients.matchAll({ type: 'window' })).then(cs => {
+    cs.forEach(c => { try { c.postMessage({ type: 'blitz-sw-activated', v: VERSION }); } catch (x) {} });
+    return new Promise(r => setTimeout(r, 4000)).then(() => Promise.all(cs.filter(c => c.frameType !== 'nested' && !ACK.has(c.id) && c.visibilityState === 'hidden' && c.navigate).map(c => c.navigate(c.url).catch(() => {}))));
+  }).catch(() => {}));
 });
 // Pages and scripts: network first (always the newest matching set when online), cached copy when offline or the network stalls.
 // Audio samples: cache first (they never change).
@@ -47,6 +54,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  if (/\/version\.json$/.test(url.pathname)) return;
   const key = url.origin + url.pathname;
   if (/\.mp3$/i.test(url.pathname)) {
     e.respondWith(caches.match(key, { ignoreSearch: true }).then(r => r || fetch(req).then(res => { if (res && res.ok && res.status === 200) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(key, copy)).catch(() => {}); } return res; })));
