@@ -1,3 +1,4 @@
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["refs.js"]="20261103zd";
 // refs.js — Reference tabs for ATAR Music Theory Blitz (engraved with the same engine as the questions).
 const REFS=(()=>{
 const p=s=>T.parse(s);const n=(ps,dur,x)=>Object.assign({k:'n',p:ps.map(p),dur:dur||'w'},x||{});const r=(d,x)=>Object.assign({k:'r',dur:d},x||{});
@@ -67,12 +68,13 @@ function refTerms(){const tbl=(t,rows)=>`<div class="refhd">${t}</div><div class
    +tbl('Navigation',[['D.C. (da capo)','from the beginning'],['D.S. (dal segno) 𝄋','from the sign'],['al Fine / al Coda 𝄌','… to the end / … then jump to the Coda'],['segue / attacca','go straight on'],['1st & 2nd time bars','first ending, then the second on the repeat']])
    +tbl('Form',[['binary · ternary','AB · ABA'],['rondo','ABACA'],['verse–chorus · AABA','song forms (AABA = 32-bar)'],['strophic · through-composed','same music each verse · continuously new'],['12-bar blues','I I I I | IV IV I I | V IV I I'],['sonata form','exposition – development – recapitulation'],['theme and variations','a theme, then altered versions']])
    +tbl('Devices',[['ostinato / riff','repeated pattern'],['pedal','sustained note under changing harmony'],['sequence','motif repeated higher or lower'],['imitation','motif copied by another part'],['inversion','melody upside-down'],['augmentation / diminution','note values lengthened / shortened'],['call and response','phrase answered by another']])
-   +tbl('Texture',[['monophonic','a single melody (may be doubled or block-harmonised)'],['homophonic','melody with accompaniment; chords moving together'],['polyphonic','two or more independent melodies']]);}
+   +tbl('Texture',[['monophonic','a single melody (may be doubled or block-harmonised)'],['homophonic','melody with accompaniment; chords moving together'],['polyphonic','three or more independent melodies']]);}
 return [
   {id:'cof',name:'Circle of 5ths',render:refCircle,wire:wireCof},
   {id:'keys',name:'Key Signatures',render:refKeys},
   {id:'scl',name:'Scales & Modes',render:refScales},
   {id:'ivl',name:'Intervals',render:refIntervals},
+  {id:'kbd',name:'Keyboard',render:()=>window.BlitzUI?BlitzUI.keyboardHtml():'',wire:r=>{if(window.BlitzUI)BlitzUI.wireKeyboard(r);}},
   {id:'chd',name:'Chords & Symbols',render:refChords},
   {id:'harm',name:'Harmony',render:refHarmony},
   {id:'rhy',name:'Rhythm & Metre',render:refRhythm},

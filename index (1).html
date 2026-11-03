@@ -9,8 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap">
+<link rel="stylesheet" href="../fonts/fonts.css?v=20261103zd">
 <style>
   :root{--bg:#1b1a18;--ink:#1b1a18;--paper:#f6f1e7;--paper2:#efe8da;--line:#262421;--muted:#7a7267;--rule:#d8d0c1;--shade:#ebe4d6;
     --ox:#8c2b22;--brass:#b2862f;--green:#3d6b45;--red:#a3322a;--accent:#8c2b22;--cream:#efe9dc;--serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
@@ -69,7 +68,7 @@
   .guide b{color:#222} .guide ol,.guide ul{margin:6px 0 0;padding-left:20px} .guide li{margin:5px 0}
   .guide .gclose{position:absolute;top:10px;right:12px;border:0;background:var(--shade);border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer}
   .showbox{display:flex;justify-content:center;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:6px 8px;margin:2px 0 10px;overflow-x:auto}
-  .showbox svg{height:118px;width:auto;max-width:100%} .showbox.tall svg{height:150px}
+  .showbox svg{height:118px;width:auto;max-width:100%} .showbox.tall svg{height:150px} .showbox.long svg{height:auto;width:100%;max-height:220px}
   .legend{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:-4px 0 10px;font-size:12px;color:#4d463c}
   .legend .lab{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700}
   .legend .lgitem{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:2px 8px 2px 2px} .legend svg{height:56px;width:auto}
@@ -97,6 +96,8 @@
   .opts button:disabled{cursor:default}
   .match{display:flex;flex-direction:column;gap:9px}
   .mrow{display:flex;align-items:center;gap:10px}
+  .kgw{overflow-x:auto;margin:4px 0 10px}.kgw .kgrid{font-family:var(--sans);font-size:13px}.kgw .kgrid th.rh{font-family:var(--sans);font-size:12px;min-width:74px;max-width:110px;white-space:normal;line-height:1.2}.kgw td.mrow{display:table-cell;padding:1px}.kgw td.mrow select{font-size:13px;padding:3px 0;border:1px solid var(--rule);border-radius:4px;min-width:40px;max-width:46px;background:#fff;-webkit-appearance:none;appearance:none;text-align:center}.kgw .kgrid td{min-width:0}
+  .kgw td.mrow.ok{background:#e6f4ea}.kgw td.mrow.no{background:#fde8e6}.kgw .kgrid td,.kgw .kgrid th{padding:4px 6px;height:auto}
   .mrow .term{flex:0 0 40%;font-weight:600;font-size:15px}
   .mrow select{flex:1 1 auto;min-width:0;padding:10px 9px;border:1px solid var(--rule);border-radius:6px;font-size:14px;font-family:var(--sans);background:#fff;cursor:pointer}
   .mrow.ok select{border-color:var(--green);background:#e6efe5} .mrow.no select{border-color:var(--red);background:#f5e3e0}
@@ -144,7 +145,7 @@
   .exambar b{font-family:var(--serif);font-size:19px;font-weight:600} .exambar .mk{color:var(--brass);font-weight:700} .exambar .tm{font-family:var(--serif);font-size:19px}
   .examtable{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0} .examtable td,.examtable th{padding:7px 10px;border-bottom:1px solid var(--rule);text-align:left} .examtable th{background:var(--ink);color:var(--cream);font-size:11px;letter-spacing:1px;text-transform:uppercase;font-weight:600} .examtable td.r{text-align:right;font-weight:700}
   .examtotal{font-family:var(--serif);font-size:34px;font-weight:600;margin:6px 0}
-  body.embed header,body.embed .topbar,body.embed .tabs,body.embed footer,body.embed #musicfx{display:none!important} body.embed main{padding-top:6px}
+  body.embed header,body.embed .topbar,body.embed .tabs,body.embed footer,body.embed #musicfx{display:none!important} body.embed main{padding-top:6px} body.embed .dots{background:#f3f3f3;border:1px dashed #999;border-radius:4px;padding:4px 8px} .embedlab{font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#333;margin-right:8px;white-space:nowrap}
   .embedframe{width:100%;height:min(78vh,820px);border:1px solid var(--rule);border-radius:6px;background:#1b1a18}
   .dots .finishbtn{border:1px solid var(--brass);background:transparent;color:var(--brass);border-radius:999px;font-size:11px;font-weight:600;padding:5px 11px;cursor:pointer;font-family:var(--sans)}
   .setsel{padding:7px 10px;border:1px solid var(--rule);border-radius:6px;font-family:var(--sans);font-size:13px;background:#fff}
@@ -163,7 +164,7 @@
   @keyframes floatUp{0%{transform:translateY(40px) rotate(-10deg);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(-160px) rotate(25deg);opacity:0}}
   @media (prefers-reduced-motion:reduce){#musicfx span{animation:none;opacity:.35}}
   main,header,footer{position:relative;z-index:2}
-  #toast{position:fixed;left:50%;top:84px;transform:translateX(-50%) translateY(-10px);z-index:60;opacity:0;background:var(--cream);color:var(--ink);font-family:var(--serif);font-weight:600;font-size:20px;padding:10px 24px;border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.45);transition:opacity .25s,transform .3s;pointer-events:none;border:1px solid var(--brass);white-space:nowrap}
+  #toast{position:fixed;left:50%;top:84px;transform:translateX(-50%) translateY(-10px);z-index:60;opacity:0;background:var(--cream);color:var(--ink);font-family:var(--serif);font-weight:600;font-size:20px;padding:10px 24px;border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.45);transition:opacity .25s,transform .3s;pointer-events:none;border:1px solid var(--brass);white-space:normal;width:max-content;max-width:min(92vw,560px);text-align:center;line-height:1.25;border-radius:22px}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
   @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-6px)}40%,60%{transform:translateX(6px)}} .shake{animation:shake .4s}
   @keyframes winglow{0%{box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 0 rgba(61,107,69,.6)}100%{box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 14px rgba(61,107,69,0)}} .winglow{animation:winglow .6s}
@@ -239,7 +240,14 @@
   .sfc.ok{background:#e4efe5;border-color:#5d8a63;color:#2f5a35} .sfc.no{background:#f6e1df;border-color:#b4433a;color:#7d2a23}
   .sfpal{display:flex;gap:5px;flex-wrap:wrap} .sfpal button{border:1px solid var(--rule);background:#fff;border-radius:999px;padding:7px 13px;font-family:var(--serif);font-size:17px;font-weight:600;cursor:pointer;color:var(--ink)}
   .sfpal button:hover{border-color:var(--ink)}
-  body.paper .solfarow{display:none}
+  body.paper .solfarow{display:none}body.paper.testmode .solfarow{display:flex}
+.wqq{font-size:16px;margin:6px 0 8px;white-space:pre-wrap;line-height:1.45}.wqta{width:100%;box-sizing:border-box;font-family:var(--sans,inherit);font-size:15px;line-height:1.5;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;resize:vertical;background:#fff}.wqta:disabled{background:#f6f4ef;color:inherit}
+body.testing .btn-ans,body.testing .hearbtn,body.hidefb #fb,body.hidefb .btn-ans,body.hidefb #names,body.hidefb .hearbtn{display:none!important}
+body.todayset .btn-ans{display:none!important}
+body.hidefb #opts button.ok,body.hidefb #opts button.no{background:var(--paper,#fff)!important;color:inherit!important;border-color:var(--rule,#999)!important;box-shadow:none!important}
+body.hidefb #opts button.picked{background:#1b1a18!important;color:#fff!important;border-color:#1b1a18!important}
+body.hidefb .dots .d.ok,body.hidefb .dots .d.no,body.hidefb #dots .d.ok,body.hidefb #dots .d.no{background:#555!important;border-color:#555!important}
+
   .tabs button .ring{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-left:6px}
   .tabs button .ring circle{fill:none;stroke-width:3}
   .tabs button .mast{margin-left:5px;color:var(--brass);font-weight:900}
@@ -270,6 +278,7 @@
   .hearbtn:disabled{opacity:.4;cursor:default} .hearbtn.on{background:var(--ink);color:var(--cream)}
   body.paper .hearbtn,body.paper .sprintbtn,body.paper .h2hbtn{display:none!important}
   @media print{body{background:#fff;overflow:visible;height:auto}header,.topbar,.tabs,.dots,footer,.controls,#musicfx,#fx{display:none!important}.card{box-shadow:none;overflow:visible}}
+.pmrow .pmc{min-width:52px}.pmrow .pmc.cur{background:var(--ink,#1b1a18);color:#fff;border-color:var(--ink,#1b1a18)}.pmrow .pmc.cur.ok{background:var(--green);border-color:var(--green)}.pmrow .pmc.no{background:#fbe9e7}.pmrow .pmc.cur.no{background:var(--red);color:#fff}
 </style>
 </head>
 <body>
@@ -309,17 +318,43 @@
 </main>
 <footer>Mount Lawley SHS · Music · theory for Years 7–10 (WA curriculum) and Years 11–12 (SCSA ATAR). Keys: 1–9 answer · ← → move · Enter check · # b n 0 accidentals</footer>
 
-<script>window.SAMPLE_BASE='aural/samples/';</script>
-<script src="aural/audio.js"></script>
-<script src="aural/samples.js"></script>
-<script src="glyphs.js"></script>
-<script src="theory.js"></script>
-<script src="engrave.js"></script>
-<script src="gen.js"></script>
-<script src="refs.js"></script>
-<script src="embed.js"></script>
-<script src="qr.js"></script>
-<script src="task.js"></script>
+<script>window.SAMPLE_BASE='../samples/';</script>
+<script src="../audio.js?v=20261103zd"></script>
+<script src="../samples.js?v=20261103zd"></script>
+<script src="glyphs.js?v=20261103zd"></script>
+<script src="theory.js?v=20261103zd"></script>
+<script src="engrave.js?v=20261103zd"></script>
+<script src="gen.js?v=20261103zd"></script>
+<script src="refs.js?v=20261103zd"></script>
+<script src="embed.js?v=20261103zd"></script>
+<script src="qr.js?v=20261103zd"></script>
+<script src="task.js?v=20261103zd"></script>
+<script src="testkit.js?v=20261103zd"></script>
+<script src="blitzui.js?v=20261103zd"></script>
+<script>/*blitz-check*/(function(){var S="20261103zd";var F=window.BLITZ_FILES||{};var bad=[].slice.call(document.querySelectorAll("script[src]")).map(function(s){return s.getAttribute("src")}).filter(function(n){return !/^https?:/.test(n)&&F[n.split("/").pop().split("?")[0]]!==S});if(!bad.length)return;var last=0;try{last=+sessionStorage.getItem("blitzHeal")||0}catch(e){}if(Date.now()-last<60000){console.warn("Blitz: mixed file versions",bad);return;}try{sessionStorage.setItem("blitzHeal",String(Date.now()))}catch(e){}var go=function(){location.reload()};var clr=window.caches?caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf("blitz-aural-all-")===0||k.indexOf("blitz-theory-all-")===0}).map(function(k){return caches.delete(k)}))}):Promise.resolve();clr.then(function(){return navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration().then(function(r){if(r)return r.update()}):0}).catch(function(){}).then(go,go);})();</script>
+<script>/*blitz-update*/(function(){var S="20261103zd",P="blitz-theory-all-",APP="Theory Blitz";
+if(window.top!==window||/[?&]embed=/.test(location.search)||window.__EMBED||!/^https?:/.test(location.protocol))return;
+var t0=Date.now(),pending=null,bar=null;
+try{var u0=new URL(location.href);if(u0.searchParams.has('u')){u0.searchParams.delete('u');history.replaceState(history.state,'',u0.toString());}}catch(e){}
+function busy(){try{return typeof window.BLITZ_BUSY==='function'&&!!window.BLITZ_BUSY();}catch(e){return false;}}
+function home(){try{return !!(window.BlitzUI&&BlitzUI.inHome&&BlitzUI.inHome());}catch(e){return false;}}
+function go(v){try{sessionStorage.setItem('blitzUpdTried',v);}catch(e){}
+  var clr=window.caches?caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf(P)===0;}).map(function(k){return caches.delete(k);}));}):Promise.resolve();
+  clr.catch(function(){}).then(function(){return navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration().then(function(r){return r&&r.update();}):null;}).catch(function(){})
+    .then(function(){var u=new URL(location.href);u.searchParams.set('u',v);location.replace(u.toString());});}
+function show(v){if(!bar){bar=document.createElement('div');bar.id='blitzupd';bar.setAttribute('role','status');bar.innerHTML='<span></span><button type="button">Update now</button>';document.body.appendChild(bar);}
+  bar.querySelector('span').textContent=busy()?'A new version of '+APP+' is ready. Finish what you are doing, then update.':'A new version of '+APP+' is ready.';bar.querySelector('button').onclick=function(){go(v);};}
+function ready(v){pending=v;var tried=null;try{tried=sessionStorage.getItem('blitzUpdTried');}catch(e){}
+  if(tried===v){show(v);return;}
+  if(!busy()&&(document.visibilityState==='hidden'||home()||Date.now()-t0<15000)){go(v);return;}show(v);}
+function check(){try{fetch('version.json?t='+Date.now(),{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(j){if(j&&j.v&&j.v!==S)ready(j.v);}).catch(function(){});}catch(e){}
+  try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration)navigator.serviceWorker.getRegistration().then(function(r){if(r)r.update().catch(function(){});}).catch(function(){});}catch(e){}}
+setTimeout(check,1500);setInterval(check,5*60*1000);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')check();else if(pending&&!busy())go(pending);});
+addEventListener('pageshow',function(e){if(e.persisted)check();});addEventListener('focus',check);
+if(navigator.serviceWorker)navigator.serviceWorker.addEventListener('message',function(e){var d=e.data;if(d&&d.type==='blitz-sw-activated'){try{if(e.source&&e.source.postMessage)e.source.postMessage('blitz-ack');}catch(x){}check();}});
+var st=document.createElement('style');st.textContent='#blitzupd{position:fixed;left:8px;right:8px;top:8px;margin:0 auto;z-index:9999;display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:560px;box-sizing:border-box;background:#1b1a18;color:#f6f1e7;border:1px solid #b2862f;border-radius:14px;padding:10px 12px 10px 16px;font:600 14px/1.35 Nunito,system-ui,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.35)}#blitzupd button{flex:none;border:0;border-radius:10px;background:#b2862f;color:#1b1a18;font:800 13px Nunito,system-ui,sans-serif;padding:8px 12px;cursor:pointer}';document.head.appendChild(st);
+})();</script>
 <script>
 const APP='theoryAll';
 // ---- Exam: Section One Part B in the WACE shape (two score-based theory questions, ~9 marks each) ----
@@ -335,7 +370,9 @@ const TASKT={id:'task',name:'Class task',short:'Class task',special:true,task:tr
   make(){const R=window.TaskKit&&TaskKit.run;if(!R)return [];const out=[];
     R.task.s.forEach((sec,si)=>{const it=R.items.find(x=>x.si===si);let qs=withSeed(it.secSeed,()=>GEN.makeSet(sec.u,sec.n));let t=1;while(qs.length<sec.n&&t<5){qs=qs.concat(withSeed(it.secSeed+t*7919,()=>GEN.makeSet(sec.u,sec.n-qs.length)));t++;}
       qs.slice(0,sec.n).forEach(q=>{q.unit=sec.u;out.push(q);});});return out;}};
-const UNITS=[TODAY,WEAK].concat(GEN.UNITS,[EXAM,TASKT]);
+// ---- Years 7–10 Aural and Theory Test (runs on the Exam engine; look standardised by testkit.js) ----
+const TEST={id:'test',name:'Test',short:'Test',exam:true,test:true,special:true,yr:7,guide:`<b>Aural and Theory Test</b><ul><li>A full test in the school's standard format: an Aural section, then a Theory section, with the marks for each part shown.</li><li>Questions follow your year's curriculum. Every new test is different; your teacher can print the same test, with an answer key, from its test code.</li><li>Press Finish test when you are done: it is marked straight away.</li></ul>`};
+const UNITS=[TODAY,WEAK].concat(GEN.UNITS,[EXAM,TEST,TASKT]);
 const TASKI=()=>UNITS.indexOf(TASKT);
 let taskPrev=null;
 function taskOpen(){const R=TaskKit.run;SETQ=TASKT.make();SETQ.forId='task';
@@ -343,15 +380,17 @@ function taskOpen(){const R=TaskKit.run;SETQ=TASKT.make();SETQ.forId='task';
   Object.entries(R.state.rec).forEach(([pos,r])=>{scored['task.'+pos]=!!r[3];results['task.'+pos]=r[3]?'ok':'no';});
   if(TaskKit.isDone()){showTaskFinish();return;}const f=TaskKit.firstOpen();qi=f<0?0:f;load();}
 async function showTaskFinish(){renderTabs();document.getElementById('dots').innerHTML='';const c=document.getElementById('card');c.innerHTML=await TaskKit.finishHtml();TaskKit.wireFinish();c.scrollTop=0;burst('win',innerWidth/2,innerHeight/2,true);}
+function taskTestSync(){const R=TaskKit.run;if(!R||!R.task.tt)return;const mk=examPlan.map(it=>it.embed?(it.marks||it.m||0):(it.marks||it.m||1));const gs=[];examPlan.forEach(it=>{const lab=it.embed?'Theory/Aural section':'('+(it.gl||'')+') '+(it.gtitle||it.t||'');const L=it.embed?(it.embed==='B'?'Theory section':'Aural section'):lab;if(gs.length&&gs[gs.length-1][0]===L)gs[gs.length-1][1]++;else gs.push([L,1]);});TaskKit.setPlan(mk,gs);
+  Object.entries(R.state.rec).forEach(([pos,r])=>{scored[ui+'.'+pos]=!!r[3];results[ui+'.'+pos]=r[3]?'ok':'no';});if(R.state.done)showTaskFinish();}
 function taskRecord(ok){const q=curQ();const pos=qi;const secs=q._t0?(Date.now()-q._t0)/1000:0;
-  setTimeout(()=>{TaskKit.record(pos,ok,q._frac,secs,0);renderDots();const b=document.querySelector('.tkbar');if(b){b.outerHTML=TaskKit.banner();TaskKit.wireBanner();}if(TaskKit.isDone())toast('All answered — press Next to get your result code');},0);}
+  setTimeout(()=>{TaskKit.record(pos,ok,q._frac,secs,0);renderDots();const b=document.querySelector('.tkbar');if(b){b.outerHTML=TaskKit.banner();TaskKit.wireBanner();}if(TaskKit.isDone())toast(TaskKit.run.task.tt?'All answered — press Finish test to get your result code':'All answered — press Next to get your result code');},0);}
 let examPlan=[],examOn=false,examStart=0,examTick=null;const embedRes={};
 const EMBED=(()=>{if(window.__EMBED)return window.__EMBED;try{return new URL(location.href).searchParams.get('embed')||'';}catch(e){return '';}})();
 const EMBED_YEAR=(()=>{if(window.__EMBED_YEAR)return window.__EMBED_YEAR;try{return parseInt(new URL(location.href).searchParams.get('year'),10)||0;}catch(e){return 0;}})();
 const HAS_AURAL=()=>(typeof EMBED_DOC!=='undefined'&&EMBED_DOC.partA)||(typeof HAS_AURAL_DIR!=='undefined'&&HAS_AURAL_DIR);
 const AURAL_SRC=()=>(typeof EMBED_DOC!=='undefined'&&EMBED_DOC.partA)?null:'aural/index.html?embed=partA&year='+LEVEL();
-addEventListener('message',e=>{const m=e.data;if(!m||m.type!=='blitz-exam-done')return;embedRes[m.part]=m;if(UNITS[ui]&&UNITS[ui].exam&&!examOn)finishExam();else if(UNITS[ui]&&UNITS[ui].exam){toast('Part '+m.part+' finished: '+m.tot+' / '+m.max);renderDots();}});
-function buildExamPlan(){const y12=LEVEL()==='12';const clefs=y12?['treble','bass','alto']:['treble','bass'];
+addEventListener('message',e=>{const m=e.data;if(!m||m.type!=='blitz-exam-done')return;if(embedRes[m.part]&&embedRes[m.part]._final)return;embedRes[m.part]=m;if(UNITS[ui]&&UNITS[ui].test&&window.TaskKit&&TaskKit.run&&TaskKit.run.task.tt){const pos=examPlan.findIndex(it=>it.embed===m.part);if(pos>=0)TaskKit.record(pos,m.tot>=m.max,m.max?m.tot/m.max:0,(Date.now()-examStart)/1000,0);}if(UNITS[ui]&&UNITS[ui].exam&&!examOn)finishExam();else if(UNITS[ui]&&UNITS[ui].exam){toast('Part '+m.part+' finished: '+m.tot+' / '+m.max);renderDots();}});
+function buildExamPlan(){EMBKEY++;if(UNITS[ui]&&UNITS[ui].test){buildTestPlan();return;}const y12=LEVEL()==='12';const clefs=y12?['treble','bass','alto']:['treble','bass'];
   const q8=[
     {t:'Name the chord at the marked place',g:'nameChordQ',m:1},{t:'Name the chord at the marked place',g:'notateChordSigQ',m:1,alt:'nameChordQ'},
     {t:'Interval marked in the score',g:'nameIntervalQ',m:1},{t:'Interval marked in the score',g:'nameIntervalQ',m:1},{t:'Interval marked in the score',g:'nameIntervalQ',m:1},
@@ -364,14 +403,234 @@ function buildExamPlan(){const y12=LEVEL()==='12';const clefs=y12?['treble','bas
   examPlan=q8.map(x=>Object.assign({n:8},x)).concat(q9.map(x=>Object.assign({n:9},x)));
   if(!EMBED&&HAS_AURAL())examPlan.unshift({n:'A',t:'Part A: Aural',m:60,embed:'A'});
   examPlan.forEach(it=>{if(it.g==='notateChordSigQ')it.g='nameChordQ';});}
-function examGen(it){if(it.embed)return {t:'embed',_exam:it,prompt:it.t};let q=null;for(let t=0;t<25;t++){try{q=GEN.one(it.g);}catch(e){q=null;}if(!q)continue;if(it.clef&&q.clef!==it.clef){q=null;continue;}break;}
+function examGen(it,pos){if(it.test)return testGen(it,pos);if(it.embed)return {t:'embed',_exam:it,prompt:it.t};let q=null;for(let t=0;t<25;t++){try{q=GEN.one(it.g);}catch(e){q=null;}if(!q)continue;if(it.clef&&q.clef!==it.clef){q=null;continue;}break;}
   if(!q){q=GEN.one('noteNameQ');}q._exam=it;return q;}
-function examMarks(){return examPlan.map((it,pos)=>{if(it.embed){const r=embedRes[it.embed];return {it,got:r?r.tot:0,max:r?r.max:it.m,answered:!!r};}const q=SETQ[pos];const f=q&&q._frac!==undefined?q._frac:0;return {it,got:Math.round(it.m*f*2)/2,answered:!!(q&&('exam.'+pos) in scored)};});}
+function examMarks(){return examPlan.map((it,pos)=>{if(it.embed){const r=embedRes[it.embed];return {it,got:r?r.tot:0,max:r?r.max:it.m,answered:!!r};}const q=SETQ[pos];const f=q&&q._lock!==undefined?q._lock:q&&q._frac!==undefined?q._frac:0;return {it,got:Math.round(it.m*f*2)/2,answered:!!(q&&(UNITS[ui].id+'.'+pos) in scored)};});}
+let testRun={y:0,sem:'',seed:0},testGroups=[];
+const EMBED_P=(k,d)=>{const w=window['__EMBED_'+k.toUpperCase()];if(w!==undefined)return w;try{const v=new URL(location.href).searchParams.get(k);return v===null?d:v;}catch(e){return d;}};
+const TEST_AURAL_MARKS={7:TestKit.MARKS[7].a,8:TestKit.MARKS[8].a,9:TestKit.MARKS[9].a,10:TestKit.MARKS[10].a};
+function testTheoryGroups(y){const G=(title,text,list)=>({title,text,items:list.map(([g,m,sf])=>({g,m,sf})),marks:list.reduce((a,x)=>a+x[1],0)});const r=(g,n,m)=>Array.from({length:n},()=>[g,m||1]);
+  const MK=(title,text,make,marks)=>({title,text,make,marks,items:[]});const ALT=a=>a[Math.floor(Math.random()*a.length)];
+  const study=MK('Melody Study','Study the melody below and answer the questions.','study',8);
+  const visual=MK('Score Analysis','Look at the score below and answer the questions.','visual',4);
+  const terms=G('Terms and Signs','Answer each question about musical terms and signs.',[['termQ',1],['termQ',1],['artSymbolQ',1],['signRenderQ',1]]);
+  if(y<=7)return [].concat(ALT([[G('Note Names','Name each note.',r('noteNameQ',4)),G('Notation','Write each note on the stave.',r('notateNoteQ',4))],[study]]),[
+    G('Note and Rest Values','Answer each question about note and rest values.',r('valueQ',2).concat(r('restQ',2))),G('Rhythm','Name each time signature, then complete each bar.',r('timeSigQ',2).concat(r('completeBarQ',2))),
+    G('Key Signatures and Chords','Identify the key signatures, then name the chord and give its Roman numeral.',r('keySigIdQ',2).concat(r('chordRnQ',1,2))),ALT([G('Scales','Write the scale on the stave, then its sol-fa under each note (la is the tonic in minor).',[['notateScaleQ',4,1]]),G('Scales','Write the scale on the stave, then its sol-fa under each note (la is the tonic in minor). Then answer the question about semitones.',[['notateScaleQ',3,1],['semitoneQ',1]])])]);
+  if(y===8)return [G('Intervals','Name each interval.',r('nameIntervalQ',4))].concat(ALT([[G('Key Signatures','Identify the following key signatures.',r('keySigIdQ',4)),G('Writing Key Signatures','Write each key signature on the stave.',r('keySigWriteQ',2,2))],[G('Writing Key Signatures','Write each key signature on the stave.',r('keySigWriteQ',2,2)),visual]]),[
+    G('Chords','Name each chord and give its Roman numeral in the key shown.',r('chordRnQ',2,2)),G('Notating Chords','Notate the following chords.',[['notateChordQ',2],['notateRnQ',2]]),ALT([G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor).',[['notateScaleQ',4,1]]),G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor). Then answer the question about semitones.',[['notateScaleQ',3,1],['semitoneQ',1]])]),G('Identify the Scale','Name the scale.',r('nameScaleQ',1,2))]);
+  if(y===9)return [G('Intervals','Notate the upper note of these intervals.',r('notateIntervalQ',4)),ALT([G('Key Signatures','Identify the following key signatures.',r('keySigIdQ',4)),terms]),G('Chords','Identify i) and ii); for iii) name the chord and give its Roman numeral.',r('nameChordQ',2).concat(r('chordRnQ',1,2))),
+    G('Notating Chords','Notate the following chords.',r('notateChordQ',2).concat(r('notateRnQ',2))),].concat(ALT([[G('Scales','Write one octave of each scale. For i), also write its sol-fa under each note (la is the tonic in minor).',[['notateScaleQ',4,1],['notateScaleQ',4]])],[ALT([G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor).',[['notateScaleQ',4,1]]),G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor). Then answer the question about semitones.',[['notateScaleQ',3,1],['semitoneQ',1]])]),visual]]),[G('Identify the Scale','Name the scale.',r('nameScaleQ',1,2))]);
+  return [G('Intervals','Notate the upper note of i) and ii); name iii) and iv).',r('notateIntervalQ',2).concat(r('nameIntervalQ',2))),ALT([G('Key Signatures','Write each key signature on the stave.',r('keySigWriteQ',2,2)),visual]),
+    G('Chords','Identify i); name ii) and give its Roman numeral; notate iii).',[['nameChordQ',1],['chordRnQ',2],['notateRnQ',1]]),G('Harmony','Answer the harmony questions.',[['romanQ',1],['cadenceIdQ',1]]),ALT([G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor).',[['notateScaleQ',4,1]]),G('Scales','Write one octave of the scale, then its sol-fa under each note (la is the tonic in minor). Then answer the question about semitones.',[['notateScaleQ',3,1],['semitoneQ',1]])]),
+    G('Identify the Scale','Name the scale.',r('nameScaleQ',1,2)),G('Transposition','Rewrite the melody in the new key.',r('transposeKeyQ',1,4))];}
+const testTMarks=()=>testGroups.reduce((a,g)=>a+g.marks,0);
+function checkWrittenT(){const q=curQ();const ta=document.getElementById('wqta');const v=(ta&&ta.value||'').trim();if(!v){feedback('Write your answer first.','no');return;}
+  q._text=v.slice(0,900);q._frac=0;q._pending=true;scoreOnce(false);results[qid()]='pend';ta.disabled=true;const b=document.getElementById('check');if(b){b.disabled=true;b.textContent='Answer saved';}
+  feedback('Answer saved. Your teacher marks this one.','',q.answer?'Model answer: '+esc(q.answer):'');renderDots();}
+function writtenListT(){const out=[];examPlan.forEach((it,pos)=>{if(it.embed){const r=embedRes[it.embed];if(r&&Array.isArray(r.wt))r.wt.forEach(w=>out.push(Object.assign({},w,{pos})));return;}const q=SETQ[pos];if(q&&q.t==='written')out.push({pos,max:it.m,label:'Theory ('+(it.gl||'')+') '+(it.gt||''),q:String(q.wq).slice(0,160),text:q._text||''});});return out;}
+function ctTheoryGroups(ct,y){const out=[];const D=k=>TestKit.blockDef('T',k);const O=(b,k)=>TestKit.opt(Object.assign({sec:'T'},b),k);
+  const keyStr=p=>p.l+(p.a>0?'#':p.a<0?'b':'');const KN=s=>TestKit.prettyKey(s);
+  ct.T.forEach(b=>{const d=D(b.k);if(!d)return;const cnt=b.n||d.n||1,m=b.m;const title=b.t||d.title;let text='',items=[],grp=null;
+    const SO={};d.opts.filter(od=>od.set).forEach(od=>{const v=b.o&&b.o[od.key];if(od.type==='multi'){if(Array.isArray(v)&&v.length)SO[od.set]=od.num?v.map(Number):v.slice();}else if(v!==undefined&&v!==null&&v!==''){SO[od.set]=od.kind==='bool'?v==='yes':od.kind==='num'?+v:v;}});
+    if(b.k==='tq')SO.upTo=12;const HAS=Object.keys(SO).length>0;
+    const IT=(g,mm,ov,sf)=>({g,m:mm,ov:(ov||HAS)?Object.assign({},SO,ov||{}):null,sf:sf||0});const rep=(g,ov)=>Array.from({length:cnt},()=>IT(g,m,ov));const alt=(a,c)=>Array.from({length:cnt},(_,k)=>IT(k%2?c:a,m));
+    if(b.k==='ksgrid'){const giv=O(b,'given');const per=giv==='none'?16:8;text='Complete the key signature grids below: the '+(O(b,'sides').length>1?'sharp and flat keys':O(b,'sides')[0]+' keys')+', major and minor.';items=O(b,'sides').map(s=>IT('keySigGridQ',Math.round(per*m*4)/4,{ct:{side:s,given:giv}}));}
+    else if(b.k==='kswrite'){const clef=O(b,'clef'),names=O(b,'names');let keys=O(b,'keys');const max=(GEN.DEFAULTS[String(y)]||GEN.DEFAULTS['9']).keysMax;
+      const pool=T.majorKeys(max).map(keyStr).sort(()=>Math.random()-0.5);const pick=Array.from({length:cnt},(_,k)=>keys.length?keys[k%keys.length]:pool[k%pool.length]);
+      text='Write the key signature for each key'+(clef==='both'?' on both the treble and bass staves. Each stave is half the mark':'')+'.';
+      pick.forEach(k=>{if(clef==='both'){items.push(IT('keySigWriteCtQ',m/2,{ct:{key:k,clef:'treble',names}}),IT('keySigWriteCtQ',m/2,{ct:{key:k,clef:'bass',names}}));}else items.push(IT('keySigWriteCtQ',m,{ct:{key:k,clef,names}}));});}
+    else if(b.k==='ksid'){text='Name the key of each key signature.';items=rep('keySigIdQ');}
+    else if(b.k==='transp'){text='Transpose the melody into the new key. Write the new key signature, then every note.';items=[IT('transposeKeyQ',m,{ct:{from:O(b,'from'),to:O(b,'to'),iv:O(b,'iv'),metre:O(b,'metre'),bars:O(b,'bars'),clef:O(b,'clef')}})];}
+    else if(b.k==='keymel'){text='Choose the correct key for each melody.';items=rep('keyMelodyQ',{ct:{types:O(b,'types'),clef:O(b,'clef')}});}
+    else if(b.k==='ivkey'){const t=O(b,'tonic');text='The root note of these intervals is '+KN(t)+', and the key signature is that of '+KN(t)+' major. If the top note is in '+KN(t)+' major, the interval is major or perfect. If the top note is one semitone lower than the major interval, it is a minor interval. Bar 1 is an example: a perfect octave.';
+      grp={make:'ivkey',ov:Object.assign({},SO,{ct:{tonic:t,q:O(b,'q'),n:cnt}}),mEach:m,marks:cnt*m};}
+    else if(b.k==='ivmel'){text='Name each bracketed interval in the melody below.';grp={make:'ivmel',ov:{ct:{clef:O(b,'clef'),n:cnt}},mEach:m,marks:cnt*m};}
+    else if(b.k==='ivname'){text='Name each interval.';items=rep('nameIntervalQ');}
+    else if(b.k==='ivwrite'){text='Notate the missing note of each interval.';items=rep('notateIntervalQ');}
+    else if(b.k==='notes'){const w=O(b,'mode')==='write';text=w?'Write each note on the stave.':'Name each note.';items=rep(w?'notateNoteQ':'noteNameQ');}
+    else if(b.k==='group'){const md=O(b,'mode')||'notate';text=md==='choice'?'Choose the bar that is correctly grouped (beamed) for its time signature.':'Beam the quavers correctly for the time signature.';
+      items=Array.from({length:cnt},()=>IT(md==='choice'?'groupingQ':'groupingNotateQ',m,{metres:O(b,'metres'),grpBars:+O(b,'bars')||1}));}
+    else if(b.k==='barl'){const an=O(b,'anac')||'';text='Add the bar lines to each rhythm. The time signature and the final bar line are given'+(an==='yes'?'; each one starts with an anacrusis':'')+'.';items=Array.from({length:cnt},()=>IT('barlinesQ',m,{metres:O(b,'metres'),blBars:+O(b,'bars')||4,blAnac:an}));}
+    else if(b.k==='scale'){const sf=O(b,'sf')==='yes';const dr=O(b,'dir')||'',vl=O(b,'val')||'w',sg=O(b,'ksig')||'',mk=O(b,'mark')||'';
+      const dW=dr==='both'?'one octave ascending and descending':dr==='desc'?'one octave descending':dr==='asc'?'one octave ascending':'one octave';
+      text='Write '+dW+' of each scale'+(vl==='h'?' in minims':vl==='q'?' in crotchets':' in semibreves')+(sg==='yes'?', using a key signature':sg==='no'?', without a key signature (write the accidentals)':'')+'.'+(mk==='semi'?' Mark each semitone with a slur.':mk==='tone'?' Mark each tone with a bracket.':'')+(sf?' Then write its sol-fa under each note (la is the tonic in minor).':'');
+      items=Array.from({length:cnt},()=>IT('notateScaleQ',m,{scales:O(b,'scales'),scDir:dr,scVal:vl,scSig:sg,scMark:mk},sf?1:0));}
+    else if(b.k==='scaleid'){text='Name the scale.';items=rep('nameScaleQ');}
+    else if(b.k==='chordid'){text='Name each chord.';items=rep('nameChordQ');}
+    else if(b.k==='chordw'){text='Notate the following chords.';items=rep('notateChordQ');}
+    else if(b.k==='chordrn'){text='Name each chord and give its Roman numeral in the key shown.';items=rep('chordRnQ');}
+    else if(b.k==='rhythm'){text='Name each time signature, then complete each bar.';items=alt('timeSigQ','completeBarQ');}
+    else if(b.k==='values'){text='Answer each question about note and rest values.';items=alt('valueQ','restQ');}
+    else if(b.k==='terms'){text='Answer each question about musical terms and signs.';items=alt('termQ','artSymbolQ');}
+    else if(b.k==='harm'){text='Answer the harmony questions.';items=alt('romanQ','cadenceIdQ');}
+    else if(b.k==='wq'){const qs=O(b,'qs')||[];text='Answer each question in the space provided.';items=qs.map(w=>Object.assign(IT('written',w.m),{wq:w}));}
+    else if(b.k==='tq'){const gn=O(b,'gen');const lab=((TestKit.TQ||[]).find(x=>x[0]===gn)||[gn,'Answer each question'])[1];text=lab+': answer each question.';items=rep(gn);}
+    else if(b.k==='study'){text='Study the melody below and answer the questions.';grp={make:'study',ov:HAS?SO:null,mTot:m,marks:m,parts:O(b,'parts'),own:O(b,'own')||[]};}
+    else if(b.k==='visual'){text='Look at the score below and answer the questions.';grp={make:'visual',ov:HAS?SO:null,mTot:m,marks:m,parts:O(b,'parts'),own:O(b,'own')||[]};}
+    const tx=b.x?esc(b.x):text;
+    if(grp)out.push(Object.assign({title,text:tx,items:[]},grp));else if(items.length)out.push({title,text:tx,items,marks:Math.round(items.reduce((a,x)=>a+x.m,0)*4)/4});});
+  return out;}
+function openCustomBuilder(){TaskKit.requireTeacher(()=>TestKit.openBuilder(ctHost()));}
+function ctHost(){return {app:'theory',modal:(h,w)=>TaskKit.modal(h,w),close:()=>TaskKit.closeModal(),toast:t=>toast(t),
+  run:(ct,seed)=>{if(window.BlitzUI)BlitzUI.showHome(false);closeGuide();examOn=false;clearInterval(examTick);testRun={y:ct.y,sem:'',seed:seed>>>0,ct};ctSync();ui=UNITS.indexOf(TEST);SETQ=[];setMode('practise');openUnit(true);},
+  preview(ct,seed){this.run(ct,seed);},
+  print(ct,seed,key){this.run(ct,seed);testPrint(key);},
+  tracks(ct,seed){this.run(ct,seed);if(HAS_AURAL())testTracks();else toast('The aural section lives in Aural Blitz');},
+  mp3(ct,seed){this.tracks(ct,seed);if(HAS_AURAL())setTimeout(()=>toast('Press ⬇ Download all tracks as MP3s'),500);},
+  push(ct,seed){TaskKit.pushCustomTest(ct,seed);}};}
+const testCode=()=>testRun.ct?'version '+TestKit.code(Math.min(10,testRun.y),testRun.seed,'Two').slice(-5):TestKit.code(testRun.y,testRun.seed,testRun.sem);
+function withTestLevel(fn){const keep=JSON.parse(JSON.stringify(GEN.getSet())),kg=JSON.parse(JSON.stringify(GENSEL||{}));GEN.setLevel(String(testRun.y));GEN.setGensel({});try{return fn();}finally{GEN.setLevel(String(keep.level));GEN.applySet(keep);GEN.setGensel(kg);}}
+function ctSync(){TestKit.ctTitle=testRun.ct?testRun.ct.ti:null;}
+function buildTestPlan(){const CT=testRun.ct;const y=CT?CT.y:Math.max(7,Math.min(10,+LEVEL()));if(!testRun.seed)testRun.seed=TestKit.newSeed();testRun.y=y;testRun.sem=testRun.sem||(CT?'':TestKit.semester());ctSync();
+  for(const k in embedRes)delete embedRes[k];testGroups=withSeed((testRun.seed*3+1)>>>0,()=>CT?ctTheoryGroups(CT,y):testTheoryGroups(y));examPlan=[];
+  testGroups.forEach((g,gi)=>{if(!g.make)return;const want=(g.parts||[]).slice();
+    // Score analysis with chosen parts: remake until the score has what those parts need (an interval bracket, a semitone)
+    for(let t=0;t<25;t++){g.st=withTestLevel(()=>{if(g.ov)GEN.applySet(g.ov);return withSeed((testRun.seed*977+gi*31+t*7919)>>>0,()=>GEN.makeStudy(g.make));});if(g.make!=='visual'||!want.length)break;const I=g.st.info;if(want.every(a=>(a!=='iv'||I.iv)&&(a!=='semi'||I.semi)))break;}
+    if(g.make==='visual'&&want.length){const I=g.st.info;g.st.asks=want.filter(a=>(a!=='iv'||I.iv)&&(a!=='semi'||I.semi));if(!g.st.asks.length)g.st.asks=['key'];g.st.noTime=g.st.asks.includes('time');}
+    g.items=GEN.studyItems(g.st).filter(([part])=>g.make!=='study'||!want.length||want.includes(part)).map(([part,m,sf])=>({g:'study:'+part,m:g.mEach||m,sf}));if(g.mEach)g.marks=g.items.reduce((a,x)=>a+x.m,0);if(g.mTot){const tot=g.items.reduce((a,x)=>a+x.m,0);if(tot>0){g.items.forEach(x=>x.m=Math.round(x.m*g.mTot/tot*2)/2);const d=Math.round((g.mTot-g.items.reduce((a,x)=>a+x.m,0))*2)/2;if(d&&g.items.length){const big=g.items.reduce((b,x)=>x.m>b.m?x:b,g.items[0]);big.m=Math.max(0.5,big.m+d);}}g.marks=g.items.reduce((a,x)=>a+x.m,0);}
+    (g.own||[]).forEach(w=>g.items.push({g:'written',m:w.m,wq:w,stShow:1}));if(g.own&&g.own.length)g.marks=g.items.reduce((a,x)=>a+x.m,0);});
+  if(!EMBED&&HAS_AURAL()&&(!CT||CT.A.length))examPlan.push({n:'A',t:'Aural section',m:CT?TestKit.ctMarks(CT,'A'):TEST_AURAL_MARKS[y],embed:'A'});
+  testGroups.forEach((g,gi)=>g.items.forEach((it,k)=>examPlan.push({n:gi+1,gi,gl:TestKit.letter(gi),gt:g.title,gx:g.text,gm:g.marks,t:g.title,sub:k,subn:g.items.length,g:it.g,m:it.m,sf:it.sf,ov:it.ov||null,wq:it.wq||null,stShow:it.stShow||0,test:true})));}
+function testGen(it,pos){if(it.g==='written'){const q=TestKit.writtenQ(it.wq||{});q.prompt=q.wq;q.unit='pitch';q.gen='written';q._exam=it;if(it.stShow){const st=testGroups[it.gi]&&testGroups[it.gi].st;if(st){q.show=GEN.studyShow(st);q._sharedShow=true;}}return q;}if(String(it.g).startsWith('study:')){const st=testGroups[it.gi].st;const q=withTestLevel(()=>withSeed((testRun.seed*31+pos*7919)>>>0,()=>GEN.studyQ(it.g.slice(6),st)));q.unit='pitch';q.gen=it.g;q._exam=it;return q;}
+  const seen=new Set(SETQ.filter(Boolean).map(q=>q.prompt+'|'+(q.clef||'')+'|'+(q.answer||'')+'|'+JSON.stringify((q.items||[]).map(i=>i.target&&i.target.map(T.spn)))));
+  return withTestLevel(()=>{if(it.ov)GEN.applySet(it.ov);let q=null,lastQ=null;for(let t=0;t<30;t++){try{q=withSeed((testRun.seed*31+pos*7919+t*104729)>>>0,()=>GEN.one(it.g));}catch(e){q=null;}if(!q)continue;const key=q.prompt+'|'+(q.clef||'')+'|'+(q.answer||'')+'|'+JSON.stringify((q.items||[]).map(i=>i.target&&i.target.map(T.spn)));if(seen.has(key)||(it.sf&&!q.solfa&&t<29)){lastQ=q;q=null;continue;}break;}
+    if(!q)q=lastQ||GEN.one('noteNameQ');q._exam=it;return q;});}
+function testSetq(){SETQ=[];examPlan.forEach((it,pos)=>{SETQ.push(it.embed?{t:'embed',_exam:it,prompt:it.t}:testGen(it,pos));});SETQ.forId='test';}
+function testBar(q){const it=q._exam;const n=SETQ.indexOf(q);const firstT=examPlan.findIndex(x=>!x.embed)===n;
+  return `${TestKit.header(testRun.y,testRun.sem)}<div class="tstpos">${n+1} of ${SETQ.length} · <span class="tm" id="examclock">${examClock()}</span></div>`+
+    (it.embed?TestKit.sectionHead('AURAL',it.m):(firstT?TestKit.sectionHead('THEORY',testTMarks()):'')+`<div class="tstq"><span>(${it.gl}) <b>${esc(it.gt)}:</b> ${it.gx}</span><span class="mk">(${it.gm} mark${it.gm===1?'':'s'})</span></div>${it.subn>1?`<div class="tstsub">${TestKit.roman(it.sub)})</div>`:''}`);}
+let OCOUNT={k:'',n:null};
+function otherCountKey(){return testRun.y+'|'+testRun.seed+'|'+(testRun.ct?TestKit.ctEncode(testRun.ct):'');}
+function otherCount(){if(testRun.ct)return testRun.ct.A.length;return OCOUNT.k===otherCountKey()?OCOUNT.n:null;}
+function fetchOtherCount(){if(testRun.ct||OCOUNT.k===otherCountKey())return;const k=otherCountKey();OCOUNT={k:'pending:'+k,n:null};const Sx=AURAL_TEST_SRC('countA',false);
+  TestKit.request(Sx.src,Sx.doc,'blitz-test-count',25000).then(m=>{OCOUNT={k,n:m.n};const el=document.getElementById('tstothn');if(el)el.textContent=m.n;}).catch(()=>{OCOUNT={k:'',n:null};const el=document.getElementById('tstothn');if(el)el.textContent='—';});}
+function testCover(){if(HAS_AURAL()&&!EMBED)setTimeout(fetchOtherCount,0);const y=testRun.y,CT=testRun.ct,t=testTMarks(),a=HAS_AURAL()&&!EMBED&&(!CT||CT.A.length)?(CT?TestKit.ctMarks(CT,'A'):TEST_AURAL_MARKS[y]):0;
+  return `<div class="tstcover">${TestKit.header(y,testRun.sem)}<div class="tstname">Name:<span>${esc(currentName||'')}</span></div>
+    <p class="prompt" style="font-weight:700;font-size:17px">${esc(TestKit.title(y))}</p>
+    <table><tr><th>Section</th><th>Questions</th><th>Marks</th></tr>${a?`<tr><td>Aural section</td><td id="tstothn">${otherCount()==null?'…':otherCount()}</td><td>/${a}</td></tr>`:''}<tr><td>Theory section</td><td>${testGroups.length}</td><td>/${t}</td></tr><tr><th colspan="2">Total</th><th>/${a+t}</th></tr></table>
+    <ol class="sub" style="padding-left:20px"><li>Answer every question.${a?' The aural section comes first; press the track button to hear each excerpt.':''}</li><li>Your first answer to each question is the one that counts. ${testRun.ck?'You see whether each answer is right straight after you answer it.':'Marks and correct answers are shown when you finish, not during the test.'}</li><li>Move with Prev, Next or the markers above the page; press <b>Finish test</b> when you are done.</li><li>${CT?'This test was set by your teacher.':'The test follows the Year '+y+' curriculum. A new test is different every time.'}</li></ol>
+    ${window.TaskKit&&TaskKit.run?'':`<div class="setchips" style="margin:6px 0"><button class="chip${testRun.ck?' on':''}" id="tstck">Check my answers as I go</button></div>`}<div class="controls"><button class="btn-check" id="examgo">Start the test</button>${CT?'':'<button class="btn-ghost" id="examnew">New test</button>'}<button class="btn-ghost tstteach" id="tstteach">${CT?'Teacher: back to the builder':'Teacher: print or play this test'}</button></div></div>`;}
+const AURAL_TEST_SRC=(mode,key)=>{const ctq=testRun.ct?TestKit.ctEncode(testRun.ct):'';const qs='year='+testRun.y+'&seed='+testRun.seed+'&sem='+testRun.sem+(key?'&key=1':'')+(ctq?'&ct='+ctq:'')+(testRun.ck?'&ck=1':'');if(typeof EMBED_DOC!=='undefined'&&EMBED_DOC.partA)return {doc:EMBED_DOC.partA.replace('<head>','<head><script>window.__EMBED="'+mode+'";window.__EMBED_YEAR='+testRun.y+';window.__EMBED_SEED='+testRun.seed+';window.__EMBED_SEM="'+testRun.sem+'";window.__EMBED_KEY='+(key?1:0)+';window.__EMBED_CT="'+ctq+'";window.__EMBED_CK='+(testRun.ck?1:0)+';<\/script>')};return {src:'aural/index.html?embed='+mode+'&'+qs};};
+function testTeacher(){if(testRun.ct){openCustomBuilder();return;}TaskKit.requireTeacher(()=>{const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<p class="prompt">Print or play this test</p>
+  <p class="sub">Test code <b style="font-family:ui-monospace,Consolas,monospace">${testCode()}</b>. The same code always gives the same test, so keep it with your answer key. It is printed on the key, not on the students' paper.</p>
+  <div class="setgrp"><div class="setlabel">Semester (for the heading)</div><div class="setchips"><button class="chip${testRun.sem==='One'?' on':''}" data-sem="One">Semester One</button><button class="chip${testRun.sem==='Two'?' on':''}" data-sem="Two">Semester Two</button></div></div>
+  <div class="controls"><button class="btn-check" id="tstprint">Print the test</button><button class="btn-ghost" id="tstkey">Print the answer key</button>${HAS_AURAL()?'<button class="btn-ghost" id="tsttracks">Play the tracks</button>':''}<button class="btn-ghost" id="tstedit">Edit this test (change any question)…</button><button class="btn-ghost" id="tstct">Build a custom test…</button></div>
+  <div class="setgrp"><div class="setlabel">Open another test code</div><div style="display:flex;gap:8px"><input id="tstcode" class="tkin" style="max-width:180px;text-transform:uppercase" placeholder="e.g. Y9S2-K3F7Q"><button class="btn-ghost" id="tstopen">Open</button></div></div>`;
+  g.classList.add('open');document.getElementById('gback').classList.add('open');
+  g.querySelectorAll('[data-sem]').forEach(b=>b.onclick=()=>{testRun.sem=b.dataset.sem;closeGuide();examStartCard();testTeacher();});
+  document.getElementById('tstprint').onclick=()=>testPrint(false);document.getElementById('tstkey').onclick=()=>testPrint(true);
+  const tr=document.getElementById('tsttracks');if(tr)tr.onclick=()=>{closeGuide();testTracks();};document.getElementById('tstct').onclick=()=>{closeGuide();openCustomBuilder();};
+  document.getElementById('tstedit').onclick=()=>{closeGuide();TaskKit.requireTeacher(()=>TestKit.openPreset(ctHost(),'y'+Math.max(7,Math.min(10,testRun.y||+LEVEL()))+'test'));};
+  document.getElementById('tstopen').onclick=()=>{const p=TestKit.parse(document.getElementById('tstcode').value);if(!p){toast('That isn\'t a test code');return;}if(String(p.y)!==LEVEL())setLevelUI(String(p.y),true);testRun={y:p.y,seed:p.seed,sem:p.sem};closeGuide();openUnit(true);toast('Test '+testCode()+' opened');};});}
+function testTracks(){const c=document.getElementById('card');document.getElementById('dots').innerHTML='';const S=AURAL_TEST_SRC('tracksA',false);
+  c.innerHTML=`${TestKit.header(testRun.y,testRun.sem)}<iframe class="embedframe" id="tracksframe" ${S.src?`src="${S.src}"`:''} allow="autoplay" style="height:min(70vh,760px)"></iframe><div class="controls"><button class="btn-ghost" id="tstback">Back to the test</button></div>`;
+  if(!S.src)document.getElementById('tracksframe').srcdoc=S.doc;document.getElementById('tstback').onclick=()=>examStartCard();}
+// ---- key-signature grid (custom tests) ----
+function ctGridHtml(q){const G=q.grid;let pi=0;const at={};G.blanks.forEach((b,i)=>{at[b.r+'.'+b.c]=i;});
+  return `<div class="match kgw" id="match"><table class="kgrid">${G.rows.map((row,ri)=>`<tr><th class="rh">${esc(row.label)}</th>${row.cells.map((v,c)=>{if(ri===0)return `<td class="${G.given[c]?'g':''}"><b>${esc(v)}</b></td>`;
+    const k=ri+'.'+c;if(!(k in at))return `<td class="g">${esc(v)}</td>`;return `<td class="mrow" data-r="${at[k]}"><select aria-label="${esc(q.pairs[at[k]][0])}"><option value="">·</option>${(q.gridOpts[ri]||[]).map(o=>`<option value="${esc(o)}">${esc(o)}</option>`).join('')}</select></td>`;}).join('')}</tr>`).join('')}</table></div>`;}
+function ctGridPaper(q,mode,sel){const G=q.grid;const at={};G.blanks.forEach((b,i)=>{at[b.r+'.'+b.c]=i;});
+  return `<table class="kgrid">${G.rows.map((row,ri)=>`<tr><th class="rh">${esc(row.label)}</th>${row.cells.map((v,c)=>{if(ri===0)return `<td class="${G.given[c]?'g':''}"><b>${esc(v)}</b></td>`;const k=ri+'.'+c;if(!(k in at))return `<td class="g">${esc(v)}</td>`;
+    const i=at[k];if(mode==='key')return `<td class="k">${esc(v)}</td>`;if(mode==='you'){const y=sel[i];return `<td><span class="yv ${y===v?'ok':'no'}">${esc(y||'–')}</span></td>`;}return '<td></td>';}).join('')}</tr>`).join('')}</table>`;}
+// paper versions of the theory questions
+function paperT(q,it,key){if(q&&q.t==='written')return TestKit.writtenPaper(q,key,it.subn>1?TestKit.roman(it.sub)+')':'');const K=v=>key?`<span class="ans k">${esc(v)}</span>`:'<span class="ans"></span>';const lbl=`<div class="lbl">${it.subn>1?TestKit.roman(it.sub)+') ':''}${q.prompt}</div>`;
+  const showSvg=()=>q.show?(q.show.svg||E.render(Object.assign({},q.show.spec,{paper:true})).svg):'';
+  if(q.t==='choice'&&q._sharedShow&&q.paperLine)return `<div class="cell">${lbl}${K(String(q.answer))}</div>`;
+  if(q.t==='choice'&&q.show&&q.paperOpts){const ans=String(q.answer);return `<div class="cell wide">${lbl}${showSvg()}<div class="opts">${q.opts.map(o=>`<span class="o${key&&String(o.v)===ans?' k':''}">${esc(o.v)}</span>`).join('')}</div></div>`;}
+  if(q.t==='choice'&&q._sharedShow){const ans=String(q.answer);return `<div class="cell wide">${lbl}<div class="opts">${q.opts.map(o=>`<span class="o${key&&String(o.v)===ans?' k':''}">${esc(o.v)}</span>`).join('')}</div></div>`;}
+  if(q.t==='choice'){const ans=String(q.answer);if(q.show&&q.parts)return `<div class="cell">${lbl}${showSvg()}<div class="pr">Chord: ${K(q.parts[0])}</div><div class="pr">Roman numeral: ${K(q.parts[1])}</div></div>`;
+    if(q.show){const n=q.show.spec&&q.show.spec.items?q.show.spec.items.length:0;return `<div class="cell${n>16?' wide':n>5?' half':''}">${lbl}${showSvg()}${K(ans)}</div>`;}
+    if(q.opts.some(o=>o.svg))return `<div class="cell wide">${lbl}<div class="svopts">${q.opts.map((o,i)=>`<div class="svo"><span class="o${key&&String(o.v)===ans?' k':''}"></span><b>${String.fromCharCode(65+i)}</b><span class="svgw">${o.svg}</span></div>`).join('')}</div></div>`;
+    return `<div class="cell${q.opts.length>3?' wide':''}">${lbl}<div class="opts">${q.opts.map(o=>`<span class="o${key&&String(o.v)===ans?' k':''}">${o.svg?o.svg:esc(o.v)}</span>`).join('')}</div></div>`;}
+  if(q.t==='beam'){const blank=E.render({clef:'treble',sig:0,time:q.time,items:[{k:'gap',w:q.nNotes*2.4},{k:'bar',final:true}],paper:true}).svg;
+    return `<div class="cell wide">${lbl}${key?bjSvg(q,q.answer,{paper:true,col:'#b3261e'}).svg:bjSvg(q,[],{paper:true}).svg+'<div class="lbl" style="margin-top:2mm">Rewrite it, correctly beamed:</div>'+blank}</div>`;}
+  if(q.t==='barl')return `<div class="cell wide">${lbl}${blSvg(q,key?q.answer:[],{paper:true,col:'#b3261e'}).svg}</div>`;
+  if(q.t==='match'&&q.grid)return `<div class="cell wide">${lbl}${ctGridPaper(q,key?'key':'blank')}</div>`;
+  if(q.t==='match')return `<div class="cell wide">${lbl}${q.pairs.map(p=>`<div>${esc(p[0])} ${K(p[1])}</div>`).join('')}</div>`;
+  const items=q.items.map(x=>{if(x.k==='ksig'){const tg=ksTarget(q);return Object.assign({},x,{accs:key?tg.map(a=>Object.assign({},a,{col:'#b3261e'})):[]});}
+    if(x.k!=='slot')return Object.assign({},x);const o=Object.assign({},x);if(x.given){o.p=x.p;o.explicit=false;}else if(key){o.p=x.target;o.col='#b3261e';o.explicit=false;}else{o.p=[];}
+    if(key&&q.pairMark&&(q.pairs||[]).includes(x.slot)){o.pm=q.pairMark==='semi'?'sl':'br';o.pmCol='#b3261e';}return o;});
+  const svg=E.render({clef:q.clef,sig:q.ksPlace?0:q.keysigEdit?(key?(q.sigTarget||0):0):(q.sig||0),time:q.time||null,items,noBar:!q.time,paper:true,barNums:!!q.barNums}).svg;
+  const sf=q.sfOnly?`<div class="lbl" style="margin-top:2mm">Sol-fa</div><div class="boxes sf">${q.solfa.map(x=>`<span class="b${key?' k':''}">${key?x:''}</span>`).join('')}</div>`:q.solfa&&it.sf?`<div class="lbl" style="margin-top:2mm">Sol-fa</div><div class="boxes sf">${q.solfa.map((x,i)=>i<1?`<span class="b g">${x}</span>`:`<span class="b${key?' k':''}">${key?x:''}</span>`).join('')}</div>`:'';
+  return `<div class="cell${items.length>8||sf?' wide':items.length>3||q.time?' half':''}">${lbl}${q._sharedShow?'':showSvg()}${svg}${sf}</div>`;}
+function ansYouT(q,it){if(q&&q.t==='written')return TestKit.writtenYou(q);const r=q&&q._resp;if(!r)return '<div class="na">Not answered</div>';const G=TestKit.GOOD,B=TestKit.BAD;
+  const pmY=()=>{if(!q.pairMark)return '';const want=q.pairs||[],mine=r.pm||[];const L=a=>a.length?a.map(i=>(i+1)+'–'+(i+2)).join(', '):'none';const ok=mine.length===want.length&&mine.every(i=>want.includes(i));return '<div class="lbl" style="margin-top:2mm">'+(q.pairMark==='semi'?'Semitones':'Tones')+' marked: <span class="'+(ok?'ok':'no')+'">'+L(mine.slice().sort((a,b)=>a-b))+'</span>'+(ok?'':' · correct: '+L(want))+'</div>';};
+  if(q.t==='beam'){const J=r.bj||[];const s=bjScore(q,J);return `<div class="cell wide">${bjSvg(q,J,{paper:true,marked:true}).svg}<div class="lbl">${s.right} of ${s.of} joins right (red dots: wrong)</div></div>`;}
+  if(q.t==='barl'){const sel=r.bl||[];const s=blScore(Object.assign({},q,{_bl:sel}));return `<div class="cell wide">${blSvg(q,sel,{paper:true,marked:true,missed:true}).svg}<div class="lbl">${s.hit} of ${s.of} bar lines right${s.extra?', '+s.extra+' extra':''} (missed ones dashed)</div></div>`;}
+  const sfY=()=>{const S=q._sf;if(!r.sf||!S)return '';return `<div class="lbl" style="margin-top:2mm">Sol-fa</div><div class="boxes sf">${S.ans.map((a,i)=>i<(S.given||0)?`<span class="b g">${esc(a)}</span>`:`<span class="b ${r.sf[i]===a?'ok':'no'}">${esc(r.sf[i]||'–')}</span>`).join('')}</div>`;};
+  if(q.t==='choice'){const v=r.picked==null?'':String(r.picked);if(q.parts){const pp=v.split(' · ');return `<div class="pr">Chord: <span class="yv ${pp[0]===q.parts[0]?'ok':'no'}">${esc(pp[0]||'–')}</span></div><div class="pr">Roman numeral: <span class="yv ${pp[1]===q.parts[1]?'ok':'no'}">${esc(pp[1]||'–')}</span></div>`;}
+    const o=q.opts.find(x=>String(x.v)===v);return o&&o.svg?`<div class="opts"><span class="o">${o.svg}</span></div><span class="yv ${v===String(q.answer)?'ok':'no'}">${v===String(q.answer)?'Right':'Wrong'}</span>`:`<span class="yv ${v===String(q.answer)?'ok':'no'}">${esc(v||'–')}</span>`;}
+  if(q.t==='match'&&q.grid)return ctGridPaper(q,'you',r.sel||[]);
+  if(q.t==='match')return q.pairs.map((p,i)=>`<div>${esc(p[0])} <span class="yv ${(r.sel||[])[i]===p[1]?'ok':'no'}">${esc((r.sel||[])[i]||'–')}</span></div>`).join('');
+  if(!q.items)return '<div class="note">Answered — see the marks.</div>';
+  const key=a=>(a||[]).map(T.spn).sort().join(',');
+  const items=q.items.map((x,i)=>{if(x.k==='ksig'){const tg=ksTarget(q);const pl=r.ksp||[];return Object.assign({},x,{accs:q.ksPlace?pl.map((a,j)=>Object.assign({},a,{col:tg[j]&&tg[j].d===a.d&&tg[j].a===a.a?G:B})):[]});}
+    if(x.k!=='slot')return Object.assign({},x);const o=Object.assign({},x);if(x.given){o.p=x.p;o.explicit=false;}else{const mine=(r.p&&r.p[i])||[];o.p=mine;o.explicit=false;o.col=key(mine)===key(x.target)?G:B;}return o;});
+  let svg='';try{svg=E.render({clef:q.clef,sig:q.ksPlace?0:q.keysigEdit?(r.ks||0):(q.sig||0),time:q.time||null,items,noBar:!q.time,paper:true,barNums:!!q.barNums}).svg;}catch(e){}
+  const ksNote=q.keysigEdit&&q.sigTarget!==undefined?`<div class="note"><span class="yv ${r.ks===q.sigTarget?'ok':'no'}">Key signature</span></div>`:'';
+  return `<div class="cell${items.length>3||q.time?' wide':''}">${q.sfOnly?'':svg}${ksNote}${sfY()}${pmY()}</div>`;}
+function answerSheetBody(){const m=examMarks();let html='';const row=(it,pos,label)=>{const q=SETQ[pos];if(!q)return '';let key='';try{key=paperT(q,it,true);}catch(e){key='<div class="note">'+esc(String(q.answer||''))+'</div>';}
+    return TestKit.ansRow(label,(m[pos]&&m[pos].got)||0,it.m||1,ansYouT(q,it),key);};
+  if(UNITS[ui].test){html+=TestKit.sectionHead('THEORY',testTMarks());testGroups.forEach((g,gi)=>{const list=examPlan.map((it,pos)=>[it,pos]).filter(([it])=>!it.embed&&it.gi===gi);if(!list.length)return;
+      const sq=SETQ[list[0][1]];const shared=g.st&&(['visual','ivkey','ivmel'].includes(g.st.kind)||(g.st.kind==='study'&&!g.items.some(x=>x.g==='study:solfa')))&&sq&&sq.show?`<div class="cell wide">${E.render(Object.assign({},sq.show.spec,{paper:true})).svg}</div>`:'';
+      html+=`<div class="pq">${TestKit.groupHead({title:g.title,text:g.text,marks:g.marks},gi)}${shared}${list.map(([it,pos])=>row(it,pos,it.subn>1?TestKit.roman(it.sub)+')':'Question')).join('')}</div>`;});}
+  else{html+=`<div class="tstsec"><span>${EMBED?'Part B: Theory':'Section One · Part B: Theory'}</span></div>`;examPlan.forEach((it,pos)=>{if(it.embed)return;html+=row(it,pos,'Question '+(pos+1));});}
+  return html;}
+window.answerSheetBody=answerSheetBody;
+function openAnswerSheet(){let body='';const own=()=>{try{return answerSheetBody();}catch(e){return '<p class="na">The answer sheet could not be built ('+esc(e.message)+').</p>';}};
+  let cb='';if(examPlan.some(it=>it.embed)){const f=embedFrame();try{if(f&&f.contentWindow&&f.contentWindow.answerSheetBody)cb=f.contentWindow.answerSheetBody();}catch(e){}
+    cb=cb||`<div class="tstsec"><span>${UNITS[ui].test?'AURAL':'Part A: Aural'}</span></div><p class="na">This section wasn't opened, so there are no answers to show.</p>`;}
+  body=cb+own();const mk=examMarks();const tot=mk.reduce((a,x)=>a+(x.got||0),0),max=mk.reduce((a,x)=>a+(x.max||x.it.m||0),0);
+  TestKit.answerSheet({title:(UNITS[ui].test?TestKit.title(testRun.y):'Exam practice')+' · answer sheet',y:UNITS[ui].test?testRun.y:0,sem:testRun.sem,name:currentName,body,summary:`<p style="font-size:13pt;font-weight:700;margin:0 0 3mm">Total: ${Math.round(tot*2)/2} / ${max}</p>`});}
+function testPaperB(key){let html=TestKit.sectionHead('THEORY',testTMarks());if(!SETQ.length||SETQ.forId!=='test')testSetq();
+  testGroups.forEach((g,gi)=>{const list=examPlan.map((it,pos)=>[it,pos]).filter(([it])=>!it.embed&&it.gi===gi);
+    const sq=list.length&&SETQ[list[0][1]];const shared=g.st&&(['visual','ivkey','ivmel'].includes(g.st.kind)||(g.st.kind==='study'&&!g.items.some(x=>x.g==='study:solfa')))&&sq&&sq.show?`<div class="cell wide">${E.render(Object.assign({},sq.show.spec,{paper:true})).svg}</div>`:'';
+    html+=`<div class="pq">${TestKit.groupHead({title:g.title,text:g.text,marks:g.marks},gi)}<div class="row">${shared}${list.map(([it,pos])=>paperT(SETQ[pos],it,key)).join('')}</div></div>`;});return html;}
+async function testPrint(key){closeGuide();const title=TestKit.title(testRun.y)+(key?' — answer key':'');const w=TestKit.openPrint(title);if(!w){toast('Allow pop-ups for this site to print');return;}
+  const secs=[];let a=0;
+  if(HAS_AURAL()){try{const S=AURAL_TEST_SRC('printA',key);const m=await TestKit.request(S.src,S.doc,'blitz-test-print',30000);secs.push({html:m.html});a=m.marks;}catch(e){secs.push({html:'<p>The aural section could not be prepared on this device.</p>'});}}
+  secs.push({html:testPaperB(key)});
+  TestKit.fillPrint(w,{title,y:testRun.y,sem:testRun.sem,code:testCode(),key,sections:secs,aMarks:a,tMarks:testTMarks()});}
+// ---- the companion section of a combined test: its marks are collected at Finish test, even if Finish Part A was never pressed ----
+function partRows(){const m=examMarks().filter(x=>!x.it.embed);return (typeof testGroups!=='undefined'?testGroups:[]).map((g,gi)=>{const its=m.filter(x=>x.it.gi===gi);return {l:TestKit.letter(gi),t:g.title,got:Math.round(its.reduce((a,x)=>a+x.got,0)*2)/2,m:g.marks,un:its.filter(x=>!x.answered).length};});}
+function partResult(){const m=examMarks();const mine=m.filter(x=>!x.it.embed);return {rows:partRows(),tot:Math.round(mine.reduce((a,x)=>a+x.got,0)*2)/2,max:testTMarks(),wt:writtenListT(),un:mine.filter(x=>!x.answered).length};}
+addEventListener('message',e=>{const m=e.data;if(!m||!EMBED)return;
+  if(m.type==='blitz-exam-peek'){let r=null;try{r=examPlan.length?partResult():null;}catch(_){r=null;}try{e.source.postMessage(Object.assign({type:'blitz-exam-peeked',part:'B',id:m.id,ok:!!r},r||{}),'*');}catch(_){}}
+  if(m.type==='blitz-exam-collect'&&examOn){finishTest._ok=true;try{finishTest();}catch(_){}}});
+function peekEmbed(){return new Promise(ok=>{const f=embedFrame();if(!f||!f.contentWindow){ok(null);return;}const id=Math.random().toString(36).slice(2);let done=false;
+  const h=e=>{const m=e.data;if(m&&m.type==='blitz-exam-peeked'&&m.id===id){done=true;removeEventListener('message',h);ok(m.ok?m:null);}};addEventListener('message',h);
+  try{f.contentWindow.postMessage({type:'blitz-exam-peek',id},'*');}catch(_){}setTimeout(()=>{if(!done){removeEventListener('message',h);ok(null);}},2500);});}
+function applyEmbed(part,r){const m={type:'blitz-exam-done',part,tot:r.tot,max:r.max,wt:r.wt||[],rows:r.rows||null,_final:true};embedRes[part]=m;
+  if(UNITS[ui]&&UNITS[ui].test&&window.TaskKit&&TaskKit.run&&TaskKit.run.task.tt){const pos=examPlan.findIndex(it=>it.embed===part);if(pos>=0)TaskKit.record(pos,m.tot>=m.max,m.max?m.tot/m.max:0,(Date.now()-examStart)/1000,0);}
+  const f=embedFrame();try{if(f&&f.contentWindow)f.contentWindow.postMessage({type:'blitz-exam-collect'},'*');}catch(_){}}
+function finishTest(){let peekUn=0;
+  if(examOn&&!EMBED&&!finishTest._peek){const it=examPlan.find(x=>x.embed&&!(embedRes[x.embed]));if(it&&embedFrame()){peekEmbed().then(r=>{finishTest._peek=r?{part:it.embed,r}:'none';finishTest();});return;}}
+  const PK=finishTest._peek&&finishTest._peek!=='none'?finishTest._peek:null;finishTest._peek=null;if(PK)peekUn=PK.r.un||0;
+  if(examOn&&!finishTest._ok){const m=examMarks();const un=m.filter(x=>!x.it.embed&&!x.answered).length+peekUn;const emb=PK?null:m.find(x=>x.it.embed&&!x.answered);
+    if(un||emb){const msg=(un?'You have '+un+' unanswered question'+(un===1?'':'s')+'.':'')+(emb?(un?' ':'')+'The '+(emb.it.embed==='B'?'theory':'aural')+' section isn\'t finished.':'')+' Unanswered questions score 0, and you can\'t come back to the test once it is finished. Finish anyway?';
+      if(!confirm(msg))return;}}
+  if(PK)applyEmbed(PK.part,PK.r);
+  finishTest._ok=false;document.body.classList.remove('testing');const wasOn=examOn;examOn=false;clearInterval(examTick);const m=examMarks();const th=m.filter(x=>!x.it.embed),au=m.find(x=>x.it.embed);
+  const tg=Math.round(th.reduce((a,x)=>a+x.got,0)*2)/2,tm=testTMarks(),ag=au&&embedRes.A?embedRes.A.tot:null,am=au?(embedRes.A?embedRes.A.max:au.it.m):0;const tot=tg+(ag||0),max=tm+am,pct=Math.round(tot/max*100);
+  if(EMBED){try{parent.postMessage({type:'blitz-exam-done',part:'B',tot:tg,max:tm,wt:writtenListT(),rows:partRows()},'*');}catch(e){}}
+  if(wasOn&&!EMBED){logComplete({id:'test',name:'Test · Year '+testRun.y},pct);if(PROF){PROF.exams=PROF.exams||[];PROF.exams.push({at:Date.now(),tot,max,year:testRun.y,test:true});saveProfiles();}}
+  if(window.TaskKit&&TaskKit.run&&TaskKit.run.task.tt){if(TaskKit.setWritten)TaskKit.setWritten(writtenListT());showTaskFinish();return;}
+  const c=document.getElementById('card');document.getElementById('dots').innerHTML='';
+  const rows=testGroups.map((g,gi)=>{const its=th.filter(x=>x.it.gi===gi);const got=Math.round(its.reduce((a,x)=>a+x.got,0)*2)/2;const un=its.filter(x=>!x.answered).length;return `<tr><td>(${TestKit.letter(gi)})</td><td>${esc(g.title)}${un?' <span style="color:var(--muted);font-size:12px">· '+un+' unanswered</span>':''}</td><td class="r">${got} / ${g.marks}</td></tr>`;}).join('');
+  c.innerHTML=`${TestKit.header(testRun.y,testRun.sem)}<div class="tstname">Name:<span>${esc(currentName||'')}</span></div><div class="examtotal">${tot} / ${max} <span style="font-size:18px;color:var(--muted)">(${pct}%)</span></div>
+    ${au?`${TestKit.sectionHead('AURAL',am)}<table class="examtable">${(embedRes.A&&embedRes.A.rows&&embedRes.A.rows.length)?'<tr><th></th><th>Question</th><th style="text-align:right">Marks</th></tr>'+embedRes.A.rows.map(r=>'<tr><td>('+r.l+')</td><td>'+esc(r.t)+(r.un?' <span style="color:var(--muted);font-size:12px">· '+r.un+' unanswered</span>':'')+'</td><td class="r">'+r.got+' / '+r.m+'</td></tr>').join(''):`<tr><td>Aural section</td><td class="r">${ag===null?'not finished':ag+' / '+am}</td></tr>`}</table>`:''}
+    ${TestKit.sectionHead('THEORY',tm)}<table class="examtable"><tr><th></th><th>Question</th><th style="text-align:right">Marks</th></tr>${rows}</table>
+    ${TestKit.totalLine({a:am,ag,t:tm,tg})}<p class="sub">Finished in ${examClock()}${EMBED?'':' · logged to the class record'}. Use the markers to review any question with its answer.</p>
+    <div class="controls">${EMBED?'':'<button class="btn-check" id="examsheet">📝 Answer sheet</button>'}<button class="btn-ghost" id="examreview">Review answers</button><button class="btn-ghost" id="examagain">New test</button></div>`;
+  if(pct>=70)burst('win',innerWidth/2,innerHeight/2,true);
+  {const sb=document.getElementById('examsheet');if(sb)sb.onclick=openAnswerSheet;}document.getElementById('examreview').onclick=()=>{qi=0;load();};document.getElementById('examagain').onclick=()=>{testRun.seed=TestKit.newSeed();openUnit(true);};}
+
 function startExam(){examOn=true;examStart=Date.now();qi=0;load();clearInterval(examTick);examTick=setInterval(()=>{const t=document.getElementById('examclock');if(t)t.textContent=examClock();},1000);}
 function examClock(){const s=Math.floor((Date.now()-examStart)/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function examPartHead(it,pos){if(EMBED)return '';const first=examPlan.findIndex(x=>!!x.embed===!!it.embed)===pos;if(!first)return '';const full=HAS_AURAL()&&!EMBED;const totB=examPlan.filter(x=>!x.embed).reduce((a,b)=>a+b.m,0);
   return (pos===0?`<div class="secthead"><span>Section One: Music literacy</span><span>55% (${full?totB+60:totB} Marks)</span></div>`:'')+(it.embed?`<div class="parthead"><span>Part A: Aural</span><span>35% (60 Marks)</span></div><p class="partnote">This part has seven (7) questions. Answer all questions in the spaces provided.</p>`:`<div class="parthead"><span>Part B: Theory</span><span>20% (${totB} Marks)</span></div><p class="partnote">This part has two (2) questions. Answer all questions in the spaces provided.</p>`);}
-function examBar(q){const it=q._exam;const n=SETQ.indexOf(q);const grp=examPlan.filter(x=>x.n===it.n);const part=grp.indexOf(it);const qm=grp.reduce((a,b)=>a+b.m,0);
+function examBar(q){if(UNITS[ui].test)return testBar(q);const it=q._exam;const n=SETQ.indexOf(q);const grp=examPlan.filter(x=>x.n===it.n);const part=grp.indexOf(it);const qm=grp.reduce((a,b)=>a+b.m,0);
   return `<div class="rhead"><span>Music · ${EMBED?'Part B':'Section One'}</span><span>${n+1} of ${SETQ.length} · <span class="tm" id="examclock">${examClock()}</span></span></div>${examPartHead(it,n)}${!it.embed&&part===0?`<div class="qmain"><span>Question ${it.n}</span><span class="mk">(${qm} marks)</span></div>`:''}
     <div class="qhead"><span>${it.embed?'Questions 1 to 7':'('+String.fromCharCode(97+part)+') '+esc(it.t)}</span><span class="mk">(${it.m} mark${it.m===1?'':'s'})</span></div>`;}
 function examCover(){const full=HAS_AURAL()&&!EMBED;const totB=examPlan.filter(x=>!x.embed).reduce((a,b)=>a+b.m,0);const yr=new Date().getFullYear();
@@ -388,12 +647,13 @@ function examCover(){const full=HAS_AURAL()&&!EMBED;const totB=examPlan.filter(x
     ${full?`<tr><td colspan="4" style="text-align:right;font-weight:700">Total</td><td>${totB+60}</td><td>55</td></tr>`:''}</table>
     <p class="fn">Section Two (Cultural and contextual knowledge, 45%) is not part of this practice paper. Marks are awarded in proportion to what is correct, as in the marking key.</p>
     <h3>Instructions to candidates</h3><ol><li>Answer all questions in the spaces provided on screen. Check each answer as you go, or move on and come back.</li>${full?'<li>Press the track button to hear each aural excerpt. You may replay tracks as often as you like in practice.</li>':''}<li>Move between parts with Prev, Next or the markers above the page. Press <b>Finish exam</b> when you have answered every part; the paper is marked immediately and logged to the class record.</li><li>A new paper is generated every time, following the Year ${LEVEL()} syllabus.</li></ol>
-    <div class="controls"><button class="btn-check" id="examgo">Start the examination</button><button class="btn-ghost" id="examnew">New paper</button></div></div>`;}
+    <div class="controls"><button class="btn-check" id="examgo">Start the examination</button><button class="btn-ghost" id="examnew">New paper</button><button class="btn-ghost tstteach" id="exedit">Teacher: edit this exam</button></div></div>`;}
 function examStartCard(){const c=document.getElementById('card');document.getElementById('dots').innerHTML='';renderTabs();document.documentElement.style.setProperty('--accent','#b2862f');
-  c.innerHTML=examCover();c.scrollTop=0;
+  c.innerHTML=UNITS[ui].test?testCover():examCover();c.scrollTop=0;
   document.getElementById('examgo').onclick=startExam;
-  document.getElementById('examnew').onclick=()=>{openUnit(true);};}
-function finishExam(){const wasOn=examOn;examOn=false;clearInterval(examTick);const m=examMarks();const tot=m.reduce((a,x)=>a+x.got,0),max=m.reduce((a,x)=>a+(x.max||x.it.m),0);const pct=Math.round(tot/max*100);
+  (document.getElementById('examnew')||{}).onclick=()=>{if(UNITS[ui].test)testRun.seed=TestKit.newSeed();openUnit(true);};
+  const ee=document.getElementById('exedit');if(ee)ee.onclick=()=>TaskKit.requireTeacher(()=>TestKit.openPreset(ctHost(),'atarex'));const tt=document.getElementById('tstteach');if(tt)tt.onclick=testTeacher;const tc=document.getElementById('tstck');if(tc)tc.onclick=()=>{testRun.ck=testRun.ck?0:1;examStartCard();};}
+function finishExam(){if(UNITS[ui]&&UNITS[ui].test){finishTest();return;}const wasOn=examOn;examOn=false;clearInterval(examTick);const m=examMarks();const tot=m.reduce((a,x)=>a+x.got,0),max=m.reduce((a,x)=>a+(x.max||x.it.m),0);const pct=Math.round(tot/max*100);
   if(wasOn){logComplete({id:'exam',name:HAS_AURAL()&&!EMBED?'Exam · Section One':'Exam · Part B'},pct);if(PROF){PROF.exams=PROF.exams||[];PROF.exams.push({at:Date.now(),tot,max,year:+LEVEL(),theory:true});saveProfiles();}}
   if(EMBED){try{parent.postMessage({type:'blitz-exam-done',part:'B',tot,max},'*');}catch(e){}}
   const c=document.getElementById('card');document.getElementById('dots').innerHTML='';
@@ -401,9 +661,9 @@ function finishExam(){const wasOn=examOn;examOn=false;clearInterval(examTick);co
   c.innerHTML=`<div class="qnum">Exam practice · Section One${HAS_AURAL()&&!EMBED?'':' · Part B'} · finished in ${examClock()}</div><div class="rhead"><span>Music · Section One${HAS_AURAL()&&!EMBED?'':' · Part B'}</span><span>Marks · finished in <span class="tm">${examClock()}</span></span></div><p class="prompt" style="font-weight:700;font-size:16px">${esc(currentName||'Your')} result</p><div class="examtotal">${tot} / ${max} <span style="font-size:18px;color:var(--muted)">(${pct}%)</span></div>
     <table class="examtable"><tr><th>Q</th><th>Parts</th><th style="text-align:right">Marks</th></tr>${rows}</table>
     <p class="sub">Logged to the class record. Use the dots to review any part with its answer shown.</p>
-    <div class="controls"><button class="btn-ghost" id="examreview">Review answers</button><button class="btn-check" id="examagain">New paper</button></div>`;
+    <div class="controls">${EMBED?'':'<button class="btn-check" id="examsheet">📝 Answer sheet</button>'}<button class="btn-ghost" id="examreview">Review answers</button><button class="btn-ghost" id="examagain">New paper</button></div>`;
   if(pct>=70)burst('win',innerWidth/2,innerHeight/2,true);
-  document.getElementById('examreview').onclick=()=>{qi=0;load();};document.getElementById('examagain').onclick=()=>openUnit(true);}
+  {const sb=document.getElementById('examsheet');if(sb)sb.onclick=openAnswerSheet;}document.getElementById('examreview').onclick=()=>{qi=0;load();};document.getElementById('examagain').onclick=()=>openUnit(true);}
 const unitOn=i=>(UNITS[i].yr||7)<=+(GEN.getSet().upTo||GEN.getSet().level);
 const firstUnit=()=>{for(let i=0;i<UNITS.length;i++)if(unitOn(i)&&!UNITS[i].special)return i;return 0;};
 const UCOL=['#b2862f','#b2862f','#c0392b','#d4a017','#2e86c1','#27ae60','#8e44ad','#16a085','#e67e22','#5b5fc7','#c2185b','#0e7c86','#b2862f'];
@@ -432,10 +692,11 @@ const fromUnit=q=>(q&&q.unit&&UNITS.find(u=>u.id===q.unit))||UNITS[ui];
 // ---------- profiles: progress that lasts, per student name (shared with Aural Blitz on this device) ----------
 const RANKS=[[0,'Busker'],[150,'Session Player'],[400,'Section Leader'],[800,'Principal'],[1400,'Soloist'],[2200,'Concertmaster'],[3500,'Maestro']];
 let PROFS={};try{PROFS=JSON.parse(localStorage.getItem('blitzAuralProfiles')||'{}');}catch(e){}
-let PROF=null;
+let PROF=null,PROFBASE=null;
 const profKey=()=>(currentName||'(no name)').trim().toLowerCase()||'(no name)';
-function loadProfile(){const k=profKey();PROF=PROFS[k]||(PROFS[k]={xp:0,correct:0,total:0,bestStreak:0,days:[],hist:{},ach:{},sprint:{},name:currentName});PROF.hist=PROF.hist||{};PROF.ach=PROF.ach||{};PROF.sprint=PROF.sprint||{};PROF.days=PROF.days||[];PROF.name=currentName||PROF.name;}
-function saveProfiles(){try{localStorage.setItem('blitzAuralProfiles',JSON.stringify(PROFS));}catch(e){}}
+function loadProfile(){const k=profKey();PROF=PROFS[k]||(PROFS[k]={xp:0,correct:0,total:0,bestStreak:0,days:[],hist:{},ach:{},sprint:{},name:currentName});PROF.hist=PROF.hist||{};PROF.ach=PROF.ach||{};PROF.sprint=PROF.sprint||{};PROF.days=PROF.days||[];PROF.name=currentName||PROF.name;PROFBASE=JSON.stringify(PROF);}
+function saveProfiles(){try{if(window.BlitzUI&&BlitzUI.profSync){PROFBASE=BlitzUI.profSync(PROFS,profKey(),PROF,PROFBASE,true);return;}}catch(e){}try{localStorage.setItem('blitzAuralProfiles',JSON.stringify(PROFS));}catch(e){}}
+addEventListener('storage',e=>{if(e.key!=='blitzAuralProfiles'||!window.BlitzUI||!BlitzUI.profSync)return;try{PROFBASE=BlitzUI.profSync(PROFS,profKey(),PROF,PROFBASE,false);}catch(x){}});
 function rankOf(xp){let r=RANKS[0],next=null;for(let i=0;i<RANKS.length;i++){if(xp>=RANKS[i][0]){r=RANKS[i];next=RANKS[i+1]||null;}}return {name:r[1],at:r[0],next};}
 const HK=id=>'t:'+id;
 function mastery(id){const h=(PROF&&PROF.hist&&PROF.hist[HK(id)])||[];const n=h.length;const acc=n?h.reduce((a,b)=>a+b,0)/n:0;return {n,acc,mastered:n>=20&&acc>=0.9};}
@@ -446,6 +707,8 @@ const bonusTag=()=>lastBonus>0?`<span class="xpbonus">+${10+lastBonus} XP · on 
 // ---- achievements (unlock avatar gear) ----
 const ACH=[
   {id:'first',ic:'✏️',t:'First note',d:'Get your first answer right'},
+  {id:'streak3',ic:'⚡',t:'Warming up',d:'3 correct in a row'},
+  {id:'firstset',ic:'🎯',t:'Set complete',d:'Finish a full set of questions'},
   {id:'perfect',ic:'💯',t:'Clean sheet',d:'A full set with none wrong',unlock:'bow'},
   {id:'streak10',ic:'🔥',t:'On fire',d:'10 correct in a row'},
   {id:'streak25',ic:'🌋',t:'Unstoppable',d:'25 correct in a row'},
@@ -459,16 +722,16 @@ const ACH=[
   {id:'today7',ic:'🗓️',t:'Regular',d:"Finish Today's Blitz 7 times"},
 ];
 const ACC_LOCK={headphones:'hundred',glasses:'master1',beanie:'days5',bow:'perfect',crown:'concert'};
-function unlocked(acc){const need=ACC_LOCK[acc];return !need||(PROF&&PROF.ach&&PROF.ach[need])||(avatar.acc===AV.acc.indexOf(acc));}
+function unlocked(acc){const need=ACC_LOCK[acc];return !need||(PROF&&PROF.ach&&PROF.ach[need])||avatar.hat===acc||avatar.glasses===acc;}
 function badgesUnlocked(){return REAL().filter(u=>mastery(u.id).mastered).length;}
 function grant(id){if(!PROF.ach[id]){PROF.ach[id]=Date.now();saveProfiles();const a=ACH.find(x=>x.id===id);if(!a)return;setTimeout(()=>{toast(a.ic+' Achievement: '+a.t+(a.unlock?' — '+a.unlock+' unlocked for your avatar':''));burst('win',innerWidth/2,120,true);},700);}}
-function checkAch(){if(!PROF)return;if(PROF.correct>=1)grant('first');if(streak>=10)grant('streak10');if(streak>=25)grant('streak25');if(PROF.correct>=100)grant('hundred');if(dayStreak()>=5)grant('days5');
+function checkAch(){if(!PROF)return;if(PROF.correct>=1)grant('first');if(streak>=3)grant('streak3');if(streak>=10)grant('streak10');if(streak>=25)grant('streak25');if(PROF.correct>=100)grant('hundred');if(dayStreak()>=5)grant('days5');
   if((PROF.sharp||0)>=25)grant('sharp');const m=REAL().filter(u=>mastery(u.id).mastered).length;if(m>=1)grant('master1');if(m>=5)grant('master5');if(rankOf(PROF.xp).at>=2200)grant('concert');if((PROF.todayDone||0)>=7)grant('today7');}
 function rankUp(name){const g=document.getElementById('guide');document.getElementById('guidebody').innerHTML=`<div style="font-size:54px">${name==='Maestro'?'🎼':name==='Concertmaster'?'👑':name==='Soloist'?'🌟':'🎺'}</div><p class="prompt">New rank: ${name}</p><p class="sub">${esc(currentName||'You')} — keep it up. Your rank and XP are saved under your name on this device, and count across Theory Blitz and Aural Blitz.</p><div class="controls"><button class="btn-check" id="rankok">Nice</button></div>`;
   g.classList.add('open','rank');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);document.getElementById('rankok').onclick=()=>{g.classList.remove('rank');closeGuide();};}
 // ---- sounds on check (musical, mutable) ----
 let SFX=true;try{SFX=localStorage.getItem('blitzTheorySfx')!=='0';}catch(e){}
-function sfx(ok){if(!SFX||!window.AUDIO)return;try{if(ok)AUDIO.progression([[53,60,65,69],[48,60,64,67]],0.38);else AUDIO.chord(0,[50,53,56,60],'block');}catch(e){}}
+function sfx(ok){if(!SFX||!window.AUDIO||HIDEFB())return;try{if(ok)AUDIO.progression([[53,60,65,69],[48,60,64,67]],0.38);else AUDIO.chord(0,[50,53,56,60],'block');}catch(e){}}
 function paintSfx(){const b=document.getElementById('sfxbtn');b.classList.toggle('off',!SFX);b.textContent=SFX?'🔔':'🔕';b.title=SFX?'Sounds on (tap to mute)':'Sounds off';}
 document.getElementById('sfxbtn').onclick=()=>{SFX=!SFX;try{localStorage.setItem('blitzTheorySfx',SFX?'1':'0');}catch(e){}paintSfx();};paintSfx();
 // ---- hear it: play what is on the stave (the shown example, your answer, or the correct answer) ----
@@ -490,7 +753,7 @@ function saveLog(){LS.set('log',LOG);LS.set('best',BEST);}
 function logComplete(u,pct){const name=currentName||'(no name)',at=Date.now();LOG=LOG.filter(e=>!(e.name===name&&e.section===u.name));LOG.push({name,section:u.name,pct,at,level:LEVEL(),av:Object.assign({},avatar)});
   const b=BEST[name]||(BEST[name]={});if(b[u.id]===undefined||pct>b[u.id])b[u.id]=pct;saveLog();}
 function finishSection(i){const us=uStat[i],pct=Math.round(us.cor/SETQ.length*100);logComplete(UNITS[i],pct);toast('🎉 '+UNITS[i].name+' set complete — '+pct+'%');if(pct>=50)burst('win',innerWidth/2,130,true);
-  if(PROF){if(pct===100)grant('perfect');if(UNITS[i].id==='today'){PROF.todayDone=(PROF.todayDone||0)+1;saveProfiles();}checkAch();}}
+  if(PROF){grant('firstset');if(pct===100)grant('perfect');if(UNITS[i].id==='today'){PROF.todayDone=(PROF.todayDone||0)+1;saveProfiles();}checkAch();}}
 // ---------- fx: confetti + drifting notes ----------
 const cvs=document.getElementById('fx'),fxctx=cvs.getContext('2d');
 function sizeFx(){cvs.width=innerWidth;cvs.height=innerHeight;}sizeFx();addEventListener('resize',sizeFx);
@@ -513,57 +776,30 @@ function burstAt(el,kind,big){const r=(el||document.getElementById('card')).getB
 function shakeCard(){const c=document.getElementById('card');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');}
 function glowCard(){const c=document.getElementById('card');c.classList.remove('winglow');void c.offsetWidth;c.classList.add('winglow');}
 let toastT=null;
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.className='';void t.offsetWidth;t.className='show';clearTimeout(toastT);toastT=setTimeout(()=>t.className='',1900);}
-function celebrate(ok,el){if(ok){glowCard();burstAt(el,'win');}else{shakeCard();burstAt(el,'miss');}}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.className='';void t.offsetWidth;t.className='show';clearTimeout(toastT);toastT=setTimeout(()=>t.className='',Math.min(4200,1900+Math.max(0,msg.length-40)*28));}
+const TESTING=()=>!!(UNITS[ui]&&UNITS[ui].test&&examOn);
+const HIDEFB=()=>{if(TESTING())return !testRun.ck;const R=window.TaskKit&&TaskKit.run;return !!(R&&!R.task.tt&&UNITS[ui]&&UNITS[ui]===UNITS[TASKI()]&&!TaskKit.checkGo());};
+function celebrate(ok,el){if(HIDEFB())return;if(ok){glowCard();burstAt(el,'win');}else{shakeCard();burstAt(el,'miss');}}
 // ---------- avatar ----------
-const AV={skin:['#f6d5b8','#e8b894','#c68642','#8d5524','#5c3a1e','#ffdbac'],hair:['short','long','curly','bun','mohawk','none'],hairc:['#1b1a18','#4a2c17','#a0522d','#d4a017','#e74c3c','#2e86c1','#8e44ad','#f6f1e7'],
-  eyes:['round','happy','cool','wink'],mouth:['smile','grin','neutral','whistle'],acc:['none','headphones','glasses','beanie','bow','crown'],bg:['#c0392b','#d4a017','#2e86c1','#27ae60','#8e44ad','#16a085','#e67e22','#1b1a18'],badge:['','🎷','🎺','🎸','🎹','🎻','🥁','🎤','🎼','🎧']};
-let avatar={skin:0,hair:0,hairc:0,eyes:0,mouth:0,acc:0,bg:2,badge:0}; try{const a=JSON.parse(localStorage.getItem('blitzAvatar')||'null');if(a)avatar=Object.assign(avatar,a);}catch(e){}
-function avatarSVG(a,size){a=a||avatar;const sk=AV.skin[a.skin]||AV.skin[0],hc=AV.hairc[a.hairc]||AV.hairc[0],bg=AV.bg[a.bg]||AV.bg[0],hair=AV.hair[a.hair],eyes=AV.eyes[a.eyes],mouth=AV.mouth[a.mouth],acc=AV.acc[a.acc],badge=AV.badge[a.badge]||'';
-  let s=`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"${size?` width="${size}" height="${size}"`:''}><rect width="100" height="100" fill="${bg}"/>`;
-  s+=`<path d="M22 100 C22 76 34 70 50 70 C66 70 78 76 78 100 Z" fill="${hc==='#f6f1e7'?'#d8d0c1':'#f6f1e7'}" opacity=".9"/>`;
-  if(hair==='long')s+=`<path d="M26 48 C24 24 36 16 50 16 C64 16 76 24 74 48 L76 78 L24 78 Z" fill="${hc}"/>`;
-  if(hair==='curly')s+=`<circle cx="30" cy="36" r="12" fill="${hc}"/><circle cx="50" cy="26" r="14" fill="${hc}"/><circle cx="70" cy="36" r="12" fill="${hc}"/><circle cx="38" cy="26" r="10" fill="${hc}"/><circle cx="62" cy="26" r="10" fill="${hc}"/>`;
-  s+=`<ellipse cx="50" cy="50" rx="22" ry="25" fill="${sk}"/>`;
-  if(hair==='short')s+=`<path d="M28 44 C28 26 38 20 50 20 C62 20 72 26 72 44 C66 36 58 32 50 32 C42 32 34 36 28 44 Z" fill="${hc}"/>`;
-  if(hair==='bun')s+=`<path d="M28 44 C28 26 38 20 50 20 C62 20 72 26 72 44 C66 36 58 32 50 32 C42 32 34 36 28 44 Z" fill="${hc}"/><circle cx="50" cy="18" r="8" fill="${hc}"/>`;
-  if(hair==='mohawk')s+=`<path d="M44 30 L50 8 L56 30 Z" fill="${hc}"/><path d="M36 40 C40 30 60 30 64 40 C58 36 42 36 36 40Z" fill="${hc}"/>`;
-  if(hair==='long')s+=`<path d="M28 46 C28 26 38 20 50 20 C62 20 72 26 72 46 C66 34 58 30 50 30 C42 30 34 34 28 46 Z" fill="${hc}"/>`;
-  if(hair==='curly')s+=`<path d="M28 44 C30 30 40 28 50 28 C60 28 70 30 72 44 C66 38 58 34 50 34 C42 34 34 38 28 44Z" fill="${hc}"/>`;
-  if(eyes==='round')s+=`<circle cx="42" cy="48" r="3" fill="#1b1a18"/><circle cx="58" cy="48" r="3" fill="#1b1a18"/>`;
-  if(eyes==='happy')s+=`<path d="M38 49 Q42 44 46 49" stroke="#1b1a18" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M54 49 Q58 44 62 49" stroke="#1b1a18" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
-  if(eyes==='wink')s+=`<circle cx="42" cy="48" r="3" fill="#1b1a18"/><path d="M54 48 L62 48" stroke="#1b1a18" stroke-width="2.4" stroke-linecap="round"/>`;
-  if(eyes==='cool')s+=`<rect x="34" y="43" width="14" height="9" rx="3" fill="#1b1a18"/><rect x="52" y="43" width="14" height="9" rx="3" fill="#1b1a18"/><path d="M48 46 L52 46" stroke="#1b1a18" stroke-width="2"/>`;
-  if(mouth==='smile')s+=`<path d="M42 60 Q50 67 58 60" stroke="#8c2b22" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
-  if(mouth==='grin')s+=`<path d="M40 59 Q50 70 60 59 Z" fill="#8c2b22"/><path d="M43 60 Q50 64 57 60" fill="#fff"/>`;
-  if(mouth==='neutral')s+=`<path d="M43 62 L57 62" stroke="#8c2b22" stroke-width="2.4" stroke-linecap="round"/>`;
-  if(mouth==='whistle')s+=`<circle cx="50" cy="62" r="3" fill="#8c2b22"/><text x="60" y="58" font-size="9" fill="#1b1a18" font-family="Georgia">♪</text>`;
-  if(acc==='glasses')s+=`<circle cx="42" cy="48" r="6.5" stroke="#1b1a18" stroke-width="1.8" fill="none"/><circle cx="58" cy="48" r="6.5" stroke="#1b1a18" stroke-width="1.8" fill="none"/><path d="M48.5 48 L51.5 48" stroke="#1b1a18" stroke-width="1.8"/>`;
-  if(acc==='headphones')s+=`<path d="M27 50 C27 30 36 22 50 22 C64 22 73 30 73 50" stroke="#1b1a18" stroke-width="4" fill="none"/><rect x="22" y="44" width="9" height="16" rx="3" fill="#1b1a18"/><rect x="69" y="44" width="9" height="16" rx="3" fill="#1b1a18"/>`;
-  if(acc==='beanie')s+=`<path d="M26 44 C26 24 38 18 50 18 C62 18 74 24 74 44 Z" fill="#b2862f"/><rect x="26" y="40" width="48" height="7" rx="2" fill="#8c2b22"/><circle cx="50" cy="17" r="4" fill="#8c2b22"/>`;
-  if(acc==='bow')s+=`<path d="M62 26 L72 20 L72 32 Z M62 26 L52 20 L52 32 Z" fill="#c2185b"/><circle cx="62" cy="26" r="2.5" fill="#8c2b22"/>`;
-  if(acc==='crown')s+=`<path d="M34 28 L34 16 L42 23 L50 12 L58 23 L66 16 L66 28 Z" fill="#d4a017"/>`;
-  if(badge)s+=`<circle cx="82" cy="82" r="13" fill="#f6f1e7"/><text x="82" y="87" font-size="15" text-anchor="middle">${badge}</text>`;
-  return s+'</svg>';}
-function paintAvatar(){document.getElementById('avmini').innerHTML=avatarSVG(avatar,34);}
-function openAvatar(){const b=document.getElementById('avbody');const lockOf=(key,it,i)=>{if(key==='acc'&&!unlocked(it)){const a=ACH.find(x=>x.id===ACC_LOCK[it]);return a?a.d:'';}if(key==='badge'&&i>1&&i-1>badgesUnlocked()&&avatar.badge!==i)return 'master '+(i-1)+' unit'+(i>2?'s':'');return '';};
-  const row=(key,label,items,swatch)=>`<div class="avopt"><div class="setlabel">${label}</div><div class="setchips">${items.map((it,i)=>{const lk=swatch?'':lockOf(key,it,i);return swatch?`<span class="sw ${avatar[key]===i?'on':''}" data-k="${key}" data-i="${i}" style="background:${it}"></span>`:`<button class="avchip ${avatar[key]===i?'on':''} ${lk?'locked':''}" data-k="${key}" data-i="${i}" ${lk?`data-lock="${esc(lk)}"`:''} title="${lk?'Locked: '+esc(lk):''}">${lk?'🔒 ':''}${it===''?'none':it}</button>`;}).join('')}</div></div>`;
-  b.innerHTML=`<p class="prompt">Your avatar</p><p class="sub">Accessories and badges unlock with achievements and mastered units.</p><div class="avgrid"><div class="prev" id="avprev">${avatarSVG(avatar)}</div><div>
-    ${row('bg','Background',AV.bg,true)}${row('skin','Skin',AV.skin,true)}${row('hair','Hair',AV.hair)}${row('hairc','Hair colour',AV.hairc,true)}${row('eyes','Eyes',AV.eyes)}${row('mouth','Mouth',AV.mouth)}${row('acc','Accessory',AV.acc)}${row('badge','Instrument badge',AV.badge)}
-    <div class="controls"><button class="btn-ghost" id="avrandom">Surprise me</button><button class="btn-check" id="avdone">Done</button></div></div></div>`;
-  b.querySelectorAll('[data-k]').forEach(el=>el.onclick=()=>{if(el.dataset.lock){toast('🔒 '+el.dataset.lock);return;}avatar[el.dataset.k]=+el.dataset.i;saveAvatar();openAvatar();});
-  document.getElementById('avrandom').onclick=()=>{Object.keys(AV).forEach(k=>{if(k==='acc'||k==='badge')return;avatar[k]=(Math.random()*AV[k].length)|0;});saveAvatar();openAvatar();};
-  document.getElementById('avdone').onclick=closeAvatar;
+// ---- avatar (v2 builder in blitzui.js) ----
+const AV={acc:['none','headphones','glasses','beanie','bow','crown']};
+let avatar=BlitzUI.loadAvatar(typeof currentName!=='undefined'?currentName:'');
+const AV_LOCK={hat:{headphones:'hundred',beanie:'days5',bow:'perfect',crown:'concert'},glasses:{sunglasses:'master1',star:'master1'}};
+function avLock(k,v){if(k==='badge'){const i=+v;return (i>1&&i-1>badgesUnlocked()&&avatar.badge!==i)?'master '+(i-1)+' unit'+(i>2?'s':''):'';}
+  const need=AV_LOCK[k]&&AV_LOCK[k][v];if(!need||avatar[k]===v||(PROF&&PROF.ach&&PROF.ach[need]))return '';const a=ACH.find(x=>x.id===need);return a?a.d:'locked';}
+function avatarSVG(a,size){return BlitzUI.avatarSVG(a||avatar,size);}
+function paintAvatar(){document.getElementById('avmini').innerHTML=avatarSVG(avatar,34);if(BlitzUI.inHome())BlitzUI.renderHome();}
+function openAvatar(){BlitzUI.openAvatar(document.getElementById('avbody'),{name:currentName,lock:avLock,toast:t=>toast(t),onChange:a=>{avatar=a;paintAvatar();},done:closeAvatar});
   document.getElementById('avmodal').classList.add('open');document.getElementById('avback').classList.add('open');}
 function closeAvatar(){document.getElementById('avmodal').classList.remove('open');document.getElementById('avback').classList.remove('open');}
-function saveAvatar(){try{localStorage.setItem('blitzAvatar',JSON.stringify(avatar));}catch(e){}paintAvatar();}
+function saveAvatar(){BlitzUI.saveAvatar(avatar,currentName);paintAvatar();}
 document.getElementById('avbtn').onclick=openAvatar;document.getElementById('avclose').onclick=closeAvatar;document.getElementById('avback').onclick=closeAvatar;
 paintAvatar();
 // ---------- scoring ----------
-function scoreOnce(ok){const k=qid();if(k in scored)return;scored[k]=ok;total++;
+function scoreOnce(ok){const k=qid();if(k in scored)return;try{const q1=curQ();if(q1&&q1._exam&&!q1._resp){const J=x=>x==null?null:JSON.parse(JSON.stringify(x));q1._resp={picked:q1._picked,p:q1.items?q1.items.map(x=>x&&x._p?J(x._p):null):null,ks:ksBuilt,ksp:J(q1._ksp),sel:[...document.querySelectorAll('#match select')].map(x=>x.value),sf:q1._sf?q1._sf.got.slice():null,pm:q1._pm?q1._pm.slice():null,bl:q1._bl?q1._bl.slice():null,bj:q1._bj?q1._bj.slice():null};}}catch(e){}scored[k]=ok;total++;if(window.BlitzUI&&!EMBED)try{BlitzUI.answered(currentName);}catch(e){}if(UNITS[ui]&&UNITS[ui].test){const q0=curQ();setTimeout(()=>{if(q0&&q0._lock===undefined)q0._lock=q0._frac;},0);} // a test keeps the first answer
   const us=uStat[ui]||(uStat[ui]={ans:0,cor:0});us.ans++;if(ok)us.cor++;
   const q=curQ();let bonus=0;
-  if(ok){correct++;streak++;bonus=(sprintOn||h2h)?0:(streak>=5?5:0);const mile=[5,10,15,20,25,30,40,50].includes(streak);if(mile){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);}}
+  if(ok){correct++;streak++;bonus=(sprintOn||h2h)?0:(streak>=5?5:0);const mile=[5,10,15,20,25,30,40,50].includes(streak);if(mile&&!HIDEFB()){toast('🔥 '+streak+' in a row!');burst('win',innerWidth/2,120,true);}}
   else streak=0;
   lastBonus=bonus;
   if(h2h){const who=h2h.turn;if(ok)h2h.score[who]++;h2h.turn=1-who;setTimeout(h2hCheck,900);}
@@ -574,7 +810,7 @@ function scoreOnce(ok){const k=qid();if(k in scored)return;scored[k]=ok;total++;
     dayAnswers++;const t=todayStr();if(dayAnswers>=5&&!PROF.days.includes(t))PROF.days.push(t);
     saveProfiles();const after=rankOf(PROF.xp);if(after.name!==before)setTimeout(()=>rankUp(after.name),500);checkAch();}
   sfx(ok);paintScore();
-  if(UNITS[ui].task){taskRecord(ok);return;}
+  if(UNITS[ui].task||(UNITS[ui].test&&window.TaskKit&&TaskKit.run&&TaskKit.run.task.tt)){taskRecord(ok);return;}
   if(!sprintOn&&!h2h&&!UNITS[ui].exam&&us.ans===SETQ.length&&!unitDone[ui]){unitDone[ui]=true;finishSection(ui);}}
 function paintScore(){document.getElementById('scv').textContent=correct+'/'+total;const p=total?Math.round(correct/total*100):null;
   document.getElementById('scp').textContent=p===null?'—':p+'%';
@@ -585,13 +821,19 @@ function paintScore(){document.getElementById('scv').textContent=correct+'/'+tot
   document.getElementById('lvl').title=r.next?(r.next[0]-PROF.xp)+' XP to '+r.next[1]:'Top rank';
   const ds=dayStreak();document.getElementById('daysv').textContent=ds+(ds>=3?'🔥':'');}
 // ---------- modes / tabs ----------
-function setMode(m){if(window.AUDIO)AUDIO.stop();if(sprintOn)endSprint(true);h2h=null;mode=m;
+// ---- Reference/Progress keep the question you were on: its card is set aside untouched and put back when you return ----
+let PARK=null;
+function parkPractice(){if(mode!=='practise'||PARK||examOn||sprintOn||h2h||!UNITS[ui]||(window.BlitzUI&&BlitzUI.inHome()))return;const c=document.getElementById('card');if(!c||!c.firstChild)return;const f=document.createDocumentFragment();while(c.firstChild)f.appendChild(c.firstChild);PARK={ui,qi,frag:f,sc:c.scrollTop,acc:document.documentElement.style.getPropertyValue('--accent')};backPill(true);}
+function dropPark(){PARK=null;backPill(false);}
+function restorePractice(){const P=PARK;PARK=null;backPill(false);ui=P.ui;qi=P.qi;const c=document.getElementById('card');c.innerHTML='';c.appendChild(P.frag);if(P.acc)document.documentElement.style.setProperty('--accent',P.acc);renderTabs();renderDots();requestAnimationFrame(()=>{c.scrollTop=P.sc;});}
+function backPill(on){let b=document.getElementById('backq');document.body.classList.toggle('parked',!!on);if(!on){if(b)b.style.display='none';return;}if(!b){b=document.createElement('button');b.id='backq';b.className='backq';b.textContent='↩ Back to your question';b.onclick=()=>{if(PARK){if(window.BlitzUI)BlitzUI.showHome(false);setMode('practise');}};document.body.appendChild(b);}b.style.display='';}
+function setMode(m){document.body.classList.toggle('prac',m==='practise');if(window.BlitzUI){if(m!=='practise')BlitzUI.showHome(false);setTimeout(()=>BlitzUI.paintTabbar(),0);}if(window.AUDIO)AUDIO.stop();if(sprintOn)endSprint(true);h2h=null;mode=m;
   document.getElementById('mPr').classList.toggle('on',m==='practise');document.getElementById('mRe').classList.toggle('on',m==='reference');document.getElementById('mRec').classList.toggle('on',m==='record');
   document.getElementById('dots').style.display=m==='practise'?'flex':'none';document.getElementById('tabs').style.display=m==='record'?'none':'flex';
-  if(m==='practise'){ui=Math.min(ui,UNITS.length-1);if(!unitOn(ui))ui=firstUnit();if(!SETQ.length||SETQ.forId!==UNITS[ui].id)openUnit();else load();}
+  if(m==='practise'){if(PARK){restorePractice();return;}ui=Math.min(ui,UNITS.length-1);if(!unitOn(ui))ui=firstUnit();if(!SETQ.length||SETQ.forId!==UNITS[ui].id)openUnit();else load();}
   else if(m==='reference'){ui=0;loadRef();}else renderRecord();}
-function renderTabs(){const nv=document.getElementById('tabs');nv.innerHTML='';document.body.classList.toggle('paper',mode==='practise'&&!!(UNITS[ui]&&UNITS[ui].exam));const list=mode==='practise'?UNITS:REFS;
-  list.forEach((u,i)=>{if(mode==='practise'&&(!unitOn(i)||u.task))return;const b=document.createElement('button');
+function renderTabs(){document.body.classList.toggle('prac',mode==='practise');if(window.BlitzUI&&BlitzUI.inHome())setTimeout(()=>BlitzUI.renderHome(),0);if(mode==='practise'&&UNITS[ui]&&window.BlitzUI)BlitzUI.unitBar(UNITS[ui].name,unitIcon(UNITS[ui]),ui);const nv=document.getElementById('tabs');nv.innerHTML='';document.body.classList.toggle('paper',mode==='practise'&&!!(UNITS[ui]&&UNITS[ui].exam));document.body.classList.toggle('testmode',mode==='practise'&&!!(UNITS[ui]&&UNITS[ui].test));const list=mode==='practise'?UNITS:REFS;
+  list.forEach((u,i)=>{if(mode==='practise'&&(!unitOn(i)||u.task||(u.test&&+LEVEL()>10)))return;const b=document.createElement('button');
     b.innerHTML=esc(u.short||u.name);b.className=(i===ui?'on':'')+(u.exam?' exam':'')+(u.special?' special':'');
     if(mode==='practise'&&!u.special&&!u.exam&&PROF){const m=mastery(u.id);if(m.n){const C=2*Math.PI*5.5;const col=m.mastered?'#d4a017':m.acc>=0.7?'#5d8a63':m.acc>=0.5?'#b2862f':'#b4433a';
       b.innerHTML=esc(u.short||u.name)+`<svg class="ring" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5" stroke="rgba(128,128,128,.35)"/><circle cx="7" cy="7" r="5.5" stroke="${col}" stroke-dasharray="${(C*m.acc).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 7 7)"/></svg>`+(m.mastered?'<span class="mast">✓</span>':'');
@@ -601,7 +843,8 @@ function renderTabs(){const nv=document.getElementById('tabs');nv.innerHTML='';d
 function renderDots(){const d=document.getElementById('dots');d.innerHTML='';if(sprintOn)return;
   SETQ.forEach((q,pos)=>{const s=document.createElement('div');const r=results[UNITS[ui].id+'.'+pos];s.className='d'+(pos===qi?' cur':'')+(r?(' '+r):'');s.title='Q'+(pos+1);s.onclick=()=>{qi=pos;load();};d.appendChild(s);});
   const right=document.createElement('div');right.className='right';
-  if(UNITS[ui].exam){const fb=document.createElement('button');fb.className='finishbtn';fb.textContent=examOn?'Finish exam':'Back to results';fb.onclick=finishExam;right.appendChild(fb);d.appendChild(right);return;}
+  if(EMBED&&UNITS[ui].exam){const lab=document.createElement('span');lab.className='embedlab';lab.textContent='Part B · '+(qi+1)+' of '+SETQ.length;d.insertBefore(lab,d.firstChild);}
+  if(UNITS[ui].exam){const fb=document.createElement('button');fb.className='finishbtn';fb.textContent=examOn?(UNITS[ui].test?(EMBED?'Finish Part B':'Finish test'):(EMBED?'Finish Part B':'Finish exam')):'Back to results';fb.onclick=finishExam;right.appendChild(fb);d.appendChild(right);return;}
   if(UNITS[ui].task){if(TaskKit.isDone()){const fb=document.createElement('button');fb.className='finishbtn';fb.textContent='Get my result code';fb.onclick=showTaskFinish;right.appendChild(fb);}d.appendChild(right);return;}
   if(SPRINTABLE(UNITS[ui])&&!h2h){const sb=document.createElement('button');sb.className='sprintbtn';const best=PROF&&PROF.sprint&&PROF.sprint[HK(UNITS[ui].id)];sb.textContent='⚡ 60s Sprint'+(best?' · best '+best:'');sb.onclick=startSprint;right.appendChild(sb);}
   if(!UNITS[ui].special&&!h2h){const hb=document.createElement('button');hb.className='h2hbtn';hb.textContent='⚔ Head-to-head';hb.onclick=askH2H;right.appendChild(hb);}
@@ -639,7 +882,7 @@ function h2hCheck(){if(!h2h)return;const w=h2h.score.findIndex(s=>s>=5);if(w<0){
   g.classList.add('open');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);
   document.getElementById('h2hre').onclick=()=>{h2h.score=[0,0];h2h.turn=0;closeGuide();SETQ=GEN.makeSet(UNITS[ui].id,40);SETQ.forId=UNITS[ui].id;qi=0;clearSetState();load();};
   document.getElementById('h2hend').onclick=()=>{h2h=null;closeGuide();openUnit(true);};}
-function openUnit(fresh){if(sprintOn)endSprint(true);if(UNITS[ui].task){if(window.TaskKit&&TaskKit.run){taskOpen();return;}ui=firstUnit();}const u=UNITS[ui];if(u.exam){buildExamPlan();SETQ=examPlan.map(examGen);qi=0;Object.keys(results).forEach(k=>{if(k.startsWith('exam.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith('exam.'))delete scored[k];});delete uStat[ui];delete unitDone[ui];examOn=false;clearInterval(examTick);examStartCard();return;}
+function openUnit(fresh){dropPark();if(sprintOn)endSprint(true);if(UNITS[ui].task){if(window.TaskKit&&TaskKit.run){taskOpen();return;}ui=firstUnit();}const u=UNITS[ui];if(u.exam){buildExamPlan();if(u.test)testSetq();else SETQ=examPlan.map(examGen);qi=0;Object.keys(results).forEach(k=>{if(k.startsWith(u.id+'.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith(u.id+'.'))delete scored[k];});delete uStat[ui];delete unitDone[ui];examOn=false;clearInterval(examTick);examStartCard();return;}
   SETQ=u.special?u.make():GEN.makeSet(u.id,SETN);SETQ.forId=u.id;qi=0;if(!SETQ.length){SETQ=GEN.makeSet(REAL()[0].id,SETN);SETQ.forId=u.id;}
   Object.keys(results).forEach(k=>{if(k.startsWith(u.id+'.'))delete results[k];});Object.keys(scored).forEach(k=>{if(k.startsWith(u.id+'.'))delete scored[k];});
   delete uStat[ui];delete unitDone[ui];load();}
@@ -672,9 +915,58 @@ function renderRecord(){document.documentElement.style.setProperty('--accent','#
   document.getElementById('csvlog').onclick=()=>{const csv='Name,Unit,Year,Percent,Finished\n'+LOG.map(e=>[e.name,e.section,'Year '+(e.level||''),e.pct,new Date(e.at).toLocaleString('en-AU')].map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\n');
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='theory-blitz-log.csv';a.click();};
   document.getElementById('clearlog').onclick=()=>{const w=prompt('This wipes the whole class log on this device. Type CLEAR to confirm.');if(w==='CLEAR'){LOG=[];saveLog();renderRecord();}};}
+// ---- beaming: tap between two quavers to join them with a beam (q._bj = the joined gaps) ----
+function bjItems(q,J,col){const N=q.nNotes,out=[];for(let i=0;i<N;i++){const L=i>0&&J.includes(i-1)&&!q.barAfter.includes(i-1),R=i<N-1&&J.includes(i)&&!q.barAfter.includes(i);
+    out.push(Object.assign({k:'n',p:[T.P('B',0,4)],dur:'e',beam:L&&R?'cont':R?'start':L?'end':null},col?{col}:{}));if(i<N-1)out.push(q.barAfter.includes(i)?{k:'bar'}:{k:'gap',w:0.9,bj:i});}out.push({k:'bar',final:true});return out;}
+function bjScore(q,J){J=J||q._bj||[];const gaps=[];for(let i=0;i<q.nNotes-1;i++)if(!q.barAfter.includes(i))gaps.push(i);let best={f:0,right:0,of:gaps.length,ans:q.answer};
+  (q.answers||[q.answer]).forEach(A=>{const right=gaps.filter(g=>J.includes(g)===A.includes(g)).length;const f=gaps.length?right/gaps.length:1;if(f>best.f||!best.right&&right)best={f,right,of:gaps.length,ans:A};});return best;}
+function bjSvg(q,J,o){o=o||{};const R=E.render({clef:q.clef||'treble',sig:0,time:q.time,items:bjItems(q,J,o.col),paper:!!o.paper},o.attrs?{attrs:o.attrs}:{});const S=E.SS,L=[];const A=o.marked?bjScore(q,J).ans:null;
+  R.cols.filter(c=>c.k==='gap'&&c.bj!==undefined).forEach(c=>{const x=c.x+c.w/2;
+    if(o.hits)L.push(`<rect class="bjhit" data-g="${c.bj}" x="${(c.x-S*0.4).toFixed(1)}" y="0" width="${(c.w+S*0.8).toFixed(1)}" height="${R.H}" fill="transparent" style="cursor:pointer"/>`,`<line x1="${x.toFixed(1)}" y1="${(E.TOP+4.9*S).toFixed(1)}" x2="${x.toFixed(1)}" y2="${(E.TOP+5.4*S).toFixed(1)}" stroke="#c9c2b6" stroke-width="1.4" pointer-events="none"/>`);
+    if(A){const ok=J.includes(c.bj)===A.includes(c.bj);L.push(`<circle cx="${x.toFixed(1)}" cy="${(E.TOP+5.6*S).toFixed(1)}" r="${(S*0.3).toFixed(1)}" fill="${ok?'var(--green)':'var(--red)'}" pointer-events="none"/>`);}});
+  return {svg:R.svg.replace(/<\/svg>$/,L.join('')+'</svg>'),W:R.W};}
+function bjDraw(q){const w=document.getElementById('bjw');if(!w)return;const locked=TESTING()&&(qid() in scored);const shown=!!q._bjShow,chk=!!q._bjChecked&&!HIDEFB();
+  const B=bjSvg(q,shown?q.answer:(q._bj||[]),{hits:!locked&&!shown,marked:chk&&!shown,col:shown?'var(--ox)':null});w.innerHTML=B.svg;const sv=w.querySelector('svg');if(sv){sv.style.width=Math.max(B.W*1.25,260)+'px';sv.style.maxWidth='100%';sv.style.height='auto';}
+  w.querySelectorAll('.bjhit').forEach(h=>h.onclick=()=>{if(q._bjChecked&&!TESTING()){q._bjChecked=false;feedback('','');}const g=+h.dataset.g;q._bj=q._bj||[];const j=q._bj.indexOf(g);if(j>=0)q._bj.splice(j,1);else q._bj.push(g);q._bjTouched=true;bjDraw(q);});}
+function bjCheck(){const q=curQ();if(!q._bjTouched){feedback('Join the quavers into groups first.','no');return;}const r=bjScore(q);q._frac=r.f;const ok=r.f===1;q._bjChecked=true;scoreOnce(ok);celebrate(ok,document.getElementById('bjw'));
+  if(ok){feedback(pick(WINMSG)+' Correctly grouped.'+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+r.right+' of '+r.of+' joins right (red dots: the wrong ones).','no',q.why);results[qid()]='no';}bjDraw(q);renderDots();}
+function bjWire(q){bjDraw(q);const ck=document.getElementById('check'),cl=document.getElementById('clear'),an=document.getElementById('answer');
+  if(ck)ck.onclick=bjCheck;if(cl)cl.onclick=()=>{if(TESTING()&&(qid() in scored))return;q._bj=[];q._bjTouched=false;q._bjChecked=false;q._bjShow=false;feedback('','');bjDraw(q);};
+  if(an)an.onclick=()=>{if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._bjShow=true;bjDraw(q);feedback('Answer shown.','',q.why);};
+  if(qid() in scored&&TESTING()){q._bjChecked=true;bjDraw(q);}}
+// ---- add the bar lines: tap the gap between two notes; the given gaps are evenly spaced so nothing moves as lines go in ----
+function blSvg(q,sel,o){o=o||{};const R=E.render({clef:q.clef||'perc',sig:0,time:q.time,items:q.items,paper:!!o.paper},o.attrs?{attrs:o.attrs}:{});const A=q.answer||[],S=E.SS,y0=E.TOP-S*0.05,y1=E.TOP+4*S+S*0.05;const L=[];
+  R.cols.filter(c=>c.k==='gap'&&c.bl!==undefined).forEach(c=>{const x=c.x+c.w/2,on=sel.includes(c.bl),want=A.includes(c.bl);
+    if(o.hits)L.push(`<rect class="blhit" data-g="${c.bl}" x="${(c.x-S*0.25).toFixed(1)}" y="0" width="${(c.w+S*0.5).toFixed(1)}" height="${R.H}" fill="transparent" style="cursor:pointer"/>`);
+    if(on){const col=o.col||(o.marked?(want?'var(--green)':'var(--red)'):'var(--ink)');L.push(`<line x1="${x.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="${col}" stroke-width="1.8" pointer-events="none"/>`);}
+    else if(o.missed&&want)L.push(`<line x1="${x.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="var(--ox,#b3261e)" stroke-width="1.8" stroke-dasharray="4 3" pointer-events="none"/>`);
+    else if(o.hits)L.push(`<line x1="${x.toFixed(1)}" y1="${(E.TOP+4.6*S).toFixed(1)}" x2="${x.toFixed(1)}" y2="${(E.TOP+5.1*S).toFixed(1)}" stroke="#c9c2b6" stroke-width="1.4" pointer-events="none"/>`);});
+  return {svg:R.svg.replace(/<\/svg>$/,L.join('')+'</svg>'),W:R.W};}
+function blScore(q){const A=q.answer||[],sel=q._bl||[];const hit=sel.filter(i=>A.includes(i)).length,extra=sel.length-hit;return {hit,extra,of:A.length,f:A.length?Math.max(0,hit-extra)/A.length:1};}
+function blDraw(q){const w=document.getElementById('blw');if(!w)return;const locked=TESTING()&&(qid() in scored);const shown=!!q._blShow,chk=!!q._blChecked&&!HIDEFB();
+  const B=blSvg(q,shown?(q.answer||[]):(q._bl||[]),{hits:!locked&&!shown,marked:chk,missed:chk,col:shown?'var(--ox)':null,attrs:' id="blsvg"'});w.innerHTML=B.svg;const sv=w.querySelector('svg');if(sv){sv.style.width=Math.max(B.W*1.12,260)+'px';sv.style.maxWidth='100%';sv.style.height='auto';}
+  w.querySelectorAll('.blhit').forEach(h=>h.onclick=()=>{if(q._blChecked&&!TESTING()){q._blChecked=false;feedback('','');}const g=+h.dataset.g;q._bl=q._bl||[];const j=q._bl.indexOf(g);if(j>=0)q._bl.splice(j,1);else q._bl.push(g);blDraw(q);});}
+function blCheck(){const q=curQ();if(!(q._bl||[]).length){feedback('Add the bar lines first.','no');return;}const r=blScore(q);q._frac=r.f;const ok=r.f===1;q._blChecked=true;scoreOnce(ok);celebrate(ok,document.getElementById('blw'));
+  if(ok){feedback(pick(WINMSG)+' All '+r.of+' bar lines in the right place.'+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+r.hit+' of '+r.of+' bar lines right'+(r.extra?', '+r.extra+' extra':'')+'.','no',q.why);results[qid()]='no';}blDraw(q);renderDots();}
+function blWire(q){blDraw(q);const ck=document.getElementById('check'),cl=document.getElementById('clear'),an=document.getElementById('answer');
+  if(ck)ck.onclick=blCheck;if(cl)cl.onclick=()=>{if(TESTING()&&(qid() in scored))return;q._bl=[];q._blChecked=false;q._blShow=false;feedback('','');blDraw(q);};
+  if(an)an.onclick=()=>{if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._blShow=true;blDraw(q);feedback('Answer shown.','',q.why);};
+  if(qid() in scored&&TESTING()){q._blChecked=true;blDraw(q);}}
+// ---- semitone / tone marks on a written scale: tap the pair of notes; a slur (semitones) or bracket (tones) appears on the stave ----
+function pmScore(q){const want=q.pairs||[],mine=q._pm||[];const hit=mine.filter(i=>want.includes(i)).length,extra=mine.length-hit;return {hit,extra,of:want.length,f:want.length?Math.max(0,hit-extra)/want.length:(mine.length?0:1)};}
+function pmRender(q){const el=document.getElementById('pmrow');if(!el||!q||!q.pairMark)return;const slots=q.items.filter(i=>i.k==='slot');const mine=q._pm||(q._pm=[]);const done=!!(q._pmS&&q._pmS.checked);
+  const lockT=done&&UNITS[ui]&&UNITS[ui].test&&examOn;const word=q.pairMark==='semi'?'semitone':'tone';const want=q.pairs||[];
+  el.innerHTML='<div class="sfhd"><span>Mark each '+word+' ('+(q.pairMark==='semi'?'slur':'bracket')+')</span><span class="sfres">'+(done&&!lockT?(()=>{const r=pmScore(q);return r.hit+' / '+r.of+' marked'+(r.extra?' · '+r.extra+' extra':'');})():lockT?'answer recorded':'tap each pair of notes a '+word+' apart')+'</span></div><div class="sfchips">'+
+    slots.slice(0,-1).map((s,k)=>{const on=mine.includes(s.slot);const res=done&&!lockT?(on===want.includes(s.slot)?' ok':' no'):'';return '<button class="sfc pmc'+(on?' cur':'')+res+'" data-pm="'+s.slot+'"'+(done?' disabled':'')+'>'+(s.slot+1)+'–'+(s.slot+2)+'</button>';}).join('')+'</div>';
+  el.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{if(q._pmS&&q._pmS.checked)return;const i=+b.dataset.pm;const j=mine.indexOf(i);if(j>=0)mine.splice(j,1);else mine.push(i);drawStave();});}
+function pmCheck(q){if(!q||!q.pairMark)return '';q._pmS=q._pmS||{};q._pmS.checked=true;const r=pmScore(q);
+  if(UNITS[ui]&&UNITS[ui].test&&!q._pmS.applied){q._pmS.applied=1;q._frac=((q._frac||0)*3+r.f)/4;}
+  pmRender(q);const f=document.getElementById('fb');if(f&&!(UNITS[ui]&&UNITS[ui].test&&examOn))f.insertAdjacentHTML('afterbegin','<div class="sfline">'+(q.pairMark==='semi'?'Semitones':'Tones')+': '+r.hit+' / '+r.of+(r.extra?' ('+r.extra+' extra)':'')+(r.f===1?' ✓':'')+'</div>');return r.hit+'/'+r.of;}
 // ---- sol-fa entry row: students sing-name each note as well as writing it (moveable do, la-based minor) ----
+const sfOK=q=>!UNITS[ui].exam||!!(UNITS[ui].test&&q&&q._exam&&q._exam.sf);
 function sfInit(q,ans,pal,givenN){if(!ans||!ans.length)return;if(!q._sf||q._sf.ans.join()!==ans.join())q._sf={ans:ans.slice(),pal:pal.slice(),got:ans.map((a,i)=>i<(givenN||0)?a:''),given:givenN||0,cur:givenN||0,checked:false};return q._sf;}
 function sfRender(q){const el=document.getElementById('solfarow');const S=q&&q._sf;if(!el||!S)return;
+  if(S.checked&&UNITS[ui]&&UNITS[ui].test&&examOn){el.innerHTML=`<div class="sfhd"><span>Sol-fa</span><span class="sfres">answer recorded</span></div><div class="sfchips">${S.got.map((g,i)=>`<button class="sfc${i<S.given?' given':''}" disabled>${g||'·'}</button>`).join('')}</div>`;return;}
   const n=S.ans.filter((a,i)=>a===S.got[i]&&i>=S.given).length,of=S.ans.length-S.given;
   el.innerHTML=`<div class="sfhd"><span>Sol-fa</span><span class="sfres">${S.checked?n+' / '+of+' syllables right':'tap a box, then a syllable'}</span></div>
     <div class="sfchips">${S.got.map((g,i)=>`<button class="sfc${i<S.given?' given':''}${i===S.cur&&!S.checked?' cur':''}${S.checked&&i>=S.given?(g===S.ans[i]?' ok':' no'):''}" data-i="${i}" title="${S.checked?S.ans[i]:''}">${S.checked&&i>=S.given&&g!==S.ans[i]?`<s style="opacity:.55">${g||'·'}</s> ${S.ans[i]}`:(g||'·')}</button>`).join('')}</div>
@@ -682,55 +974,121 @@ function sfRender(q){const el=document.getElementById('solfarow');const S=q&&q._
   el.querySelectorAll('.sfc').forEach(b=>b.onclick=()=>{if(S.checked||+b.dataset.i<S.given)return;S.cur=+b.dataset.i;sfRender(q);});
   el.querySelectorAll('.sfpal button').forEach(b=>b.onclick=()=>{if(S.checked)return;S.got[S.cur]=b.dataset.s;if(b.dataset.s){let j=S.cur+1;while(j<S.got.length&&j<S.given)j++;S.cur=Math.min(S.got.length-1,j);}sfRender(q);});}
 function sfCheck(q){const S=q&&q._sf;if(!S)return '';S.checked=true;sfRender(q);const n=S.ans.filter((a,i)=>a===S.got[i]&&i>=S.given).length,of=S.ans.length-S.given;
+  if(UNITS[ui]&&UNITS[ui].test&&of&&!S.applied){S.applied=1;q._frac=((q._frac||0)*2+n/of)/3;if(examOn)return n+'/'+of;}
   const f=document.getElementById('fb');if(f&&of)f.insertAdjacentHTML('afterbegin',`<div class="sfline">Sol-fa: ${n} / ${of}${n===of?' ✓':''}</div>`);return n+'/'+of;}
 function sfReveal(q){const S=q&&q._sf;if(!S)return;S.got=S.ans.slice();S.checked=true;sfRender(q);}
 function sfReset(q){if(q)delete q._sf;}
 // ---------- practise ----------
-function load(){const q=curQ();if(!q)return;
+// ---- the companion section lives in its own card that is kept, never rebuilt, so going back to it keeps the student's work ----
+
+window.BLITZ_REFS=REFS;
+function openTestRef(){let list=REFS.slice();try{const f=typeof embedFrame==='function'?embedFrame():null;const C=f&&f.contentWindow&&f.contentWindow.BLITZ_REFS;if(C)list=list.concat(C.filter(r=>r.id!=='kbd').map(r=>({id:r.id,name:'Aural: '+r.name,render:r.render})));}catch(e){}BlitzUI.openRefSheet(list);}
+function showEmbed(key,top,bot,src,doc){const c=document.getElementById('card');let w=document.getElementById('embedwrap');
+  if(w&&w.dataset.key!==key){w.remove();w=null;}
+  if(!w){w=document.createElement('section');w.id='embedwrap';w.className='card';w.dataset.key=key;w.innerHTML='<div class="ewtop"></div><iframe class="embedframe" id="embedframe" allow="autoplay"></iframe><div class="ewbot"></div>';c.parentNode.insertBefore(w,c.nextSibling);const f=w.querySelector('iframe');if(src)f.src=src;else f.srcdoc=doc;}
+  c.innerHTML='';c.style.display='none';w.style.display='';w.querySelector('.ewtop').innerHTML=top;w.querySelector('.ewbot').innerHTML=bot;w.scrollTop=0;
+  const pv=w.querySelector('#prev'),nx=w.querySelector('#next');if(pv&&!pv.disabled)pv.onclick=goPrev;if(nx)nx.onclick=goNext;return w;}
+function embedFrame(){const w=document.getElementById('embedwrap');return w?w.querySelector('iframe'):null;}
+(function(){const c=document.getElementById('card');if(!c||!window.MutationObserver)return;new MutationObserver(()=>{if(!c.firstChild)return;c.style.display='';const w=document.getElementById('embedwrap');if(w)w.style.display='none';}).observe(c,{childList:true});})();
+let EMBKEY=0;
+function load(){document.body.classList.toggle('testing',TESTING());document.body.classList.toggle('hidefb',HIDEFB());document.body.classList.toggle('todayset',!!(UNITS[ui]&&UNITS[ui].id==='today'));const q=curQ();if(!q)return;
+  if(q.t==='embed'&&UNITS[ui].test){renderTabs();renderDots();const c=document.getElementById('card');const S=AURAL_TEST_SRC('testA',false);
+    showEmbed('T'+EMBKEY+':'+testRun.y+':'+testRun.seed,`${testBar(q)}<p class="sub">Work through the aural questions below and press <b>Finish test</b> inside the frame when done; the marks come back into this test.${embedRes.A?' <b>Finished: '+embedRes.A.tot+' / '+embedRes.A.max+'</b>':''}</p>
+    `,`<div class="nav"><button id="prev" disabled>‹ Prev</button><span class="pos">${qi+1} / ${SETQ.length}</span><button id="next">Theory ›</button></div>`,S.src,S.src?'':S.doc);return;}
   if(q.t==='embed'){renderTabs();renderDots();document.documentElement.style.setProperty('--accent','#b2862f');const c=document.getElementById('card');const src=AURAL_SRC();
-    c.innerHTML=`<div class="qnum">Exam practice · Section One · Part A: Aural</div>${examBar(q)}<p class="sub">Seven aural questions (${q._exam.m} marks). Work through them below and press <b>Finish exam</b> inside the frame when done; the marks come back into this paper.${embedRes.A?' <b>Finished: '+embedRes.A.tot+' / '+embedRes.A.max+'</b>':''}</p>
-    <iframe class="embedframe" id="embedframe" ${src?`src="${src}"`:''} allow="autoplay"></iframe><div class="pfoot">End of Part A</div><div class="nav"><button id="prev" disabled>‹ Prev</button><span class="pos">${qi+1} / ${SETQ.length}</span><button id="next">Part B ›</button></div>`;
-    if(!src){const f=document.getElementById('embedframe');f.srcdoc=EMBED_DOC.partA.replace('<head>','<head><script>window.__EMBED="partA";window.__EMBED_YEAR='+LEVEL()+';<\/script>');}
-    document.getElementById('next').onclick=goNext;c.scrollTop=0;return;}
+    showEmbed('E'+EMBKEY,`<div class="qnum">Exam practice · Section One · Part A: Aural</div>${examBar(q)}<p class="sub">Seven aural questions (${q._exam.m} marks). Work through them below and press <b>Finish exam</b> inside the frame when done; the marks come back into this paper.${embedRes.A?' <b>Finished: '+embedRes.A.tot+' / '+embedRes.A.max+'</b>':''}</p>
+    `,`<div class="pfoot">End of Part A</div><div class="nav"><button id="prev" disabled>‹ Prev</button><span class="pos">${qi+1} / ${SETQ.length}</span><button id="next">Part B ›</button></div>`,src,src?'':EMBED_DOC.partA.replace('<head>','<head><script>window.__EMBED="partA";window.__EMBED_YEAR='+LEVEL()+';<\/script>'));return;}
   document.documentElement.style.setProperty('--accent',UCOL[ui%UCOL.length]);
   accMode='';eraseMode=false;selected=null;nchecked=q._checked||false;answered=false;ksBuilt=q._ks||0;renderTabs();renderDots();
   const c=document.getElementById('card');
   const FU=fromUnit(q);const bar=UNITS[ui].exam?examBar(q):sprintOn?`<div class="sprintbar"><span><span class="sp">Sprint</span> ${esc(FU.name)}</span><span class="clock" id="sprintclock">60s</span><span id="sprintscore">${sprintCor} ✓</span></div>`:h2h?h2hBar():'';
   const head=`<div class="qnum">${UNITS[ui].exam?'Exam practice · Section One · Part B':esc(UNITS[ui].name)+(UNITS[ui].special?' · '+esc(FU.name):'')+' · '+(sprintOn?'Question '+(sprintN+1):h2h?esc(h2h.names[h2h.turn])+"'s turn":'Q'+(qi+1)+' of '+SETQ.length)} · Year ${LEVEL()}</div>${bar}<p class="prompt">${q.prompt}</p>${q.sub?`<p class="sub">${q.sub}</p>`:''}${sprintOn?'':`<button class="howbtn" id="howbtn">💡 How do I work this out?</button><button class="howbtn" id="gearbtn">⚙ Customise</button>`}${q.show&&q.show.spec&&!UNITS[ui].exam?`<button class="hearbtn" id="hearshown">🔊 Hear it</button>`:''}`;
-  const showHtml=(q.show?`<div class="showbox${q.show.spec&&q.show.spec.time?' tall':''}">${q.show.svg||E.render(q.show.spec).svg}</div>`:'')+(q.legend||'');
+  const showHtml=(q.show?`<div class="showbox${q.show.spec&&q.show.spec.barNums?' long':q.show.spec&&q.show.spec.time?' tall':''}">${q.show.svg||E.render(q.show.spec).svg}</div>`:'')+(q.legend||'');
   let body='';
   if(q.t==='notate'){q.items.forEach(it=>{if(it.k==='slot'){if(it.given){it.p=it.p||[];}else if(!it._p)it._p=[];}});
     const needsKs=!!q.keysigEdit;
-    body=showHtml+`<div class="toolbar"><span class="lab">${q.ksPlace?'Place':'Accidental'}</span><div class="acc" id="acc">${q.ksPlace?'':'<button data-acc="" title="No accidental">○</button>'}<button data-acc="s">♯</button><button data-acc="f">♭</button>${q.ksPlace?'':'<button data-acc="n">♮</button>'}${GEN.getSet().dbl&&!q.ksPlace?'<button data-acc="x">𝄪</button><button data-acc="ff">𝄫</button>':''}<button class="erase" data-acc="erase" title="${q.ksPlace?'Remove an accidental':'Remove a note'}">⌫ erase</button></div>
+    body=showHtml+`<div class="toolbar"${q.sfOnly?' style="display:none"':''}><span class="lab">${q.ksPlace?'Place':'Accidental'}</span><div class="acc" id="acc">${q.ksPlace?'':'<button data-acc="" title="No accidental">○</button>'}<button data-acc="s">♯</button><button data-acc="f">♭</button>${q.ksPlace?'':'<button data-acc="n">♮</button>'}${(GEN.getSet().dbl||(GEN.hasDbl&&GEN.hasDbl(q)))&&!q.ksPlace?'<button data-acc="x">𝄪</button><button data-acc="ff">𝄫</button>':''}<button class="erase" data-acc="erase" title="${q.ksPlace?'Remove an accidental':'Remove a note'}">⌫ erase</button></div>
       ${needsKs?`<span class="lab">Key signature</span><div class="ksb"><button id="ksflat">♭</button><span class="ksv" id="ksv"></span><button id="kssharp">♯</button></div>`:''}</div>
-      <div class="staveWrap" id="sw"></div>${q.solfa&&!UNITS[ui].exam?'<div class="solfarow" id="solfarow"></div>':''}
-      <p class="hint">${q.solfa&&!UNITS[ui].exam?'Then name each degree in sol-fa in the boxes. ':''}${q.ksPlace?'Tap ♯ or ♭, then tap the stave where the next accidental goes: it is added at the next position, on the line or space you tap. ⌫ erase then tap an accidental to remove it. Keys: # b, Backspace removes the last.':q.items.some(i=>i.chord)?'Pick an accidental, then tap in a column to add a note. Tap a note to select it (change its accidental, or drag it); ⌫ erase then tap a note to remove it. Keys: # b n 0, Backspace.':'Pick an accidental, then tap a line or space to place each note. Tap a placed note to select it (change its accidental, or drag it). Keys: # b n 0, Backspace.'}</p>
+      <div class="staveWrap" id="sw"${q.sfOnly?' style="display:none"':''}></div>${q.pairMark?'<div class="solfarow pmrow" id="pmrow"></div>':''}${q.solfa&&sfOK(q)?'<div class="solfarow" id="solfarow"></div>':''}
+      <p class="hint"${q.sfOnly?' style="display:none"':''}>${q.solfa&&sfOK(q)?'Then name each degree in sol-fa in the boxes. ':''}${q.ksPlace?'Tap ♯ or ♭, then tap the stave where the next accidental goes: it is added at the next position, on the line or space you tap. ⌫ erase then tap an accidental to remove it. Keys: # b, Backspace removes the last.':q.items.some(i=>i.chord)?'Pick an accidental, then tap in a column to add a note. Tap a note to select it (change its accidental, or drag it); ⌫ erase then tap a note to remove it. Keys: # b n 0, Backspace.':'Pick an accidental, then tap a line or space to place each note. Tap a placed note to select it (change its accidental, or drag it). Keys: # b n 0, Backspace.'}</p>
       <div class="names" id="names"></div>
       <div class="controls"><button class="btn-check" id="check">Check</button>${UNITS[ui].exam||q.ksPlace?'':'<button class="btn-ghost" id="hearme">🎧 Play my answer</button><button class="btn-ghost" id="hearans" title="Available after Check or Show answer">🔊 Hear the answer</button>'}<button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
-  } else if(q.t==='choice'){const svgo=q.opts.some(o=>o.svg);if(!q._order)q._order=T.shuffle(q.opts);
+  } else if(q.t==='beam'){body=`<div class="staveWrap" id="bjw"></div><p class="hint">Tap between two quavers to join them with a beam; tap again to split them. The small marks under the stave show where you can tap.</p>
+      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
+  } else if(q.t==='barl'){body=`<div class="staveWrap" id="blw"></div><p class="hint">Tap between two notes to add a bar line; tap it again to take it away. The small marks under the stave show where a bar line can go.</p>
+      <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
+  } else if(q.t==='written'){body=showHtml+TestKit.writtenBody(q,qid() in scored,true);
+  } else if(q.t==='choice'){const svgo=q.opts.some(o=>o.svg);if(!q._order)q._order=q.fixed?q.opts.slice():T.shuffle(q.opts);
     body=showHtml+`<div class="opts${svgo?' svgopts':''}" id="opts">`+q._order.map((o,i)=>`<button data-o="${esc(o.v)}"><span class="k">${i+1}</span>${o.svg?o.svg:'<span>'+esc(o.v)+'</span>'}</button>`).join('')+`</div><div class="controls"><button class="btn-ans" id="answer">Show answer</button></div>`;
+  } else if(q.t==='match'&&q.grid){body=ctGridHtml(q)+`<div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.t==='match'){if(!q._shuf)q._shuf=T.shuffle(q.pairs.map(p=>p[1]));
     body=`<div class="match" id="match">`+q.pairs.map((p,r)=>`<div class="mrow" data-r="${r}"><div class="term">${esc(p[0])}</div><select><option value="">— choose —</option>`+q._shuf.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('')+`</select></div>`).join('')+`</div><div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ans" id="answer">Show answer</button></div>`;}
   if(UNITS[ui].task&&!q._t0)q._t0=Date.now();
   c.innerHTML=(UNITS[ui].task?TaskKit.banner():'')+head+body+`<div class="feedback" id="fb"></div>${UNITS[ui].exam?`<div class="pfoot">${qi>=SETQ.length-1?'End of questions':'See next page'}</div>`:''}<div class="nav"${sprintOn?' style="visibility:hidden"':''}><button id="prev">‹ Prev</button><span class="pos">${sprintOn?'':(qi+1)+' / '+SETQ.length}</span><button id="next">${UNITS[ui].exam&&qi>=SETQ.length-1?'Finish ›':'Next ›'}</button></div>`;
   c.scrollTop=0;
-  wire(q);if(UNITS[ui].task){TaskKit.wireBanner();const nx=document.getElementById('next');if(nx)nx.disabled=false;if(scored[qid()]!==undefined&&results[qid()]&&q.t!=='choice'&&q.t!=='match')feedback('Answered earlier — your first answer counts.',scored[qid()]?'ok':'no');}if(q.t==='notate'){drawStave();if(q.solfa&&!UNITS[ui].exam){sfInit(q,q.solfa,[...new Set(q.solfa)],1);sfRender(q);}}
+  wire(q);if(UNITS[ui].task){TaskKit.wireBanner();const nx=document.getElementById('next');if(nx)nx.disabled=false;if(scored[qid()]!==undefined&&results[qid()]&&q.t!=='choice'&&q.t!=='match')feedback('Answered earlier — your first answer counts.',scored[qid()]?'ok':'no');}if(q.t==='notate'){drawStave();if(q.solfa&&sfOK(q)){sfInit(q,q.solfa,q.sfPal||[...new Set(q.solfa)],q.sfOnly?0:1);sfRender(q);}}
   const r=results[qid()];if(r&&q.t==='choice'){answered=true;document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b.dataset.o===q._picked&&q._picked!==q.answer)b.classList.add('no');});feedback(r==='ok'?'Correct.':'Answered.',r,q.why);}
-  if(r&&q.t==='match'){document.querySelectorAll('#match .mrow').forEach((row,i)=>{row.querySelector('select').value=q.pairs[i][1];row.className='mrow ok';});feedback(r==='ok'?'Correct.':'Answered.',r,q.why);}}
-function goPrev(){if(mode!=='practise')return;if(qi>0){qi--;load();}}
+  if(r&&q.t==='match'){document.querySelectorAll('#match .mrow').forEach((row,i)=>{row.querySelector('select').value=q.pairs[i][1];row.className='mrow ok';});feedback(r==='ok'?'Correct.':'Answered.',r,q.why);}
+  if(q.t==='barl')blWire(q);if(q.t==='beam')bjWire(q);
+  groupView(q);}
+// ---- a score with several questions: one screen. The score sits once at the top; choice and written parts are answered in place;
+// a part that needs the stave (sol-fa, transposing) opens in place below the score ----
+function grpOf(q){if(!UNITS[ui].test||!q||!q._exam||q.t==='embed'||sprintOn)return null;const it=q._exam;const g=testGroups[it.gi];if(!g||!g.make)return null;
+  const ps=[];examPlan.forEach((x,p)=>{if(!x.embed&&x.gi===it.gi)ps.push(p);});return ps.length>1?ps:null;}
+function gAt(p,fn){const k=qi;qi=p;try{return fn(curQ());}finally{qi=k;}}
+function gBlock(p){const q=SETQ[p],it=q._exam,done=gAt(p,()=>qid() in scored),lab=TestKit.roman(it.sub)+')',mk=it.m;const head=`<div class="gqh"><b>${lab}</b> <span>${q.prompt}</span><span class="mk">(${mk} mark${mk===1?'':'s'})</span></div>`;
+  if(q.t==='choice'){if(!q._order)q._order=q.fixed?q.opts.slice():T.shuffle(q.opts);const T0=HIDEFB();
+    return `<div class="gq" data-gp="${p}">${head}<div class="opts gopts">${q._order.map((o,i)=>{const v=String(o.v);let cl='';if(done){if(v===q._picked)cl+=' picked';if(!T0){if(v===''+q.answer)cl+=' ok';else if(v===q._picked)cl+=' no';}}
+      return `<button data-gv="${esc(v)}"${done?' disabled':''} class="${cl.trim()}"><span class="k">${i+1}</span>${o.svg?o.svg:'<span>'+esc(v)+'</span>'}</button>`;}).join('')}</div>${done&&!T0&&q.why?`<div class="gfb">${q.why}</div>`:''}</div>`;}
+  if(q.t==='written'){return `<div class="gq" data-gp="${p}">${head.replace(q.prompt,esc(q.wq||q.prompt))}<textarea class="wqta" rows="${Math.max(2,q.lines||3)}" data-gw="${p}"${done?' disabled':''} placeholder="Write your answer here">${esc(q._text||'')}</textarea>
+    <div class="controls"><button class="btn-check" data-gs="${p}"${done?' disabled':''}>${done?'Answer saved':'Save answer'}</button></div>${done&&!HIDEFB()&&q.answer?`<div class="gfb">Model answer: ${esc(q.answer)}</div>`:''}</div>`;}
+  return `<div class="gq gqx" data-gp="${p}">${head}<div class="gqst">${done?'✓ Answered':'Not answered yet'}</div><div class="controls"><button class="btn-ghost" data-go="${p}">${done?'Look at this part ›':'Answer this part ›'}</button></div></div>`;}
+function groupView(q){const ps=grpOf(q);if(!ps)return;const c=document.getElementById('card');const top=c.querySelector('.tstq');if(!top)return;
+  c.classList.add('grp');const sub=c.querySelector('.tstsub');if(sub)sub.remove();const show=c.querySelector('.showbox');let anchor=top;if(show){top.insertAdjacentElement('afterend',show);anchor=show;}
+  const lg=show&&show.nextElementSibling&&show.nextElementSibling.classList.contains('legend')?show.nextElementSibling:null;if(lg){show.insertAdjacentElement('afterend',lg);anchor=lg;}
+  // the open part: everything between the score and the feedback
+  const act=document.createElement('div');act.className='gq gqon';act.dataset.gp=qi;const fb=document.getElementById('fb');
+  let n=anchor.nextSibling;const mv=[];while(n&&n!==fb){mv.push(n);n=n.nextSibling;}mv.forEach(x=>act.appendChild(x));if(fb)act.appendChild(fb);anchor.insertAdjacentElement('afterend',act);
+  const it=q._exam;const pr=act.querySelector('.prompt');if(pr)pr.insertAdjacentHTML('afterbegin','<b>'+TestKit.roman(it.sub)+')</b> ');const mkx=document.createElement('span');mkx.className='mk gmk';mkx.textContent='('+it.m+' mark'+(it.m===1?'':'s')+')';if(pr)pr.appendChild(mkx);
+  act.querySelectorAll('.showbox').forEach(x=>x.remove());
+  ps.filter(p=>p<qi).forEach(p=>act.insertAdjacentHTML('beforebegin',gBlock(p)));let last=act;ps.filter(p=>p>qi).forEach(p=>{last.insertAdjacentHTML('afterend',gBlock(p));last=last.nextElementSibling;});
+  wireGroup(ps);
+  const nx=document.getElementById('next'),pv=document.getElementById('prev'),pos=c.querySelector('.nav .pos');
+  if(pos)pos.textContent=(ps[0]+1)+'–'+(ps[ps.length-1]+1)+' / '+SETQ.length;
+  if(nx){nx.onclick=()=>{if(gUnsaved(ps))return;if(lockGuard())return;qi=ps[ps.length-1];goNext();};if(ps[ps.length-1]>=SETQ.length-1&&UNITS[ui].exam)nx.textContent='Finish ›';}
+  if(pv){pv.onclick=()=>{if(gUnsaved(ps))return;if(lockGuard())return;qi=ps[0];goPrev();};pv.disabled=ps[0]===0;}}
+function gUnsaved(ps){const tas=[...document.querySelectorAll('#card [data-gw]')].filter(t=>!t.disabled&&t.value.trim());if(!tas.length)return false;
+  if(!confirm("You haven't saved your written answer"+(tas.length>1?'s':'')+" on this page.\n\nOK: save "+(tas.length>1?'them':'it')+" now.\nCancel: move on without "+(tas.length>1?'them':'it')+" (you can come back)."))return false;
+  tas.forEach(t=>gSave(+t.dataset.gw,true));return false;}
+function gSave(p,quiet){const ta=document.querySelector('#card [data-gw="'+p+'"]');const v=(ta&&ta.value||'').trim();if(!v){if(!quiet)toast('Write your answer first');return;}
+  gAt(p,q=>{if(qid() in scored)return;q._text=v.slice(0,900);q._frac=0;q._pending=true;scoreOnce(false);results[qid()]='pend';});gRefresh(p);renderDots();}
+function gPick(p,v){gAt(p,q=>{if(qid() in scored)return;q._picked=v;const ok=v===''+q.answer;q._frac=ok?1:0;if(!ok&&q.parts){const pp=v.split(' · ');q._frac=((pp[0]===q.parts[0])+(pp[1]===q.parts[1]))/2;}scoreOnce(ok);results[qid()]=ok?'ok':'no';});gRefresh(p);renderDots();}
+function gRefresh(p){const el=document.querySelector('#card .gq[data-gp="'+p+'"]:not(.gqon)');if(!el)return;el.outerHTML=gBlock(p);wireGroup(grpOf(curQ())||[]);}
+function wireGroup(ps){const c=document.getElementById('card');
+  c.querySelectorAll('.gq:not(.gqon) [data-gv]').forEach(b=>b.onclick=()=>gPick(+b.closest('.gq').dataset.gp,b.dataset.gv));
+  c.querySelectorAll('[data-gs]').forEach(b=>b.onclick=()=>gSave(+b.dataset.gs));
+  c.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(lockGuard())return;const p=+b.dataset.go;const y=b.closest('.gq').getBoundingClientRect().top;qi=p;load();const a=document.querySelector('#card .gqon');if(a)a.scrollIntoView({block:'start',behavior:'auto'});});}
+function hasWork(){const q=curQ();if(!q)return false;if(q.t==='written'){const ta=document.getElementById('wqta');return !!(ta&&ta.value.trim());}if(q.t==='barl')return !!(q._bl&&q._bl.length);if(q.t==='beam')return !!q._bjTouched;if(q.t==='notate'){if((q.items||[]).some(it=>it.k==='slot'&&!it.given&&it._p&&it._p.length))return true;if(q._pm&&q._pm.length)return true;if(q._ksp&&q._ksp.length)return true;if(q.keysigEdit&&ksBuilt)return true;}if(q.t==='match')return [...document.querySelectorAll('#match select')].some(x=>x.value);if(q._sf)return q._sf.got.some((g,i)=>i>=(q._sf.given||0)&&g);return false;}
+// in a test, moving on from an answer that wasn't locked in asks first (students forget to press the button)
+function lockGuard(){if(!TESTING())return false;const q=curQ();if(!q||q.kind==='embed'||q.t==='embed')return false;if(qid() in scored)return false;let w=false;try{w=hasWork();}catch(e){}if(!w)return false;
+  if(!confirm("You haven't locked in your answer to this question.\n\nOK: lock it in now.\nCancel: move on without it (you can come back)."))return false;
+  const ck=document.getElementById('check');if(ck)ck.click();return !(qid() in scored);}
+function lockLabel(){if(!TESTING())return;const ck=document.getElementById('check');if(ck&&!/Lock in/.test(ck.textContent))ck.textContent='🔒 Lock in my answer';}
+function goPrev(){if(mode!=='practise')return;if(lockGuard())return;if(qi>0){qi--;load();}}
 function taskNext(){if(qi<SETQ.length-1){qi++;load();}else if(TaskKit.isDone())showTaskFinish();else{const f=TaskKit.firstOpen();toast('Question '+(f+1)+' still needs an answer');qi=f;load();}}
-function goNext(){if(mode!=='practise'||sprintOn)return;if(UNITS[ui].task){taskNext();return;}if(UNITS[ui].exam&&qi>=SETQ.length-1){finishExam();return;}if(qi<SETQ.length-1){qi++;load();}else{let j=ui+1;while(j<UNITS.length&&!unitOn(j))j++;if(j<UNITS.length){ui=j;openUnit();}}}
-function wire(q){document.getElementById('prev').onclick=goPrev;document.getElementById('next').onclick=goNext;
+function goNext(){if(mode!=='practise'||sprintOn)return;if(lockGuard())return;if(UNITS[ui].task){taskNext();return;}if(UNITS[ui].exam&&qi>=SETQ.length-1){finishExam();return;}if(qi<SETQ.length-1){qi++;load();}else{let j=ui+1;while(j<UNITS.length&&!unitOn(j))j++;if(j<UNITS.length){ui=j;openUnit();}}}
+function wire(q){setTimeout(lockLabel,0);document.getElementById('prev').onclick=goPrev;document.getElementById('next').onclick=goNext;
   document.getElementById('prev').disabled=(qi===0);const lastUnit=!UNITS.some((u,j)=>j>ui&&unitOn(j));document.getElementById('next').disabled=(lastUnit&&qi===SETQ.length-1);
   const hb=document.getElementById('howbtn');if(hb)hb.onclick=openGuide;const gb=document.getElementById('gearbtn');if(gb)gb.onclick=()=>openSettings(fromUnit(q));
   const hs=document.getElementById('hearshown');if(hs)hs.onclick=()=>hearShown(q,hs);
   const hm=document.getElementById('hearme');if(hm)hm.onclick=()=>hearMine(q,hm);const ha=document.getElementById('hearans');if(ha){ha.disabled=!(nchecked||q._reveal);ha.onclick=()=>hearAnswer(q,ha);}
+  if(q.t==='written'){const ck=document.getElementById('check');if(ck&&!ck.disabled)ck.onclick=checkWrittenT;if(qid() in scored&&q._text)feedback('Answer saved. Your teacher marks this one.','',q.answer&&!HIDEFB()?'Model answer: '+esc(q.answer):'');}
   if(q.t==='notate'){document.querySelectorAll('#acc button').forEach(b=>{b.onclick=()=>{const a=b.dataset.acc;
       if(a==='erase'){eraseMode=!eraseMode;accMode='';syncAcc();return;}eraseMode=false;accMode=a;
       if(selected){const s=slotItem(q,selected.i);const sorted=s._p.slice().sort((a,b)=>T.dia(a)-T.dia(b));const p=sorted[selected.n];if(p){applyAcc(p,a);nchecked=false;feedback('','');drawStave();}}syncAcc();};});
     syncAcc();
     if(q.keysigEdit){document.getElementById('kssharp').onclick=()=>{ksBuilt=Math.min(7,ksBuilt+1);nchecked=false;feedback('','');drawStave();};document.getElementById('ksflat').onclick=()=>{ksBuilt=Math.max(-7,ksBuilt-1);nchecked=false;feedback('','');drawStave();};}
-    document.getElementById('check').onclick=checkNotate;document.getElementById('clear').onclick=()=>{q.items.forEach(it=>{if(it.k==='slot'&&!it.given){it._p=[];}});q._reveal=false;q._ksp=[];if(q.solfa&&!UNITS[ui].exam){sfReset(q);sfInit(q,q.solfa,[...new Set(q.solfa)],1);sfRender(q);}ksBuilt=q.keysigEdit?0:ksBuilt;nchecked=false;selected=null;feedback('','');drawStave();const ha=document.getElementById('hearans');if(ha)ha.disabled=true;};
+    document.getElementById('check').onclick=checkNotate;document.getElementById('clear').onclick=()=>{q.items.forEach(it=>{if(it.k==='slot'&&!it.given){it._p=[];}});q._reveal=false;q._ksp=[];q._pm=[];if(q._pmS)q._pmS.checked=false;if(q.solfa&&sfOK(q)){sfReset(q);sfInit(q,q.solfa,q.sfPal||[...new Set(q.solfa)],q.sfOnly?0:1);sfRender(q);}ksBuilt=q.keysigEdit?0:ksBuilt;nchecked=false;selected=null;feedback('','');drawStave();const ha=document.getElementById('hearans');if(ha)ha.disabled=true;};
     document.getElementById('answer').onclick=answerNotate;}
   else if(q.t==='choice'){document.querySelectorAll('#opts button').forEach(b=>b.onclick=()=>pickChoice(b,q));document.getElementById('answer').onclick=()=>answerChoice(q);}
   else if(q.t==='match'){document.getElementById('check').onclick=()=>checkMatch(q);document.getElementById('answer').onclick=()=>answerMatch(q);}}
@@ -747,10 +1105,14 @@ function drawStave(){const q=curQ();const sig=curSig(q);
     if(it.given){s.p=it.p;s.col='#9a9284';s.explicit=false;}
     else if(q._reveal){s.p=it.target;s.col='var(--ox)';s.explicit=false;s.reveal=true;}
     else{s.p=it._p.map(p=>Object.assign({},p));s.explicit=true;if(nchecked){s.col=it._ok?'var(--green)':'var(--red)';}}
+    if(q.pairMark){const want=q.pairs||[],mine=q._pm||[];const ty=q.pairMark==='semi'?'sl':'br';
+      if(q._reveal){if(want.includes(it.slot)){s.pm=ty;s.pmCol='var(--ox)';}}
+      else if(mine.includes(it.slot)){s.pm=ty;if(nchecked)s.pmCol=want.includes(it.slot)?'var(--green)':'var(--red)';}
+      else if(nchecked&&want.includes(it.slot)){s.pm=ty;s.pmCol='var(--ox)';}}
     return s;});
   const spec={clef:q.clef,sig,time:q.time||null,items,noBar:!q.time};
   STV=E.render(spec,{attrs:' id="stave" style="touch-action:none"'});
-  const sw=document.getElementById('sw');sw.innerHTML=STV.svg;
+  const sw=document.getElementById('sw');sw.innerHTML=STV.svg;pmRender(q);
   const svg=document.getElementById('stave');svg.style.width=Math.max(STV.W*1.12,260)+'px';
   if(selected){const el=svg.querySelector(`.nh[data-i="${selected.i}"][data-n="${selected.n}"]`);if(el){const bb=el.getBBox();const ring=document.createElementNS('http://www.w3.org/2000/svg','rect');ring.setAttribute('x',bb.x-3);ring.setAttribute('y',bb.y-3);ring.setAttribute('width',bb.width+6);ring.setAttribute('height',bb.height+6);ring.setAttribute('rx',4);ring.setAttribute('fill','none');ring.setAttribute('stroke','#2e86c1');ring.setAttribute('stroke-width','1.6');ring.setAttribute('pointer-events','none');svg.appendChild(ring);}}
   svg.addEventListener('pointerdown',onDown);
@@ -793,7 +1155,9 @@ addEventListener('pointermove',ev=>{if(!drag)return;const svg=document.getElemen
 addEventListener('pointerup',()=>{drag=null;});
 function sounding(p,sig){if(p.showNat||p.a!==0)return T.P(p.l,p.a,p.o);const m=T.sigAccidentals(sig);return T.P(p.l,m[p.l]||0,p.o);}
 function matchPitch(a,t,anyOct){return a.l===t.l&&a.a===t.a&&(anyOct||a.o===t.o);}
-function checkNotate(){const q=curQ();const sig=curSig(q);let allOk=true,right=0,need=0,empty=0;
+function checkNotate(){const q=curQ();if(q.sfOnly){const S=q._sf;if(!S)return;const n=S.ans.filter((a,i)=>a===S.got[i]).length,of=S.ans.length;q._frac=of?n/of:1;S.applied=1;const ok=n===of;q._checked=true;scoreOnce(ok);celebrate(ok);
+    if(ok){feedback(pick(WINMSG)+' All '+of+' syllables right.','ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+n+' / '+of+' syllables right.','no',q.why);results[qid()]='no';}sfCheck(q);renderDots();return;}
+  const sig=curSig(q);let allOk=true,right=0,need=0,empty=0;
   q.items.forEach(it=>{if(it.k!=='slot'||it.given)return;need++;const got=it._p.map(p=>sounding(p,sig));
     const targets=[it.target].concat(it.alt||[]);let ok=false;
     for(const tg of targets){if(got.length!==tg.length)continue;
@@ -814,24 +1178,24 @@ function checkNotate(){const q=curQ();const sig=curSig(q);let allOk=true,right=0
     need=Math.max(1,t.length);right=sigOk?need:Math.min(match,need-(pl.length>t.length?1:0));
     if(!sigOk){ksMsg=t.length?' '+T.sigWord(q.sigTarget)+': '+T.sigList(q.sigTarget)+'.'+(pl.length>t.length?' Too many accidentals.':pl.length<t.length?' Only '+pl.length+' of '+t.length+' placed.':' Check the order and the lines/spaces.'):' '+keyName0(q)+' has no sharps or flats — the signature should be empty.';}}
   q._frac=(need+(q.keysigEdit?1:0))?((right+(q.keysigEdit&&sigOk?1:0))/(need+(q.keysigEdit?1:0))):(allOk?1:0);
-  nchecked=true;q._checked=true;drawStave();scoreOnce(allOk);celebrate(allOk,document.getElementById('sw'));{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}
+  nchecked=!HIDEFB();q._checked=true;drawStave();scoreOnce(allOk);celebrate(allOk,document.getElementById('sw'));{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}
   if(allOk){feedback(pick(WINMSG)+(q.ksPlace?' Key signature correct.':need?' All '+need+' right.':' Key signature correct.')+bonusTag(),'ok',q.why);results[qid()]='ok';}
   else{let m=pick(MISSMSG)+(need?' '+right+' / '+need+' correct.':'');if(empty)m+=' '+empty+' empty.';if(!sigOk&&q.keysigEdit)m+=' Key signature should be '+T.sigWord(q.sigTarget)+'.';
     if(ksMsg)m+=ksMsg;
     const wrong=q.items.filter(i=>i.k==='slot'&&!i.given&&!i._ok);const nm=(i,p)=>(i.anyOctave||i.bassCheck||(i.chord&&q.anyOctaveChord))?T.name(p):T.spn(p);if(wrong.length)m+=' Wrong: '+wrong.slice(0,3).map(i=>'slot '+(i.slot+1)+' ('+(i._p.length?i._p.map(p=>nm(i,sounding(p,sig))).join(' '):'empty')+' → '+i.target.map(p=>nm(i,p)).join(' ')+')').join(', ')+'.';
     feedback(m,'no',q.why);results[qid()]='no';}
-  sfCheck(q);renderDots();}
-function answerNotate(){const q=curQ();if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._reveal=true;if(q.keysigEdit&&q.sigTarget!==undefined)ksBuilt=q.sigTarget;if(q.ksPlace)q._ksp=ksTarget(q);nchecked=false;selected=null;drawStave();feedback('Answer shown. Clear to try it yourself.','',q.why);sfReveal(q);{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}}
+  pmCheck(q);sfCheck(q);renderDots();}
+function answerNotate(){const q=curQ();if(!(qid() in scored)){scoreOnce(false);results[qid()]='no';renderDots();}q._reveal=true;if(q.keysigEdit&&q.sigTarget!==undefined)ksBuilt=q.sigTarget;if(q.ksPlace)q._ksp=ksTarget(q);nchecked=false;selected=null;drawStave();feedback('Answer shown. Clear to try it yourself.','',q.why);sfReveal(q);if(q.pairMark){q._pm=(q.pairs||[]).slice();pmRender(q);}{const ha=document.getElementById('hearans');if(ha)ha.disabled=false;}}
 // ---------- choice / match ----------
-function pickChoice(btn,q){if(answered)return;answered=true;const ok=btn.dataset.o===(''+q.answer);q._picked=btn.dataset.o;q._frac=ok?1:0;
-  document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b===btn&&!ok)b.classList.add('no');});
+function pickChoice(btn,q){if(answered)return;answered=true;const ok=btn.dataset.o===(''+q.answer);q._picked=btn.dataset.o;q._frac=ok?1:0;if(!ok&&q.parts){const pp=btn.dataset.o.split(' · ');q._frac=((pp[0]===q.parts[0])+(pp[1]===q.parts[1]))/2;}
+  btn.classList.add('picked');document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');if(b===btn&&!ok)b.classList.add('no');});
   scoreOnce(ok);celebrate(ok,btn);if(ok){feedback(pick(WINMSG)+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG),'no',q.why);results[qid()]='no';}renderDots();}
 function answerChoice(q){if(!answered)scoreOnce(false);answered=true;document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===(''+q.answer))b.classList.add('ok');});feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 function checkMatch(q){const rows=document.querySelectorAll('#match .mrow');let right=0;rows.forEach((row,r)=>{const sel=row.querySelector('select'),want=q.pairs[r][1],ok=sel.value===want;row.className='mrow '+(sel.value?(ok?'ok':'no'):'no');if(ok)right++;});
   const ok=(right===q.pairs.length);q._frac=right/q.pairs.length;scoreOnce(ok);celebrate(ok,document.getElementById('match'));if(ok){feedback(pick(WINMSG)+' All matched.'+bonusTag(),'ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' / '+q.pairs.length+' matched.','no',q.why);results[qid()]='no';}renderDots();}
 function answerMatch(q){if(!(qid() in scored))scoreOnce(false);document.querySelectorAll('#match .mrow').forEach((row,r)=>{row.querySelector('select').value=q.pairs[r][1];row.className='mrow ok';});feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 // ---------- keyboard ----------
-addEventListener('keydown',e=>{if(mode!=='practise'||e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;if(document.querySelector('.guide.open'))return;const q=curQ();if(!q)return;if(UNITS[ui].exam&&(!examOn&&!document.getElementById('fb')||q.t==='embed'))return;
+addEventListener('keydown',e=>{if(document.body.classList.contains('home')||mode!=='practise'||e.target.tagName==='SELECT'||e.target.tagName==='INPUT')return;if(document.querySelector('.guide.open'))return;const q=curQ();if(!q)return;if(UNITS[ui].exam&&(!examOn&&!document.getElementById('fb')||q.t==='embed'))return;
   if(e.key==='ArrowRight'){goNext();e.preventDefault();return;}if(e.key==='ArrowLeft'){goPrev();e.preventDefault();return;}
   if(q.t==='choice'&&/^[1-9]$/.test(e.key)){const b=document.querySelectorAll('#opts button')[+e.key-1];if(b&&!b.disabled)b.click();}
   if(e.key==='Enter'&&q.t!=='choice'){const ch=document.getElementById('check');if(ch){ch.click();e.preventDefault();}}
@@ -855,7 +1219,7 @@ const GEN_LABELS={noteNameQ:'Name the note',spnQ:'Scientific pitch names (C4)',n
   timeSigQ:'Time signature',completeBarQ:'Complete the bar',groupingQ:'Beaming & grouping',valueQ:'Note values',restQ:'Rests',metreTheoryQ:'Metre facts',deviceRhythmQ:'Rhythmic devices',
   termQ:'Terms',artSymbolQ:'Articulation marks',ornamentQ:'Ornaments',
   keySigIdQ:'Identify a key signature',keySigWriteQ:'Write a key signature',degreeNotateQ:'Write a scale degree',keyFactQ:'Key facts',tonalityQ:'Tonality of a melody',
-  notateScaleQ:'Write a scale',nameScaleQ:'Name a scale',scaleFactQ:'Scale facts',solfaQ:'Sol-fa: name it',solfaNotateQ:'Sol-fa: write it',
+  barlinesQ:'Add the bar lines',groupingNotateQ:'Beaming: write it',notateScaleQ:'Write a scale',nameScaleQ:'Name a scale',scaleFactQ:'Scale facts',solfaQ:'Sol-fa: name it',solfaNotateQ:'Sol-fa: write it',
   notateIntervalQ:'Write an interval',nameIntervalQ:'Name an interval',ivFactQ:'Interval facts',
   notateChordQ:'Write a chord',notateChordSigQ:'Write a chord (key signature)',nameChordQ:'Name a chord',chordSymbolQ:'Chord symbols',chordSymbolExtQ:'Extended chord symbols',chordFactQ:'Chord facts',guitarChordQ:'Guitar chord diagrams',
   romanQ:'Roman numerals',chordNamesQ:'Chord names in a key',rnToChordQ:'Numeral to chord',seventhRnMinorQ:'7ths in minor keys',writeProgQ:'Write a progression',writeProgFigQ:'Progression with inversions',writeSeventhProgQ:'Write a 7th-chord progression',writeCadenceQ:'Write a cadence',cadenceIdQ:'Identify a cadence',figureQ:'Inversion figures',modulationQ:'Modulation',harmonyFactQ:'Harmony facts',
@@ -901,22 +1265,65 @@ document.getElementById('gear').onclick=()=>openSettings(null);document.getEleme
 function openGuide(){const u=UNITS[ui].special?fromUnit(curQ()):UNITS[ui];document.getElementById('guidebody').innerHTML=(UNITS[ui].special?UNITS[ui].guide+'<hr style="border:0;border-top:1px solid var(--rule);margin:12px 0">':'')+(u.guide||'');document.getElementById('guide').classList.add('open');document.getElementById('gback').classList.add('open');}
 function closeGuide(){document.getElementById('guide').classList.remove('open');document.getElementById('gback').classList.remove('open');}
 document.getElementById('gclose').onclick=closeGuide;document.getElementById('gback').onclick=closeGuide;
-loadGensel();loadProfile();paintLevel();paintScore();ui=2;if(!unitOn(ui))ui=firstUnit();openUnit();if(FIRSTRUN&&!EMBED)askYear();try{if(window.AUDIO&&AUDIO.preloadPiano)AUDIO.preloadPiano();}catch(e){}
+loadGensel();loadProfile();paintLevel();paintScore();ui=2;if(!unitOn(ui))ui=firstUnit();openUnit();if(FIRSTRUN&&!EMBED){if(currentName)askYear();else window.PENDING_YEAR=true;}try{if(window.AUDIO&&AUDIO.preloadPiano)AUDIO.preloadPiano();}catch(e){}
 if(EMBED==='partB'){document.body.classList.add('embed');const yr=String(Math.max(11,Math.min(12,EMBED_YEAR||11)));GEN.setLevel(yr);paintLevel();ui=UNITS.findIndex(u=>u.exam);openUnit();startExam();}
-else if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+else if(EMBED==='testB'||EMBED==='printB'||EMBED==='countB'){document.body.classList.add('embed');closeGuide();const ctE=TestKit.ctDecode(EMBED_P('ct',''));const yr=String(ctE?ctE.y:Math.max(7,Math.min(10,+EMBED_YEAR||7)));GEN.setLevel(yr);paintLevel();testRun={y:+yr,seed:+EMBED_P('seed',0)>>>0,sem:EMBED_P('sem','Two'),ct:ctE,ck:+EMBED_P('ck',0)?1:0};ctSync();ui=UNITS.indexOf(TEST);
+  if(EMBED==='testB'){openUnit();startExam();}
+  else if(EMBED==='countB'){buildExamPlan();try{parent.postMessage({type:'blitz-test-count',part:'B',n:testGroups.length,marks:testTMarks()},'*');}catch(e){}}
+  else{buildExamPlan();testSetq();try{parent.postMessage({type:'blitz-test-print',part:'B',html:testPaperB(+EMBED_P('key',0)===1),marks:testTMarks()},'*');}catch(e){}}}
+else if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}));}
+window.BLITZ_BUSY=()=>{try{return !!(examOn||(window.TaskKit&&TaskKit.run))}catch(e){return false}};
 // ---- class tasks: adapter for task.js ----
-TaskKit.init({app:'theory',label:'Theory Blitz',years:[7,8,9,10,11,12],
+TaskKit.init({app:'theory',label:'Theory Blitz',years:[7,8,9,10,11,12],test:true,
   sections:()=>REAL().filter(u=>unitOn(UNITS.indexOf(u))).map(u=>({key:u.id,name:u.name})),
   sectionNames:()=>Object.fromEntries(REAL().map(u=>[u.id,u.name])),
   snapshot:()=>{const st=JSON.parse(JSON.stringify(GEN.getSet()));delete st.level;return {global:{set:st,gs:JSON.parse(JSON.stringify(GENSEL||{}))}};},
   year:()=>+LEVEL(),getName:()=>currentName,toast:t=>toast(t),companion:(typeof HAS_AURAL_DIR!=='undefined'&&HAS_AURAL_DIR&&/^https?:/.test(location.protocol))?'aural/index.html':'',
   setName:v=>{currentName=v;const ni=document.getElementById('nameinput');if(ni)ni.value=v;LS.set('name',v);loadProfile();paintScore();},
-  start:run=>{closeGuide();if(sprintOn)endSprint(true);h2h=null;examOn=false;clearInterval(examTick);
+  secPanel:(k,ty)=>{const u=GEN.UNITS.find(x=>x.id===k)||UNITS.find(x=>x.id===k);if(!u||!u.gens)return '<p class="sub">This section has no settings.</p>';const cur=GEN.getSet();
+    return `<div class="setgrp"><div class="setlabel">Question types</div><div class="setchips">${u.gens.map(([fn,w,yr])=>`<button class="chip${genOnNow(fn,yr)?' on':''}" data-g="${fn.name}">${GEN_LABELS[fn.name]||fn.name}${ytag(yr)}</button>`).join('')}</div></div>`+groupsHtml(cur,UNIT_KEYS[k]||[]);},
+  secWire:el=>wireChips(el),
+  secRead:(k,el)=>{const u=GEN.UNITS.find(x=>x.id===k)||UNITS.find(x=>x.id===k);const gs={};(u&&u.gens||[]).forEach(([fn])=>{const c=el.querySelector(`.chip[data-g="${fn.name}"]`);if(c)gs[fn.name]=c.classList.contains('on');});return {set:readGroups(el),gs};},
+  secMerge:(g,list)=>{list.forEach(e=>{if(!e)return;Object.assign(g.set,e.set||{});g.gs=Object.assign({},g.gs||{},e.gs||{});});},
+  answerSheet:()=>openAnswerSheet(),openRef:()=>openTestRef(),customTests:()=>openCustomBuilder(),editTest:task=>{TaskKit.requireTeacher(()=>{if(task.ct)TestKit.openCt(ctHost(),task.ct,task.sd);else TestKit.openPreset(ctHost(),'y'+Math.max(7,Math.min(10,task.y||9))+'test');setTimeout(()=>toast('Editing a copy: push it again to give students the new version'),400);});},start:run=>{if(window.BlitzUI)BlitzUI.showHome(false);closeGuide();if(sprintOn)endSprint(true);h2h=null;examOn=false;clearInterval(examTick);
+    {const ps=[UNITS[TASKI()].id+'.',TEST.id+'.'];[scored,results].forEach(o=>Object.keys(o).forEach(k=>{if(ps.some(p=>k.startsWith(p)))delete o[k];}));}
     if(!taskPrev)taskPrev={ui,set:JSON.parse(JSON.stringify(GEN.getSet())),gs:JSON.parse(JSON.stringify(GENSEL||{}))};
-    GEN.setLevel(String(run.task.y));if(run.task.g&&run.task.g.set)GEN.applySet(run.task.g.set);GENSEL=(run.task.g&&run.task.g.gs)||{};GEN.setGensel(GENSEL);paintLevel();ui=TASKI();SETQ=[];setMode('practise');},
-  exit:()=>{const pv=taskPrev;taskPrev=null;if(pv){GEN.setLevel(String(pv.set.level));GEN.applySet(pv.set);GENSEL=pv.gs;GEN.setGensel(GENSEL);}paintLevel();ui=pv&&pv.ui!==TASKI()?pv.ui:firstUnit();SETQ=[];setMode('practise');}});
+    GEN.setLevel(String(run.task.y));if(run.task.tt){GENSEL={};GEN.setGensel(GENSEL);paintLevel();const ct=run.task.ct?TestKit.ctDecode(run.task.ct):null;testRun={y:run.task.y,sem:ct?'':(run.task.sem||TestKit.semester()),seed:TaskKit.testSeed(),ct,ck:TaskKit.checkGo()?1:0};ctSync();ui=UNITS.indexOf(TEST);SETQ=[];setMode('practise');taskTestSync();return;}
+    if(run.task.g&&run.task.g.set)GEN.applySet(run.task.g.set);GENSEL=(run.task.g&&run.task.g.gs)||{};GEN.setGensel(GENSEL);paintLevel();ui=TASKI();SETQ=[];setMode('practise');},
+  exit:()=>{setTimeout(()=>{if(window.BlitzUI)BlitzUI.showHome(true);},0);const pv=taskPrev;taskPrev=null;if(pv){GEN.setLevel(String(pv.set.level));GEN.applySet(pv.set);GENSEL=pv.gs;GEN.setGensel(GENSEL);}paintLevel();ui=pv&&pv.ui!==TASKI()?pv.ui:firstUnit();testRun={y:0,sem:'',seed:0};ctSync();SETQ=[];setMode('practise');}});
 document.getElementById('taskbtn').onclick=()=>TaskKit.openStudentEntry();
-if(!EMBED)TaskKit.handleHash();
+
+// ---- app-icon home screen (blitzui.js) ----
+function unitIcon(u){const UICON={today:'sun',weak:'target',pitch:'pitch',rhythm:'rhythm',expr:'accent',keys:'sharp',scales:'stairs',intervals:'interval',chords:'chord',harmony:'roman',transp:'transpose',form:'form',exam:'cap',test:'clipboard'};return UICON[u.id]||(u.exam?'cap':'note');}
+function goUnit(i){if(sprintOn)endSprint(true);h2h=null;if(examOn&&!UNITS[i].exam&&!confirm('Leave the exam? Your marks so far will be lost.'))return;examOn=false;clearInterval(examTick);
+  if(mode!=='practise'){mode='practise';document.getElementById('mPr').classList.add('on');document.getElementById('mRe').classList.remove('on');document.getElementById('mRec').classList.remove('on');document.getElementById('dots').style.display='flex';document.getElementById('tabs').style.display='flex';}
+  ui=i;BlitzUI.showHome(false);openUnit();}
+function goHome(){dropPark();if(examOn&&!confirm('Leave the '+(UNITS[ui]&&UNITS[ui].test?'test':'exam')+'? Your answers so far will be lost.'))return;if(sprintOn)endSprint(true);h2h=null;examOn=false;clearInterval(examTick);if(window.AUDIO)AUDIO.stop();
+  if(mode!=='practise')setMode('practise');document.body.classList.remove('paper','testmode','testing');if(testRun.ct&&!(window.TaskKit&&TaskKit.run)){testRun={y:0,sem:'',seed:0};ctSync();SETQ=[];}BlitzUI.showHome(true);}
+const BPATH={7:['pitch','rhythm','keys','scales','intervals','chords','expr'],8:['pitch','rhythm','keys','scales','intervals','chords','expr','form'],9:['pitch','rhythm','keys','scales','intervals','chords','harmony','expr','form','transp'],10:['keys','scales','intervals','chords','harmony','transp','rhythm','form','expr','pitch'],11:['keys','scales','intervals','chords','harmony','transp','rhythm','form','expr','pitch'],12:['keys','scales','intervals','chords','harmony','transp','rhythm','form','expr','pitch']};
+function homeSetName(v){currentName=v;const ni=document.getElementById('nameinput');if(ni)ni.value=v;LS.set('name',v);loadProfile();try{avatar=BlitzUI.loadAvatar(v);paintAvatar();}catch(e){}paintScore();if(window.PENDING_YEAR){window.PENDING_YEAR=false;setTimeout(askYear,350);}}
+if(window.BlitzUI&&BlitzUI.testAck)BlitzUI.testAck({testing:TESTING,scored:()=>qid() in scored});
+BlitzUI.init({
+  years:()=>[7,8,9,10,11,12],year:()=>+LEVEL(),setYear:y=>{setLevelUI(y);setTimeout(()=>BlitzUI.renderHome(),0);},setName:homeSetName,customise:()=>{const g=document.getElementById('gear');if(g)g.click();},
+  toast:t=>toast(t),burst:()=>burst('win',innerWidth/2,innerHeight/2,true),bonusXP:n=>{if(!PROF)return;const before=rankOf(PROF.xp).name;PROF.xp+=n;saveProfiles();paintScore();const after=rankOf(PROF.xp).name;if(after!==before)setTimeout(()=>rankUp(after),900);},
+  reloadProfiles:()=>{try{PROFS=JSON.parse(localStorage.getItem('blitzAuralProfiles')||'{}');}catch(e){}loadProfile();},
+  path:()=>{const kf=u=>u.id;const order=BPATH[+LEVEL()]||BPATH[12];const out=[];order.forEach((k,n)=>{const i=UNITS.findIndex(u=>kf(u)===k);if(i<0||UNITS[i].special)return;if(typeof unitOn==='function'&&!unitOn(i))return;const u=UNITS[i];out.push({i,name:u.short||u.name,icon:unitIcon(u),hue:i,m:PROF?mastery(kf(u)):null});});return out;},
+  upNext:()=>{const kf=u=>u.id;const order=BPATH[+LEVEL()]||BPATH[12];let best=null;
+    order.forEach(k=>{const i=UNITS.findIndex(u=>kf(u)===k);if(i<0)return;if(typeof unitOn==='function'&&!unitOn(i))return;const m=PROF?mastery(k):{n:0};if(m.n>=5&&m.acc<0.7&&(!best||best.weak&&m.acc<best.acc))best={i,acc:m.acc,weak:1,why:'Strengthen · '+Math.round(m.acc*100)+'% recently'};});
+    if(!best){for(const k of order){const i=UNITS.findIndex(u=>kf(u)===k);if(i<0)continue;if(typeof unitOn==='function'&&!unitOn(i))continue;const m=PROF?mastery(k):{n:0};if(!m.mastered){best={i,why:m.n?'Keep going on your path':'Next on your path'};break;}}}
+    if(!best){const i=UNITS.findIndex(u=>kf(u)==='today');if(i>=0)best={i,why:'Every section mastered · daily practice'};}
+    if(!best)return null;const u=UNITS[best.i];return {i:best.i,name:u.short||u.name,icon:unitIcon(u),hue:best.i,why:best.why};},
+  skillTitle:'Theory skills',
+  units:()=>{const vis=(u,i)=>unitOn(i)&&!u.task&&!(u.test&&+LEVEL()>10);const out=[];UNITS.forEach((u,i)=>{if(!vis(u,i))return;const g=u.exam?'test':u.special?'daily':'skill';const m=g==='skill'&&PROF?(u=>mastery(u.id))(u):null;out.push({i,name:u.short||u.name,group:g,icon:unitIcon(u),m,hue:g==='skill'?i:undefined,sub:u.test?'Years 7–10':''});});
+    out.push({i:-1,name:'Class task',group:'test',icon:'task',sub:'from your teacher'});return out;},
+  open:i=>{if(i===-1){TaskKit.openStudentEntry();return;}goUnit(i);},
+  home:goHome,
+  tab:t=>{if(t==='learn'){if(PARK&&mode!=='practise'){BlitzUI.showHome(false);setMode('practise');}else goHome();}else if(t==='ref'){parkPractice();BlitzUI.showHome(false);setMode('reference');}else if(t==='rec'){parkPractice();BlitzUI.showHome(false);setMode('record');}else openAvatar();BlitzUI.paintTabbar();},
+  currentTab:()=>mode==='practise'?'learn':mode==='reference'?'ref':'rec',
+  stats:()=>{const T=id=>{const e=document.getElementById(id);return e?e.textContent:'';};const xp=PROF?PROF.xp:0;const r=rankOf(xp);const pct=r.next?(xp-r.at)/(r.next[0]-r.at):1;
+    return {name:currentName,rank:r.name,xp,xpPct:pct,streak:typeof streak!=='undefined'?streak:0,days:BlitzUI.daysStreak(PROF&&PROF.days),acc:T('scp'),mastered:PROF?REAL().filter(u=>(u=>mastery(u.id))(u).mastered).length:0};}});
+const _h0=location.hash;if(!EMBED)TaskKit.handleHash();
+if(!EMBED&&!/#(task|verify|tkey)=/.test(_h0)&&!/[?&]nohome/.test(location.search)){BlitzUI.showHome(true);if(!currentName)setTimeout(()=>BlitzUI.pickProfile(true),400);}
 </script>
 </body>
 </html>
