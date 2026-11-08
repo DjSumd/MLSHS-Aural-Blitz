@@ -1,3 +1,3 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["embed.js"]="20261104r";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["embed.js"]="20261107k";
 // set by the packaged bundle: the companion app lives in ./theory/ for the combined exam
 window.HAS_THEORY_DIR=true;
