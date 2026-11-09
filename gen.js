@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["gen.js"]="20261103zd";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["gen.js"]="20261109b";
 // gen.js — question generators for ATAR Music Theory Blitz (SCSA ATAR Music Year 11 + Year 12 content).
 // Every generator returns a question object:
 //   choice: {t:'choice', prompt, sub, show:{spec}|{svg}, opts:[{v, svg?}], answer:v, why}
@@ -401,6 +401,19 @@ const solfaLine=(type,desc)=>{const s=solfaScale(type,desc);return s?'Sol-fa: '+
 const YY=(typeof Y==='function')?Y:((yr,fn)=>fn);
 SOLFA_TYPES.harmminor=['la','ti','do','re','mi','fa','si'];SOLFA_TYPES.melminor=['la','ti','do','re','mi','fi','si'];const SOLFA_Q=['major','majpent','natminor','minpent']; // sol-fa questions keep the four; scale writing uses all
 function solfaTypesOn(){const on=scalesOn().filter(t=>SOLFA_TYPES[t]&&SOLFA_Q.includes(t));return on.length?on:['major'];}
+// ---- a melody to name in sol-fa: major (do = the tonic) or minor (la = the tonic), natural or harmonic (si = the raised 7th) ----
+function melodySolfaQ(depth){depth=depth||0;const y=UPTO();const types=(S('msTypes')&&S('msTypes').length?S('msTypes'):['major','natminor'].concat(y>=9?['harmminor']:[]));const type=pick(types);
+  const maj=pick(keyTonics(S('keysMax')));const minor=type!=='major';const key=minor?{tonic:T.relMinor(maj),mode:'minor'}:{tonic:maj,mode:'major'};const sig=T.sigOf(maj,'major');
+  const ms=S('metres')&&S('metres').length?S('metres').filter(m=>RP[m]):[];const ts=pick(ms.length?ms:['2/4','3/4','4/4']);const nb=Math.max(1,Math.min(4,+S('msBars')||2));
+  const clef=S('msClef')==='bass'?'bass':S('msClef')==='treble'?'treble':clefPick();
+  const items=melody(key,clef,ts,nb,{raise7:type==='harmminor'});const ns=items.filter(it=>it.k==='n');if(ns.length<3&&depth<30)return melodySolfaQ(depth+1); // a one- or two-note melody is too thin to name
+  if(type==='harmminor'){const L7=T.transposeUp(key.tonic,'M7');if(ns.length>=2&&!ns.some(it=>it.p[0].l===L7.l&&it.p[0].a===L7.a)){ // make sure the raised 7th is heard: lead the second-last note up to the tonic
+      const it=ns.length>1?ns[ns.length-2]:ns[0];const o=it.p[0].o;let best=null;for(let k=o-1;k<=o+1;k++){const c=P(L7.l,L7.a,k);if(!best||Math.abs(dia(c)-dia(it.p[0]))<Math.abs(dia(best)-dia(it.p[0])))best=c;}it.p=[best];}}
+  const lt=minor?T.transposeUp(key.tonic,'M7'):null;const syl=p=>(lt&&p.l===lt.l&&p.a===lt.a)?'si':stSyl(p,key);const ans=ns.map(it=>syl(it.p[0]));
+  const pal=minor?(type==='harmminor'?['la','ti','do','re','mi','fa','so','si']:SOLFA_MIN):SOLFA_MAJ;const tw=minor?name(key.tonic)+' = la':name(key.tonic)+' = do';
+  const kn=name(key.tonic)+' '+(minor?(type==='harmminor'?'harmonic minor':'natural minor'):'major');
+  return {t:'notate',prompt:'Write the sol-fa under each note of this melody in '+kn+' ('+tw+').',sub:'One box for each note, in order.'+(type==='harmminor'?' The raised 7th is si.':''),clef,sig,time:METRE(ts),items,barNums:nb>2,
+    show:show(stave(clef,sig,METRE(ts),items,{barNums:nb>2})),_sharedShow:true,sfOnly:true,sfNotes:ns,solfa:ans,sfPal:pal,why:kn+': '+ns.map((it,i)=>name(it.p[0])+' = '+ans[i]).join(', ')+'.'};}
 function solfaQ(){const type=pick(solfaTypesOn());const t=scaleTonic(type);const notes=T.scale(t,type).slice(0,-1);const syl=SOLFA_TYPES[type];const i=rand(notes.length);
   const nm=T.scaleName(t,type);const minorNote=/min/.test(type)?' (la-based minor: la = '+name(t)+')':'';const why=nm+' in sol-fa: '+notes.map((p,k)=>name(p)+' = '+syl[k]).join(', ')+'.';
   if(Math.random()<0.5)return choice('In '+nm+', which note is sung as "'+syl[i]+'"?',optsFrom(name(notes[i]),notes.map(name),4),name(notes[i]),{sub:'Moveable do'+minorNote+'.',why});
@@ -792,7 +805,7 @@ const UNITS=[
   guide:`<b>Tempo, dynamics, articulation, ornaments</b><ul><li><b>Tempo:</b> adagio &lt; andante &lt; moderato &lt; allegro &lt; presto. accel. / rall. (rit.) / a tempo / rubato; double time, half time. M.M. ♩ = 120 means 120 crotchet beats per minute.</li><li><b>Dynamics:</b> pp p mp mf f ff; cresc. &lt; ; dim. / decresc. &gt;.</li><li><b>Articulation:</b> staccato (dot) short; legato / slur smooth; accent &gt;; tenuto – held; sfz sudden accent; fp loud then soft.</li><li><b>Ornaments:</b> trill (tr), mordent, turn, acciaccatura (crushed grace note), glissando/slide, scoop, bend.</li></ul>`},
  {id:'keys',name:'Keys & Key Signatures',short:'Keys',yr:7,gens:[[keySigIdQ,2],[keySigWriteQ,5],[degreeNotateQ,4,11],[keyFactQ,2],[tonalityQ,2,8]],
   guide:`<b>Key signatures &amp; tonality</b><ul><li>Sharps: F C G D A E B. Flats: B E A D G C F. Last sharp = leading note (up a semitone = key). Second-last flat = key (F major has one flat).</li><li><b>Relative</b> major/minor share a signature (minor is a minor 3rd below). <b>Parallel (tonic)</b> keys share a tonic (C major / C minor).</li><li><b>Degrees:</b> tonic, supertonic, mediant, subdominant, dominant, submediant, leading note.</li><li><b>Modulation:</b> to the dominant (raised 4th appears), subdominant (flattened 7th), relative minor (its raised 7th appears).</li><li><b>Tonality:</b> major, minor (look for the raised 7th), modal (Mixolydian ♭7, Dorian ♮6).</li></ul>`},
- {id:'scales',name:'Scales & Modes',short:'Scales',yr:7,gens:[[notateScaleQ,7],[nameScaleQ,3],[scaleFactQ,2],[solfaQ,3],[solfaNotateQ,3]],
+ {id:'scales',name:'Scales & Modes',short:'Scales',yr:7,gens:[[notateScaleQ,7],[nameScaleQ,3],[scaleFactQ,2],[solfaQ,3],[solfaNotateQ,3],[melodySolfaQ,3]],
   guide:`<b>Scales &amp; modes</b><ol><li>Write the letters first (one of each), then fix the pattern with accidentals or the key signature.</li><li>Major T T S T T T S · natural minor T S T T S T T · harmonic minor raises the 7th · melodic minor raises 6 and 7 going up, natural minor coming down.</li><li>Major pentatonic 1 2 3 5 6 · minor pentatonic 1 ♭3 4 5 ♭7 · blues adds ♯4/♭5 · chromatic: sharps up, flats down.</li><li><b>Sol-fa</b> (moveable do): major do re mi fa so la ti do · major pentatonic do re mi so la do · natural minor (la-based, la = tonic) la ti do re mi fa so la · minor pentatonic la do re mi so la.</li><li>Modes = major scale from each degree. Mixolydian (5th): ♭7. Dorian (2nd): ♮6. Aeolian (6th) = natural minor.</li></ol>`},
  {id:'intervals',name:'Intervals',short:'Intervals',yr:7,gens:[[notateIntervalQ,7],[nameIntervalQ,4],[ivFactQ,2]],
   guide:`<b>Number, quality, inversion</b><ol><li><b>Number:</b> count letter names from the lower note, counting both (C→E = 3rd).</li><li><b>Quality:</b> count semitones. Perfect: unison 4th 5th 8ve. Major/minor: 2nd 3rd 6th 7th. One wider = augmented, one narrower (than perfect/minor) = diminished. Tritone = 6 semitones (A4 / d5).</li><li><b>Below a note:</b> count down the letters, then check the semitones.</li><li><b>Inversion:</b> numbers add to 9; M↔m, A↔d, P stays P. <b>Compound:</b> 9th = 2nd + octave.</li></ol>`},
@@ -842,29 +855,42 @@ function semitoneQ(){const y=UPTO();const type=pick(['major','natminor'].concat(
     why:T.scaleName(t,type)+': semitones between '+ans+'. '+(type==='major'?'Major: T T S T T T S.':type==='natminor'?'Natural minor: T S T T S T T.':'Harmonic minor: T S T T S (T+S) S.')});}
 function stSyl(p,key){const k=(T.LETTERS.indexOf(p.l)-T.LETTERS.indexOf(key.tonic.l)+7)%7;return (key.mode==='minor'?SOLFA_MIN:SOLFA_MAJ)[k];}
 function stLower(a,b){return dia(a)<=dia(b)?[a,b]:[b,a];}
-function makeStudy(kind){if(kind==='ivkey'||kind==='ivmel')return makeIvStudy(kind);const y=UPTO();let key;
+function makeStudy(kind,o){o=o||{};if(kind==='ivkey'||kind==='ivmel')return makeIvStudy(kind);const y=UPTO();let key;const nB=kind==='visual'?(+o.bars===4?4:8):4;
   if(kind==='study'){const t=pick(keyTonics(Math.min(S('keysMax')||1,y<=7?1:2)));key={tonic:t,mode:'major',sig:T.sigOf(t,'major')};}else key=testKey();
   const clef=(kind==='study'||y<=8)?'treble':pick(['treble','bass']);const ts=pick(y<=7?['2/4','3/4','4/4']:['2/4','3/4','4/4','6/8']);
   const mid=MIDD[clef];let items=null,bars=null;
-  for(let t=0;t<20;t++){items=melody(key,clef,ts,4,{lo:mid-4,hi:mid+4});bars=[[]];items.forEach(it=>{if(it.k==='bar'||it.k==='fin'){bars.push([]);}else if(it.k==='n')bars[bars.length-1].push(it);});bars=bars.filter(b=>b.length);if(bars.length===4&&bars.every(b=>b.length>=2))break;}
+  for(let t=0;t<30;t++){items=melody(key,clef,ts,nB,{lo:mid-4,hi:mid+(nB>4?5:4)});bars=[[]];items.forEach(it=>{if(it.k==='bar'||it.k==='fin'){bars.push([]);}else if(it.k==='n')bars[bars.length-1].push(it);});bars=bars.filter(b=>b.length);if(bars.length===nB&&bars.every(b=>b.length>=2))break;}
   const st={kind,key,clef,ts,items,bars,info:{}};
   if(kind==='visual'){const I=st.info;const tm=pick(ST_TEMPO.slice(1,5));I.tempo=tm;items.unshift({k:'txt',s:tm[0],bold:true,high:true});
     const d1=pick(ST_DYN.slice(1,5));bars[0][0].mk={dyn:d1[0]};I.dyn={bar:1,mark:d1};
     if(bars[0].length>=3){bars[0][1].mk=Object.assign(bars[0][1].mk||{},{sl:1});bars[0][2].mk=Object.assign(bars[0][2].mk||{},{slEnd:1});}
-    const hb=pick([1,3]);const hp=pick(['cresc','dim']);const hbn=bars[hb];hbn[0].mk=Object.assign(hbn[0].mk||{},{hp});hbn[hbn.length-1].mk=Object.assign(hbn[hbn.length-1].mk||{},{hpEnd:1});I.hp={bar:hb+1,type:hp};
-    const ab=hb===1?2:1;const an=bars[ab][Math.min(1,bars[ab].length-1)];const at=pick(['stac','acc','ten']);an.art=[at];I.art={bar:ab+1,type:at};
-    const okN=y<=8?[2,3,4,5,8]:[2,3,4,5,6,7,8];const bb=hb===1?3:2;const bn=bars[bb];const pairs=[];for(let i=0;i+1<bn.length;i++){const [lo,hi]=stLower(bn[i].p[0],bn[i+1].p[0]);if(dia(lo)===dia(hi))continue;const iv=T.interval(lo,hi);if(iv&&okN.includes(iv.n)&&['M','m','P'].includes(iv.q))pairs.push([i,iv]);}
+    const hb=nB>4?pick([1,3,5,6]):pick([1,3]);const hp=pick(['cresc','dim']);const hbn=bars[hb];hbn[0].mk=Object.assign(hbn[0].mk||{},{hp});hbn[hbn.length-1].mk=Object.assign(hbn[hbn.length-1].mk||{},{hpEnd:1});I.hp={bar:hb+1,type:hp};
+    const ab=nB>4?pick([2,4,6].filter(x=>x!==hb)):(hb===1?2:1);const an=bars[ab][Math.min(1,bars[ab].length-1)];const at=pick(['stac','acc','ten']);an.art=[at];I.art={bar:ab+1,type:at};
+    const okN=y<=8?[2,3,4,5,8]:[2,3,4,5,6,7,8];const bb=nB>4?pick([2,3,4,5,6].filter(x=>x!==hb&&x!==ab)):(hb===1?3:2);const bn=bars[bb];const pairs=[];for(let i=0;i+1<bn.length;i++){const [lo,hi]=stLower(bn[i].p[0],bn[i+1].p[0]);if(dia(lo)===dia(hi))continue;const iv=T.interval(lo,hi);if(iv&&okN.includes(iv.n)&&['M','m','P'].includes(iv.q))pairs.push([i,iv]);}
     if(pairs.length){const [i,iv]=pick(pairs);bn[i].mk=Object.assign(bn[i].mk||{},{br:'*1'});bn[i+1].mk=Object.assign(bn[i+1].mk||{},{brEnd:1});I.iv={bar:bb+1,iv};}
-    for(let bb2=0;bb2<4&&!I.semi;bb2++){const bn2=bars[bb2];if(bn2.length<3)continue;for(let i=0;i+1<bn2.length;i++){if(Math.abs(T.midi(bn2[i].p[0])-T.midi(bn2[i+1].p[0]))===1){I.semi={bar:bb2+1,i,count:bn2.length};break;}}}
+    for(let bb2=0;bb2<nB&&!I.semi;bb2++){const bn2=bars[bb2];if(bn2.length<3)continue;for(let i=0;i+1<bn2.length;i++){if(Math.abs(T.midi(bn2[i].p[0])-T.midi(bn2[i+1].p[0]))===1){I.semi={bar:bb2+1,i,count:bn2.length};break;}}}
     const pool={8:['key','time','tempo','dyn','hp','art','iv','semi'],9:['key','time','tempo','dyn','hp','art','iv','semi'],10:['key','time','tempo','dyn','hp','art','iv','semi']}[Math.max(8,Math.min(10,y))];
     const av=pool.filter(a=>(a!=='iv'||I.iv)&&(a!=='semi'||I.semi));const vis=shuffle(av.filter(a=>['dyn','hp','art','iv','semi'].includes(a))).slice(0,2);const rest=shuffle(av.filter(a=>!vis.includes(a))).slice(0,2);
     st.asks=pool.filter(a=>vis.includes(a)||rest.includes(a));st.noTime=st.asks.includes('time');}
   return st;}
+// a long score is printed on two lines of four bars
+function stShow(st){const sp=stStave(st);const sh=show(sp);if(!st.bars||st.bars.length<=4)return sh;let n=0,cut=-1;sp.items.forEach((it,i)=>{if(cut<0&&it.k==='bar'){n++;if(n===4)cut=i;}});if(cut<0)return sh;
+  const a=Object.assign({},sp,{items:sp.items.slice(0,cut+1)}),b=Object.assign({},sp,{time:null,items:sp.items.slice(cut+1),barStart:5});
+  const two=pap=>'<div class="twoline">'+E.render(Object.assign({},a,pap?{paper:true}:{})).svg+E.render(Object.assign({},b,pap?{paper:true}:{})).svg+'</div>';sh.svg=two(false);sh.svgP=two(true);return sh;}
 function stStave(st,extra){return stave(st.clef,st.key.sig,st.noTime?null:METRE(st.ts),st.items.map(it=>Object.assign({},it)),Object.assign({barNums:true},extra||{}));}
-function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2),st);const k=st.key,I=st.info,b=st.bars;const sh=show(stStave(st));const base={_sharedShow:true};
+// the tone set: every pitch of the melody once, lowest to highest (sol-fa with Kodály octave marks: l, d r m s l d′)
+function toneSet(st){const seen={};st.items.filter(it=>it.k==='n').forEach(it=>{const p=it.p[0];seen[T.midi(p)+':'+p.l]=p;});return Object.values(seen).sort((a,b)=>T.midi(a)-T.midi(b));}
+function tsSyl(p,st){const k=st.key;const doP=k.mode==='minor'?T.transposeUp(k.tonic,'m3'):k.tonic;const last=st.items.filter(it=>it.k==='n').slice(-1)[0];
+  // the do that frames the melody: the one at or below its final note (the tonic), so the final tonic carries no mark
+  let d0=dia(P(doP.l,doP.a,last.p[0].o));if(k.mode==='minor'){if(d0<dia(last.p[0]))d0+=7;}else if(d0>dia(last.p[0]))d0-=7;const s=stSyl(p,k);const dp=dia(p);return s+(dp<d0?',':dp>=d0+7?'′':'');}
+function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2),st);const k=st.key,I=st.info,b=st.bars;const sh=stShow(st);const base={_sharedShow:true};
+  if(part==='tsSf'){const ts=toneSet(st);const ans=ts.map(p=>tsSyl(p,st));const basic=k.mode==='minor'?SOLFA_MIN:SOLFA_MAJ;const pal=[...new Set(basic.concat(ans))].sort((a,b2)=>{const ix=x=>SOLFA_MAJ.indexOf(x.replace(/[,′]/,''));const oc=x=>x.endsWith(',')?-1:x.endsWith('′')?1:0;return oc(a)-oc(b2)||ix(a)-ix(b2);});
+    return Object.assign(base,{t:'notate',prompt:'Write the tone set of this melody in sol-fa: every pitch once, from the lowest to the highest.',sub:'Mark the octaves: a comma for notes below do (l, s,), a dash for notes above the next do (d′ r′).',clef:st.clef,sig:k.sig,time:METRE(st.ts),items:stStave(st).items,show:sh,sfOnly:true,noPaperStave:true,sfNotes:ts.map(p=>({k:'n',p:[p],dur:'q'})),solfa:ans,sfPal:pal,why:'Tone set: '+ans.join(' ')+' ('+ts.map(name).join(' ')+').'});}
+  if(part==='tsN'){const ts=toneSet(st);const items=ts.map((p,i)=>slot(i,[p],'w'));
+    return Object.assign(base,{t:'notate',prompt:'Write the tone set of this melody on the stave: every pitch once, from the lowest to the highest, as semibreves.',sub:clefWord(st.clef)+'. The key signature is given, so add an accidental only where the melody has one.',clef:st.clef,sig:k.sig,items,show:sh,why:'Tone set: '+ts.map(T.spn).join(' ')+'.'});}
   const tonicDo=name(k.tonic)+' = '+(k.mode==='minor'?'la':'do');
   if(part==='solfa'){const ns=b[0].concat(b[1]);const items=stStave(st).items;
-    return Object.assign(base,{t:'notate',prompt:'Write the sol-fa under each note in bars 1 and 2 ('+tonicDo+').',sub:'One box for each note, in order.',clef:st.clef,sig:k.sig,time:METRE(st.ts),items,barNums:true,show:sh,sfOnly:true,solfa:ns.map(n=>stSyl(n.p[0],k)),sfPal:k.mode==='minor'?SOLFA_MIN:SOLFA_MAJ,why:'Bars 1–2: '+ns.map(n=>name(n.p[0])+' = '+stSyl(n.p[0],k)).join(', ')+'.'});}
+    return Object.assign(base,{t:'notate',prompt:'Write the sol-fa under each note in bars 1 and 2 ('+tonicDo+').',sub:'One box for each note, in order.',clef:st.clef,sig:k.sig,time:METRE(st.ts),items,barNums:true,show:sh,sfOnly:true,sfNotes:ns,solfa:ns.map(n=>stSyl(n.p[0],k)),sfPal:k.mode==='minor'?SOLFA_MIN:SOLFA_MAJ,why:'Bars 1–2: '+ns.map(n=>name(n.p[0])+' = '+stSyl(n.p[0],k)).join(', ')+'.'});}
   if(part==='letters'){const ns=b[2];const ans=ns.map(n=>name(n.p[0])).join(' ');const shiftL=(p,d)=>{const i=(T.LETTERS.indexOf(p.l)+d+7)%7;return T.LETTERS[i];};
     const dis=[ns.map(n=>shiftL(n.p[0],1)).join(' '),ns.map(n=>shiftL(n.p[0],-1)).join(' '),ns.map((n,i)=>i===ns.length-1?shiftL(n.p[0],2):name(n.p[0])).join(' '),ns.map(n=>shiftL(n.p[0],2)).join(' ')];
     return Object.assign(base,choice('What are the letter names of the notes in bar 3?',optsFrom(ans,uniq(dis),4),ans,{show:sh,why:'Bar 3: '+ans+'.'}));}
@@ -886,15 +912,15 @@ function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2)
   if(part==='time'){const ans=st.ts;return Object.assign(base,choice('The time signature has been left off. Which time signature belongs at the start?',['2/4','3/4','4/4','6/8'],ans,{show:sh,why:'Count the beats in each bar: '+ans+'.'}));}
   if(part==='tempo2'||part==='tempoV'){const t=I.tempo;return Object.assign(base,choice('What does '+t[0]+' at the start mean?',ST_TEMPO.slice(0,5).map(x=>x[1]),t[1],{show:sh,why:t[0]+' = '+t[1]+'.'}));}
   if(part==='dynV'){const d=I.dyn.mark;return Object.assign(base,choice('What does '+d[0]+' in bar 1 tell the player?',ST_DYN.map(x=>x[1]),d[1],{show:sh,why:d[0]+' = '+d[1]+'.'}));}
-  if(part==='hp'){return Object.assign(base,choice('In which bar is the player told to get gradually '+(I.hp.type==='cresc'?'louder':'softer')+'?',['Bar 1','Bar 2','Bar 3','Bar 4'],'Bar '+I.hp.bar,{show:sh,why:(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.'}));}
+  if(part==='hp'){return Object.assign(base,choice('In which bar is the player told to get gradually '+(I.hp.type==='cresc'?'louder':'softer')+'?',[...Array(st.bars.length).keys()].map(i=>'Bar '+(i+1)),'Bar '+I.hp.bar,{show:sh,why:(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.'}));}
   if(part==='art'){const a=ST_ART[I.art.type];return Object.assign(base,choice('What does the '+a[0]+' marking in bar '+I.art.bar+' tell the player?',['Play it short and detached','Play it with an accent (stress it)','Hold it for its full length','Pause on it'],a[1],{show:sh,why:a[0][0].toUpperCase()+a[0].slice(1)+': '+a[1].toLowerCase()+'.'}));}
   if(part==='semi'){const S=I.semi;const ord=['1st','2nd','3rd','4th','5th','6th','7th','8th'];const opts=[];for(let i=0;i+1<S.count&&i<6;i++)opts.push(ord[i]+' and '+ord[i+1]);const ans=ord[S.i]+' and '+ord[S.i+1];
     return Object.assign(base,choice('Which two neighbouring notes in bar '+S.bar+' are a semitone apart?',opts.slice(0,Math.max(4,S.i+2)).slice(-6),ans,{show:sh,why:'The '+ans+' notes of bar '+S.bar+' are a semitone apart.'}));}
   if(part==='iv'){const ans=T.ivWord(I.iv.iv);const pool=[2,3,4,5,6,7,8].flatMap(nn=>T.isPerfClass(nn)?[T.ivWord({q:'P',n:nn})]:[T.ivWord({q:'M',n:nn}),T.ivWord({q:'m',n:nn})]);
     return Object.assign(base,choice('Name the interval marked *1 in bar '+I.iv.bar+'.',optsFrom(ans,pool,4),ans,{show:sh,why:'*1 = '+ans+'.'}));}
   return choice('?',['a'],'a');}
-function studyItems(st){if(st.kind==='ivkey'||st.kind==='ivmel')return st.asks.map((a,i)=>['ci'+i,1]);if(st.kind==='study')return [['solfa',3,1],['letters',1],['tempo',1],['dyn',1],['transpose',2]];
-  return st.asks.map(a=>[{tempo:'tempoV',dyn:'dynV'}[a]||a,1]);}
+function studyItems(st){if(st.kind==='ivkey'||st.kind==='ivmel')return st.asks.map((a,i)=>['ci'+i,1]);if(st.kind==='study')return [['solfa',3,1],['letters',1],['tempo',1],['dyn',1],['transpose',2],['tsSf',2,1],['tsN',2]];
+  return st.asks.map(a=>[{tempo:'tempoV',dyn:'dynV'}[a]||a,a.startsWith('ts')?2:1,a==='tsSf'?1:0]);}
 // Double sharps and flats are only asked for when the year's settings include them (Year 12, or switched on in Customise):
 // any generated question whose notes need one is made again.
 function hasDbl(q){if(!q)return false;const pts=[];const add=it=>{if(!it)return;if(it.target)pts.push(...it.target);if(it.p)pts.push(...[].concat(it.p));};(q.items||[]).forEach(add);if(q.show&&q.show.spec&&q.show.spec.items)q.show.spec.items.forEach(add);return pts.some(p=>p&&typeof p==='object'&&Math.abs(p.a||0)>=2);}
@@ -954,5 +980,5 @@ function ivStudyQ(i,st){const iv=st.asks[i];const ans=T.ivWord(iv);const qs=[...
 const BYNAME={};UNITS.forEach(u=>u.gens.forEach(([fn])=>BYNAME[fn.name]=fn));BYNAME.chordRnQ=noDbl(chordRnQ);BYNAME.notateRnQ=noDbl(notateRnQ);BYNAME.semitoneQ=semitoneQ;BYNAME.keySigGridQ=keySigGridQ;BYNAME.keySigWriteCtQ=keySigWriteCtQ;BYNAME.keyMelodyQ=keyMelodyQ;
 function defaultWhy(q){if(q.why)return;if(q.t==='match'&&q.pairs)q.why=q.pairs.map(p=>'<b>'+p[0]+'</b> — '+p[1]).join(' · ');}
 function one(name){let q=null;for(let i=0;i<20&&!q;i++)q=BYNAME[name]();const u=UNITS.find(u=>u.gens.some(g=>g[0].name===name))||UNITS.find(u=>u.id==='chords');q.unit=u.id;q.gen=name;defaultWhy(q);return q;}
-return {studyShow:st=>show(stStave(st)),hasDbl,UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,setGensel,RANGE,MIDD,inClef,fitScale,stave,one,makeStudy,studyQ,studyItems};
+return {studyShow:st=>stShow(st),hasDbl,UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,setGensel,RANGE,MIDD,inClef,fitScale,stave,one,makeStudy,studyQ,studyItems};
 })();

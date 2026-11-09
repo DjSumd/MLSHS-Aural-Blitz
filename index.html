@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="apple-touch-icon" href="icon-192.png">
-<link rel="stylesheet" href="fonts/fonts.css?v=20261108e">
+<link rel="stylesheet" href="fonts/fonts.css?v=20261109b">
 <style>
   :root{--bg:#1b1a18;--ink:#1b1a18;--paper:#f6f1e7;--paper2:#efe8da;--line:#262421;--muted:#7a7267;--rule:#d8d0c1;--shade:#ebe4d6;
     --ox:#8c2b22;--brass:#b2862f;--green:#3d6b45;--red:#a3322a;--accent:#8c2b22;--cream:#efe9dc;--serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
@@ -285,6 +285,7 @@ header h1{font-size:27px}header .eye{font-size:9.5px;letter-spacing:1.8px}.hud{g
   .sfc{min-width:40px;height:34px;border:1px solid var(--rule);background:#fff;border-radius:6px;font-family:var(--serif);font-size:17px;font-weight:600;cursor:pointer;color:var(--ink);padding:0 6px}
   .sfc.cur{border-color:var(--ink);box-shadow:0 0 0 2px rgba(27,26,24,.18)} .sfc.given{background:var(--shade);color:var(--muted);cursor:default}
   .sfc.ok{background:#e4efe5;border-color:#5d8a63;color:#2f5a35} .sfc.no{background:#f6e1df;border-color:#b4433a;color:#7d2a23}
+  .playsleft{font-size:12.5px;font-weight:700;color:var(--ox);align-self:center;margin-left:4px}
   .gplay{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 8px}.gplay .playbtn{padding:9px 16px;font-size:15px}.gplay .replaybtn{padding:8px 14px}.gplay span{font-size:14px;color:var(--muted)}
   .card.grpset .gq+.gq{border-top:1px solid var(--rule);padding-top:12px;margin-top:12px}
   .sfov{position:absolute;left:0;top:0;width:0;height:0;z-index:2;pointer-events:none}
@@ -381,20 +382,20 @@ body.embtest .tsthead{display:none}@media (max-width:620px){body.paper.embed .ca
 </main>
 <footer>Mount Lawley SHS · Music · Aural training for Years 7–12. Pick your year; ⚙ opens any section up to ATAR Year 12 · Space plays · 1–9 answer · ← → move</footer>
 
-<script src="glyphs.js?v=20261108e"></script>
-<script src="audio.js?v=20261108e"></script>
-<script src="samples.js?v=20261108e"></script>
-<script src="engrave.js?v=20261108e"></script>
-<script src="content.js?v=20261108e"></script>
-<script src="refs.js?v=20261108e"></script>
-<script src="embed.js?v=20261108e"></script>
-<script src="qr.js?v=20261108e"></script>
-<script src="task.js?v=20261108e"></script>
-<script src="testkit.js?v=20261108e"></script>
-<script src="blitzui.js?v=20261108e"></script>
-<script src="live.js?v=20261108e"></script>
-<script>/*blitz-check*/(function(){var S="20261108e";var F=window.BLITZ_FILES||{};var bad=[].slice.call(document.querySelectorAll("script[src]")).map(function(s){return s.getAttribute("src")}).filter(function(n){return !/^https?:/.test(n)&&F[n.split("/").pop().split("?")[0]]!==S});if(!bad.length)return;var last=0;try{last=+sessionStorage.getItem("blitzHeal")||0}catch(e){}if(Date.now()-last<60000){console.warn("Blitz: mixed file versions",bad);return;}try{sessionStorage.setItem("blitzHeal",String(Date.now()))}catch(e){}var go=function(){location.reload()};var clr=window.caches?caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf("blitz-aural-all-")===0||k.indexOf("blitz-theory-all-")===0}).map(function(k){return caches.delete(k)}))}):Promise.resolve();clr.then(function(){return navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration().then(function(r){if(r)return r.update()}):0}).catch(function(){}).then(go,go);})();</script>
-<script>/*blitz-update*/(function(){var S="20261108e",P="blitz-aural-all-",APP="Aural Blitz";
+<script src="glyphs.js?v=20261109b"></script>
+<script src="audio.js?v=20261109b"></script>
+<script src="samples.js?v=20261109b"></script>
+<script src="engrave.js?v=20261109b"></script>
+<script src="content.js?v=20261109b"></script>
+<script src="refs.js?v=20261109b"></script>
+<script src="embed.js?v=20261109b"></script>
+<script src="qr.js?v=20261109b"></script>
+<script src="task.js?v=20261109b"></script>
+<script src="testkit.js?v=20261109b"></script>
+<script src="blitzui.js?v=20261109b"></script>
+<script src="live.js?v=20261109b"></script>
+<script>/*blitz-check*/(function(){var S="20261109b";var F=window.BLITZ_FILES||{};var bad=[].slice.call(document.querySelectorAll("script[src]")).map(function(s){return s.getAttribute("src")}).filter(function(n){return !/^https?:/.test(n)&&F[n.split("/").pop().split("?")[0]]!==S});if(!bad.length)return;var last=0;try{last=+sessionStorage.getItem("blitzHeal")||0}catch(e){}if(Date.now()-last<60000){console.warn("Blitz: mixed file versions",bad);return;}try{sessionStorage.setItem("blitzHeal",String(Date.now()))}catch(e){}var go=function(){location.reload()};var clr=window.caches?caches.keys().then(function(ks){return Promise.all(ks.filter(function(k){return k.indexOf("blitz-aural-all-")===0||k.indexOf("blitz-theory-all-")===0}).map(function(k){return caches.delete(k)}))}):Promise.resolve();clr.then(function(){return navigator.serviceWorker&&navigator.serviceWorker.getRegistration?navigator.serviceWorker.getRegistration().then(function(r){if(r)return r.update()}):0}).catch(function(){}).then(go,go);})();</script>
+<script>/*blitz-update*/(function(){var S="20261109b",P="blitz-aural-all-",APP="Aural Blitz";
 if(window.top!==window||/[?&]embed=/.test(location.search)||window.__EMBED||!/^https?:/.test(location.protocol))return;
 var t0=Date.now(),pending=null,bar=null;
 try{var u0=new URL(location.href);if(u0.searchParams.has('u')){u0.searchParams.delete('u');history.replaceState(history.state,'',u0.toString());}}catch(e){}
@@ -464,9 +465,9 @@ const TEST={name:'Test',key:'test',special:true,exam:true,test:true,ask:'Listen.
   gen(ctx){const it=examPlan[ctx.pos];if(!it)return null;if(it.embed)return {kind:'embed',_exam:it,prompt:it.title,_from:UNITS.indexOf(TEST)};const r=UNITS.findIndex(u=>u.key===it.unit);const u=UNITS[r];
     const cfg=(gk)=>(it.cfg&&gk in it.cfg)?it.cfg[gk]:cfgDef(r,gk);let q=null;
     const L=runQs[ui]||(runQs[ui]=[]);for(let p=0;p<ctx.pos;p++)if(!L[p])L[p]=TEST.gen(Object.assign({},ctx,{pos:p}));const prev=L.slice(0,ctx.pos).filter(Boolean).map(x=>({sig:qSig(x),grp:x.__grp}));let first=null;
-    for(let t=0;t<12;t++){let c=null;try{c=withSeed((testRun.seed*31+ctx.pos*7919+t*104729)>>>0,()=>it.build?it.build(ctx,u,r,cfg):u.gen(Object.assign({},ctx,{diff:it.diff||'easy',mode:it.mode||'choice',year:YEAR,cfg})));}catch(e){c=null;}if(!c)continue;c.__grp=it.gi;if(!first)first=c;if(!isRepeat(c,prev)){q=c;break;}if(it.share)break;}
+    for(let t=0;t<12;t++){let c=null;try{c=withSeed((testRun.seed*31+ctx.pos*7919+t*104729)>>>0,()=>withOvr({keys:it.keys,span:it.span},()=>it.build?it.build(ctx,u,r,cfg):u.gen(Object.assign({},ctx,{diff:it.diff||'easy',mode:it.mode||'choice',year:YEAR,cfg}))));}catch(e){c=null;}if(!c)continue;c.__grp=it.gi;if(!first)first=c;if(!isRepeat(c,prev)){q=c;break;}if(it.share)break;}
     if(!q)q=first;
-    if(!q)return null;q._from=r;q._exam=it;q.prompt=it.gtitle;if(it.bpm)q.__bpm=it.bpm;if(it.gbars)applyGivenBars(q,it.gbars);return q;}};
+    if(!q)return null;q._from=r;q._exam=it;q.prompt=it.gtitle;if(it.bpm)q.__bpm=it.bpm;if(it.plays)q.__maxPlays=it.plays;if(it.gbars)applyGivenBars(q,it.gbars);return q;}};
 // given bars (custom tests): the notes in those bars are written in; students complete the rest. The first note stays given as the reference.
 function applyGivenBars(q,bars){const d=q&&q.dict;if(!d||!d.notes||!bars||!bars.length)return;const M=d.metre,pk=d.pickup||0;
   const bn=on=>ENGRAVE.barOf(on+1e-6,pk,M.bpb)+(pk>1e-6?0:1);const inB=on=>bars.includes(bn(on));
@@ -476,6 +477,18 @@ function applyGivenBars(q,bars){const d=q&&q.dict;if(!d||!d.notes||!bars||!bars.
 // teacher-set tempo: seconds per crotchet for a question (BPM counts dotted crotchets in compound time)
 function qCompound(q){const M=q&&q.dict&&q.dict.metre;if(M)return !!M.compound;const s=String((q&&(q.metre||q.ts))||'');return /^(6|9|12)\/8/.test(s);}
 function bpmSPB(q){return q&&q.__bpm?60/q.__bpm/(qCompound(q)&&q.kind!=='drum'?1.5:1):0;}
+// ---- per-question settings: key and range feed the dictation engine; tempo and playings go on the question ----
+let DOVR=null;
+(function(){const bd=ENGRAVE.buildDictation;ENGRAVE.buildDictation=function(o){o=(typeof o==='string')?{diff:o}:Object.assign({},o||{});if(DOVR){if(DOVR.keys&&DOVR.keys.length&&!o.keys)o.keys=DOVR.keys;if(DOVR.span&&!o.span)o.span=DOVR.span;}return bd(o);};})();
+const SPANS={narrow:4,wide:9};
+const cfgTry=(cfg,k)=>{try{return cfg?cfg(k):null;}catch(e){return null;}};
+function ovrFromCfg(cfg){const key=cfgTry(cfg,'key'),rg=cfgTry(cfg,'range');return {keys:key&&key!=='any'?[key]:null,span:SPANS[rg]||0};}
+function withOvr(o,fn){const p=DOVR;DOVR=o;try{return fn();}finally{DOVR=p;}}
+function postCfg(q,cfg){if(!q)return q;const t=parseInt(cfgTry(cfg,'tempo'),10);if(t>=30&&!q.__bpm)q.__bpm=t;const p=parseInt(cfgTry(cfg,'plays'),10);if(p>0&&!q.__maxPlays)q.__maxPlays=p;return q;}
+// a playing limit (teacher setting): halves and single parts count as half a playing
+function playCapHit(q,add){if(!q||!q.__maxPlays||(window.AUDIO&&AUDIO.isRec&&AUDIO.isRec()))return false;if((q._plays||0)+add>q.__maxPlays+1e-6){toast('No more playings: this question can be played '+(q.__maxPlays===1?'once':q.__maxPlays+' times')+'.');return true;}return false;}
+function playsLeftLabel(q){if(!q||!q.__maxPlays)return '';const left=Math.max(0,q.__maxPlays-(q._plays||0));return left<=0?'No playings left':(Math.floor(left)===left?left:left.toFixed(1))+' playing'+(left===1?'':'s')+' left';}
+function paintPlaysLeft(){const q=curQ();const el=document.getElementById('playsleft');if(el)el.textContent=playsLeftLabel(q);}
 function qPlay(q){const s=bpmSPB(q);return s?AUDIO.withSpb(s,()=>q.play()):q.play();}
 // a question's identity: the notes of a dictation, or the answer of a choice question
 function qSig(q){if(!q)return '';if(q.kind==='written'||q.kind==='embed')return '';if(q.dict&&q.dict.notes)return 'm|'+q.dict.notes.map(n=>(n.rest?'r':n.midi)+':'+n.dur).join(',');if(q.kind==='drum')return 'd|'+JSON.stringify(q.pat);
@@ -497,15 +510,15 @@ const ART_MEAN={stac:'Play it short and detached',acc:'Play it with an accent (s
 function testScoreInfo(X,y){const d=X.dict,bpb=d.metre.bpb,ns=d.notes;const snd=ns.map((n,i)=>i).filter(i=>!ns[i].rest);
   const barOf=i=>Math.floor(ns[i].onset/bpb+1e-6);const inBar=b=>snd.filter(i=>barOf(i)===b);
   const M={dyn:{},hp:[],art:{},sl:[],br:[],box:{},barNums:true};const I={};const used=new Set();
-  const dyns=['p','mp','mf','f'];const d1=A_pick(dyns);M.dyn[snd[0]]=d1;used.add(snd[0]);const b3=inBar(2);const d2=A_pick(dyns.filter(x=>x!==d1));
-  if(b3.length){M.dyn[b3[0]]=d2;used.add(b3[0]);I.dyn={bar:3,mark:d2};}else I.dyn={bar:1,mark:d1};
-  const hb=A_pick([1,3]);const hn=inBar(hb);const ht=A_pick(['cresc','dim']);if(hn.length>=2){M.hp.push([hn[0],hn[hn.length-1],ht]);I.hp={bar:hb+1,type:ht};}
+  const NB=d.bars||4;const dyns=['p','mp','mf','f'];const d1=A_pick(dyns);M.dyn[snd[0]]=d1;used.add(snd[0]);const b3=inBar(NB>4?4:2);const d2=A_pick(dyns.filter(x=>x!==d1));
+  if(b3.length){M.dyn[b3[0]]=d2;used.add(b3[0]);I.dyn={bar:NB>4?5:3,mark:d2};}else I.dyn={bar:1,mark:d1};
+  const hb=NB>4?A_pick([1,2,5,6]):A_pick([1,3]);const hn=inBar(hb);const ht=A_pick(['cresc','dim']);if(hn.length>=2){M.hp.push([hn[0],hn[hn.length-1],ht]);I.hp={bar:hb+1,type:ht};}
   const b1=inBar(0);if(b1.length>=3)M.sl.push([b1[1],b1[2]]);
-  const ab=inBar(2).length>1?2:3;const an=inBar(ab).filter(i=>!used.has(i));const ai=an.length?an[an.length>1?1:0]:undefined;const at=A_pick(['stac','acc','ten']);if(ai!==undefined){M.art[ai]=at;used.add(ai);I.art={bar:ab+1,type:at};}
+  const abC=[2,3,6].filter(b=>b!==hb&&inBar(b).length>1);const ab=NB>4?(abC.length?A_pick(abC):7):(inBar(2).length>1?2:3);const an=inBar(ab).filter(i=>!used.has(i));const ai=an.length?an[an.length>1?1:0]:undefined;const at=A_pick(['stac','acc','ten']);if(ai!==undefined){M.art[ai]=at;used.add(ai);I.art={bar:ab+1,type:at};}
   const okIv=y<=8?[1,2,3,4,5,7,12]:[1,2,3,4,5,7,8,9,10,11,12];const pairs=[];
   for(let k=0;k+1<snd.length;k++){const a=snd[k],b=snd[k+1];const sz=Math.abs(ns[b].midi-ns[a].midi);if(okIv.includes(sz)&&barOf(a)>=1&&barOf(a)===barOf(b)&&a!==ai&&b!==ai)pairs.push([a,b,sz]);}
   if(pairs.length){const pr=A_pick(pairs);M.br.push([pr[0],pr[1],'*1']);used.add(pr[0]);used.add(pr[1]);I.iv={s:pr[2],bar:barOf(pr[0])+1};}
-  const starts=snd.filter(i=>{const r=ns[i].onset/X.cb;return Math.abs(r-Math.round(r))<1e-6&&barOf(i)>=1&&barOf(i)<=2&&!used.has(i);});
+  const starts=snd.filter(i=>{const r=ns[i].onset/X.cb;return Math.abs(r-Math.round(r))<1e-6&&barOf(i)>=1&&barOf(i)<=(NB>4?6:2)&&!used.has(i);});
   if(starts.length){const i=A_pick(starts);const seg=Math.min(X.seq.length-1,Math.round(ns[i].onset/X.cb));M.box[i]='x';I.chord={bar:barOf(i)+1,rn:X.seq[seg][0]};}
   return {marks:M,info:I,noTime:false};}
 function testScoreSvg(X,S,wide){const d=X.dict,Mt=d.metre;return ENGRAVE.drawScore({clef:'treble',ks:d.ks||0,bpb:Mt.bpb,g:Mt.g,numer:Mt.numer,denom:Mt.denom,pickup:0,bars:d.bars,
@@ -521,14 +534,14 @@ function scoreQ(X,S,ask,y){return function(){const I=S.info;const q={kind:'choic
   else if(ask==='met'){q.options=y<=7?['Simple Duple','Simple Triple','Simple Quadruple']:['Simple Duple','Compound Duple','Simple Triple','Compound Triple','Simple Quadruple','Compound Quadruple'];q.answer=TMET[X.metre];q.why=q.answer+' ('+X.metre+').';}
   else if(ask==='iv'){q.options=y<=8?['mi2','M2','mi3','M3','P4','P5','P8']:['mi2','M2','mi3','M3','P4','P5','mi6','M6','mi7','M7','P8'];q.answer=IVN[I.iv.s];q.why='*1 = '+q.answer+'.';}
   else if(ask==='dyn'){q.options=['very soft','soft','moderately soft','moderately loud','loud','very loud'];q.answer=DYN_MEAN[I.dyn.mark];q.why=I.dyn.mark+' = '+q.answer+'.';}
-  else if(ask==='hp'){q.options=['Bar 1','Bar 2','Bar 3','Bar 4'];q.answer='Bar '+I.hp.bar;q.why=(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.';}
+  else if(ask==='hp'){q.options=[...Array(X.dict.bars||4).keys()].map(i=>'Bar '+(i+1));q.answer='Bar '+I.hp.bar;q.why=(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.';}
   else if(ask==='art'){q.options=['Play it short and detached','Play it with an accent (stress it)','Hold it for its full length','Pause on it'];q.answer=ART_MEAN[I.art.type];q.why={stac:'Staccato dot',acc:'Accent',ten:'Tenuto line'}[I.art.type]+': '+q.answer.toLowerCase()+'.';}
   else if(ask==='tmp'){q.options=TEMPO_T.map(t=>t[0]);q.answer=X.tempoName;q.why=X.tempoName+'.';}
   else if(ask==='chd'){q.options=['I','ii','IV','V','vi'];q.fmt=fmtRN;q.answer=I.chord.rn;q.why='The chord at x is '+I.chord.rn+'.';}
   else {q.options=['Perfect','Plagal','Imperfect','Interrupted'];q.answer=X.cadence[0].toUpperCase()+X.cadence.slice(1);q.why=q.answer+'.';}
   return q;};}
-function scoreAnalysisGroup(y){const T=A_pick(TEMPO_T);const metres=y<=7?['2/4','3/4','4/4']:['2/4','3/4','4/4','6/8'];
-  const X=examExcerpt({scale:A_pick(['major','natural minor']),metre:A_pick(metres),texture:A_pick(['homophonic','homophonic','monophonic','polyphonic']),cadence:A_pick(y>=10?['perfect','plagal','imperfect','interrupted']:['perfect','imperfect']),spb:T[1]});X.tempoName=T[0];
+function scoreAnalysisGroup(y,bars){const T=A_pick(TEMPO_T);const metres=y<=7?['2/4','3/4','4/4']:['2/4','3/4','4/4','6/8'];
+  const X=examExcerpt({scale:A_pick(['major','natural minor']),metre:A_pick(metres),texture:A_pick(['homophonic','homophonic','monophonic','polyphonic']),cadence:A_pick(y>=10?['perfect','plagal','imperfect','interrupted']:['perfect','imperfect']),spb:T[1],bars:+bars===4?4:8});X.tempoName=T[0];
   const S=testScoreInfo(X,y);const I=S.info;
   const pool={7:['ton','dyn','hp','art','tmp'],8:['ton','iv','dyn','hp','art','tmp','met'],9:['ton','tex','iv','chd','dyn','hp','art','tmp','met'],10:['iv','chd','cad','ton','tex','art','tmp','met','dyn']}[y];
   const avail=pool.filter(a=>(a!=='iv'||I.iv)&&(a!=='chd'||(I.chord&&X.texture==='homophonic'))&&(a!=='cad'||X.texture==='homophonic')&&(a!=='hp'||I.hp)&&(a!=='art'||I.art));const vis=['iv','chd','dyn','hp','art'];
@@ -667,8 +680,8 @@ function barOrderQ(o){o=o||{};return function(){
 function rhythmHeadsQ(o){o=o||{};const metre=o.metre||'4/4';
   const dict=ENGRAVE.buildDictation(Object.assign({diff:o.diff||'med',bars:+o.bars||4,metre,clef:o.clef||'treble',maxKs:o.maxKs||3},(o.scales&&o.scales.length)?{scaleNames:o.scales}:{},o.vocab||{},{rests:false,ties:false,anacrusis:false,triplets:false}));
   const bpb=dict.metre.bpb;const barIdx=[...Array(dict.bars).keys()].map(b=>dict.notes.map((n,i)=>i).filter(i=>Math.floor(dict.notes[i].onset/bpb+1e-6)===b));
-  return {kind:'rhythmheads',dict,barIdx,given:1,multiPlay:true,cue:false,scaleName:dict.scaleName,
-    prompt:'The noteheads and barlines are given. Add the rhythm to each notehead.',
+  return {kind:'rhythmheads',dict,barIdx,noBars:!!o.noBars&&dict.bars>1,given:1,multiPlay:true,cue:false,scaleName:dict.scaleName,
+    prompt:o.noBars&&dict.bars>1?'The noteheads are given. Add the rhythm to each notehead, then add the barlines.':'The noteheads and barlines are given. Add the rhythm to each notehead.',
     why:'Rhythm: '+barIdx.map(ix=>ix.map(i=>durName(dict.notes[i].dur)).join(', ')).join(' | ')+'.'};}
 const DURNAMES={4:'semibreve',3:'dotted minim',2:'minim',1.5:'dotted crotchet',1:'crotchet',0.75:'dotted quaver',0.5:'quaver',0.25:'semiquaver'};
 function durName(d){const k=Object.keys(DURNAMES).find(x=>eq(+x,d));return k?DURNAMES[k]:String(d);}
@@ -705,29 +718,47 @@ function checkBO(){const q=curQ();const free=q.nb-q.given;let right=0;for(let p=
   if(ok){feedback(pick(WINMSG)+' Every bar in its place.','ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' of '+free+' bars in the right place.','no',q.why);results[qid()]='no';}renderDots();}
 function answerBO(){const q=curQ();if(!(qid() in scored))scoreOnce(false);bo=[...Array(q.nb).keys()];boSel=-1;renderBO(true);feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 // ---- rhythm on noteheads editor ----
-let rh=[],rhHist=[];
-function rhReset(q){rh=q.dict.notes.map((n,i)=>GV(q,i)?n.dur:null);rhHist=[];}
+let rh=[],rhHist=[],rhBL=[],rhTool='val';
+function rhReset(q){rh=q.dict.notes.map((n,i)=>GV(q,i)?n.dur:null);rhBL=q.dict.notes.map(()=>false);rhHist=[];}
+// no printed barlines: rhBL[k] = a barline after notehead k. The true barlines fall before each note that starts a bar.
+const rhTrueBL=q=>{const ns=q.dict.notes,bpb=q.dict.metre.bpb;return ns.map((n,k)=>k<ns.length-1&&Math.abs(ns[k+1].onset/bpb-Math.round(ns[k+1].onset/bpb))<1e-6);};
+const rhPush=()=>rhHist.push({r:rh.slice(),b:rhBL.slice()});
+// no printed barlines: the systems break every few noteheads (not at the real barlines, so they don't give them away)
+function rhNBspec(q,per){const N=q.dict.notes.length,tot=q.dict.bars*q.dict.metre.bpb;const S=Math.max(1,Math.ceil(N/(per||12)));return {bars:S,bpb:tot/S,barsPerSystem:1,hideBars:true};}
+function rhGapX(meta,k){const a=meta.sysOf[k],b=meta.sysOf[k+1];if(b===undefined)return null;if(a===b)return meta.xs[k]+(meta.xs[k+1]-meta.xs[k])*0.5;return meta.sysEnd[a]-meta.SS*0.6;}
+function rhBLsvg(svg,meta,bl,cols){const L=[];bl.forEach((on,k)=>{const c=cols&&cols[k];if(!on&&!c)return;const x=rhGapX(meta,k);if(x==null)return;const y=meta.sysOf[k]*meta.sysH+meta.staffTop;const col=c?c.col:'var(--ink)';
+    L.push(`<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(y+4*meta.SS).toFixed(1)}" stroke="${col}" stroke-width="${on?2:1.6}"${on?'':' stroke-dasharray="4 3"'}/>`);});return svg.replace(/<\/svg>$/,L.join('')+'</svg>');}
 function rhNotes(q,colors,durs){durs=durs||rh;const d=q.dict,bpb=d.metre.bpb;const shown=ENGRAVE.resolveLine(d.notes,d.ks||0,0,bpb,'true').shown;const out=[];
+  if(q.noBars){const N=d.notes.length,slot=d.bars*bpb/N;d.notes.forEach((n,i)=>{const v=durs[i];out.push({d:n.d,acc:shown[i],idx:i,color:colors&&colors[i]?colors[i]:(GV(q,i)?'#8a8277':undefined),onset:i*slot,layDur:slot,dur:v||slot,headOnly:!v,noBeam:true});});return out;}
   q.barIdx.forEach((ix,b)=>{const ds=ix.map(i=>durs[i]);const full=ds.every(x=>x)&&eq(ds.reduce((a,x)=>a+x,0),bpb);let on=b*bpb;const slot=bpb/ix.length;
     ix.forEach((i,k)=>{const n=d.notes[i],v=durs[i];const base={d:n.d,acc:shown[i],idx:i,color:colors&&colors[i]?colors[i]:(GV(q,i)?'#8a8277':undefined)};
       if(full){out.push(Object.assign(base,{onset:on,dur:v}));on+=v;}
       else out.push(Object.assign(base,{onset:b*bpb+k*slot,dur:v||slot,headOnly:!v,noBeam:true}));});});
   return out;}
 function rhBarInfo(q){const bpb=q.dict.metre.bpb;return q.barIdx.map(ix=>{const s=ix.reduce((a,i)=>a+(rh[i]||0),0);return {s,full:ix.every(i=>rh[i]),ok:eq(s,bpb)};});}
-function renderRH(checked,colors){const q=curQ();const notes=rhNotes(q,checked&&!HIDEFB()?colors:null);
-  scoreMeta=ENGRAVE.drawScore(scoreSpec(q,notes,{mode:'raw'}));document.getElementById('scoreWrap').innerHTML=scoreMeta.svg;
+function renderRH(checked,colors,blCols){const q=curQ();const notes=rhNotes(q,checked&&!HIDEFB()?colors:null);
+  scoreMeta=ENGRAVE.drawScore(scoreSpec(q,notes,Object.assign({mode:'raw'},q.noBars?rhNBspec(q,((document.getElementById('card')||{}).clientWidth||800)<620?8:14):{})));document.getElementById('scoreWrap').innerHTML=q.noBars?rhBLsvg(scoreMeta.svg,scoreMeta,rhBL,checked&&!HIDEFB()?blCols:null):scoreMeta.svg;
+  if(q.noBars){if(!checked)document.getElementById('score').addEventListener('pointerdown',onScoreRH);const bi=document.getElementById('rhbars');const tot=rh.reduce((a,x)=>a+(x||0),0),need=q.dict.bars*q.dict.metre.bpb,nb=rhBL.filter(Boolean).length;if(bi)bi.innerHTML=`<span class="${eq(tot,need)?'ok':tot>need+1e-6?'over':''}">Total: ${fmtBeats(tot)} / ${fmtBeats(need)} beats</span><span>${nb} barline${nb===1?'':'s'} added</span>`;return;}
   if(!checked)document.getElementById('score').addEventListener('pointerdown',onScoreRH);
   const bpb=q.dict.metre.bpb;const bi=document.getElementById('rhbars');if(bi)bi.innerHTML=rhBarInfo(q).map((x,b)=>`<span class="${x.ok&&x.full?'ok':x.s>bpb+1e-6?'over':''}">Bar ${b+1}: ${fmtBeats(x.s)} / ${fmtBeats(bpb)}</span>`).join('');}
 function onScoreRH(ev){const q=curQ();const svg=document.getElementById('score');const h=ENGRAVE.hitTest(scoreMeta,svg,ev);let best=-1,bd=1e9;
   scoreMeta.order.forEach((n,k)=>{if(scoreMeta.sysOf[k]!==h.sys)return;const dx=Math.abs(scoreMeta.xs[k]-h.x);if(dx<bd){bd=dx;best=k;}});
+  if(q.noBars&&rhTool==='bl'){let gk=-1,gd=1e9;rhBL.forEach((_,k)=>{if(k>=rhBL.length-1)return;const x=rhGapX(scoreMeta,k);if(x==null||scoreMeta.sysOf[k]!==h.sys)return;const dd=Math.abs(x-h.x);if(dd<gd){gd=dd;gk=k;}});
+    if(gk>=0&&gd<40){rhPush();rhBL[gk]=!rhBL[gk];feedback('','');renderRH(false);}ev.preventDefault();return;}
   if(best<0||bd>18)return;const i=scoreMeta.order[best].idx;if(i===undefined||GV(q,i)){ev.preventDefault();return;}
-  rhHist.push(rh.slice());rh[i]=(rh[i]!=null&&eq(rh[i],meSelDur))?null:meSelDur;feedback('','');renderRH(false);ev.preventDefault();}
+  rhPush();rh[i]=(rh[i]!=null&&eq(rh[i],meSelDur))?null:meSelDur;feedback('','');renderRH(false);ev.preventDefault();}
 function checkRH(){const q=curQ();if(rh.some(x=>!x)){feedback('Give every notehead a value first.','no');return;}
+  if(q.noBars){if(!rhBL.some(Boolean)){feedback('Add the barlines too: choose | Barline, then tap between two noteheads.','no');return;}
+    const T=rhTrueBL(q),colors={},blc={};let right=0,need=0;q.dict.notes.forEach((n,i)=>{if(GV(q,i))return;need++;const ok=eq(rh[i],n.dur);if(ok)right++;colors[i]=ok?'var(--green)':'var(--red)';});
+    let bR=0,bX=0,bN=0;T.forEach((t,k)=>{if(k>=T.length-1)return;if(t)bN++;if(t&&rhBL[k]){bR++;blc[k]={col:'var(--green)'};}else if(rhBL[k]&&!t){bX++;blc[k]={col:'var(--red)'};}else if(t)blc[k]={col:'var(--red)'};});
+    const bs=Math.max(0,bR-bX);q._frac=(need+bN)?(right+bs)/(need+bN):1;const ok=right===need&&bR===bN&&!bX;scoreOnce(ok);celebrate(ok);renderRH(true,colors,blc);
+    const bt=bR+' of '+bN+' barline'+(bN===1?'':'s')+' right'+(bX?' ('+bX+' extra)':'');
+    if(ok){feedback(pick(WINMSG)+' Every rhythm and barline right.','ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' of '+need+' notes right; '+bt+'.','no',q.why+(bR<bN||bX?' The barlines are shown dashed where they belong.':''));results[qid()]='no';}renderDots();return;}
   const bpb=q.dict.metre.bpb;const bad=rhBarInfo(q).findIndex(x=>!x.ok);if(bad>=0){const x=rhBarInfo(q)[bad];feedback('Bar '+(bad+1)+' adds up to '+fmtBeats(x.s)+' beats — each bar needs '+fmtBeats(bpb)+'.','no');return;}
   const colors={};let right=0,need=0;q.dict.notes.forEach((n,i)=>{if(GV(q,i))return;need++;const ok=eq(rh[i],n.dur);if(ok)right++;colors[i]=ok?'var(--green)':'var(--red)';});
   q._frac=need?right/need:1;const ok=right===need;scoreOnce(ok);celebrate(ok);renderRH(true,colors);
   if(ok){feedback(pick(WINMSG)+' Every rhythm right.','ok',q.why);results[qid()]='ok';}else{feedback(pick(MISSMSG)+' '+right+' of '+need+' notes right.','no',q.why);results[qid()]='no';}renderDots();}
-function answerRH(){const q=curQ();if(!(qid() in scored))scoreOnce(false);rh=q.dict.notes.map(n=>n.dur);renderRH(true);feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
+function answerRH(){const q=curQ();if(!(qid() in scored))scoreOnce(false);rh=q.dict.notes.map(n=>n.dur);if(q.noBars)rhBL=rhTrueBL(q);renderRH(true);feedback('Answer shown.','',q.why);results[qid()]='no';renderDots();}
 function playMine2(q){audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();const M=q.dict.metre;let mids=[],durs=[];
   if(q.kind==='barorder'){bo.forEach(b=>{if(b==null){mids.push(null);durs.push(M.bpb);return;}barNotesOf(q.dict,b).forEach(n=>{mids.push(n.rest?null:n.midi);durs.push(n.dur);});});}
   else{q.dict.notes.forEach((n,i)=>{mids.push(n.midi);durs.push(rh[i]||0.5);});}
@@ -840,7 +871,7 @@ function ctAuralGroups(ct,y){const out=[];const D=k=>TestKit.blockDef('A',k);con
     else if(b.k==='mrec'||b.k==='rrec'){const rh=b.k==='rrec';const o={kind:rh?'rhythm':'melody',show:O(b,'show'),count:O(b,'count'),scales:O(b,'scales'),metres:O(b,'metres'),bars:O(b,'bars'),diff:O(b,'diff')};
       text=rh?'Each question shows '+(+o.count||3)+' rhythms. Listen, then choose the rhythm you hear.':'Each question shows '+(+o.count||3)+' melodies'+(o.show==='rs'?' (rhythm and sol-fa)':o.show==='ps'?' (pitch and sol-fa)':'')+'. Listen, then choose the melody you hear.';
       items=Array.from({length:n},(_,k)=>({unit:rh?'rd':'pd',build:recogQ(o),marks:m,text:n>1?R(k):''}));}
-    else if(b.k==='rdh'){const o={bars:O(b,'bars'),metres:O(b,'metres'),scales:O(b,'scales'),clef:O(b,'clef')};text='The noteheads and barlines are given. Listen, then add the rhythm to each notehead. The first note is given.';const vo=vocabFrom(O(b,'vocab').length?O(b,'vocab'):cfgDef(UNITS.findIndex(u=>u.key==='rd'),'vocab'));items=one({unit:'rd',build:()=>rhythmHeadsQ({bars:o.bars,metre:A_pick(o.metres),scales:o.scales,clef:o.clef,maxKs:3,diff:O(b,'diff'),vocab:{vocab:vo.vocab,vocabEasy:vo.vocabEasy,syncopation:vo.syncopation}})});}
+    else if(b.k==='rdh'){const o={bars:O(b,'bars'),metres:O(b,'metres'),scales:O(b,'scales'),clef:O(b,'clef')};text=O(b,'barlines')==='add'?'The noteheads are given. Listen, then add the rhythm to each notehead and draw in the barlines. The first note is given.':'The noteheads and barlines are given. Listen, then add the rhythm to each notehead. The first note is given.';const vo=vocabFrom(O(b,'vocab').length?O(b,'vocab'):cfgDef(UNITS.findIndex(u=>u.key==='rd'),'vocab'));items=one({unit:'rd',build:()=>rhythmHeadsQ({noBars:O(b,'barlines')==='add',bars:o.bars,metre:A_pick(o.metres),scales:o.scales,clef:o.clef,maxKs:3,diff:O(b,'diff'),vocab:{vocab:vo.vocab,vocabEasy:vo.vocabEasy,syncopation:vo.syncopation}})});}
     else if(b.k==='rd'){text='Listen to the excerpt and write its rhythm in the bars below. You will hear a one-bar count-in first.';items=one({unit:'rd',cfg:Object.assign({bars:O(b,'bars'),source:O(b,'source'),metres:O(b,'metres'),swing:O(b,'swing')||'off',qtype:['write']},O(b,'vocab').length?{vocab:O(b,'vocab')}:{}),diff:O(b,'diff')||'med'});}
     else if(b.k==='prog'){text='Listen to the chords. The first chord is given. Identify the others, using Roman numerals.';items=one({unit:'prog',cfg:{qtype:['write'],length:O(b,'length'),chords:O(b,'chords'),labels:O(b,'labels')||'rn'}});}
     else if(b.k==='cad'){text='Listen to each phrase ending and name the cadence.';const aim=ctOrder(O(b,'cads'),n);items=Array.from({length:n},(_,k)=>({unit:'cad',cfg:{cads:O(b,'cads'),key:O(b,'key')||'Major',format:O(b,'format')||'chords'},build:ctAim(aim[k],(q,w)=>String(q.answer).startsWith(w)),marks:m,text:R(k)}));}
@@ -855,9 +886,10 @@ function ctAuralGroups(ct,y){const out=[];const D=k=>TestKit.blockDef('A',k);con
     else if(b.k==='steps'){const qs=O(b,'qtype');text=qs.length>1?'Listen to each pair of notes. Does the second note move by step, leap or repeat, or is it a semitone or a tone?':qs[0]==='st'?'Listen to each pair of notes. Is it a semitone or a tone?':'Listen to each pair of notes. Does the second note move by step, leap, or repeat?';items=Array.from({length:n},(_,k)=>({unit:'ivl',cfg:{qtype:[qs[Math.floor(k*qs.length/n)]],dir:['up']},marks:m,text:R(k)}));}
     else if(b.k==='xiv'){text='Listen to the melody. Three intervals are bracketed on the score below; the second note of each bracket is not printed. Name each bracketed interval (i), (ii) and (iii).';items=one({unit:'ivl',build:examIntervalsQ});}
     else if(b.k==='tmod'){text='Listen to the excerpt. (a) Name the tonality at the beginning of the excerpt. (b) Name the key to which the excerpt has modulated by the end, or state that there is no modulation.';items=one({unit:'ton',build:examTonModQ});}
-    else if(b.k==='dis'){const c=O(b,'count');text='The score below differs from what you hear in '+({1:'one place',2:'two places',3:'three places'}[c]||c+' places')+' (pitch or rhythm). Locate each discrepancy, then correct the score to match the performance.';items=one({unit:'dis',cfg:{bars:O(b,'bars'),count:c},diff:O(b,'diff')||'med'});}
-    else if(b.k==='sanal'){let G=null;for(let t=0;t<12&&!G;t++)G=scoreAnalysisGroup(Math.max(7,Math.min(10,y)));if(G){const tot=G.items.reduce((a,x)=>a+(x.marks||1),0)||1;G.items.forEach(x=>x.marks=Math.round((x.marks||1)*m/tot*4)/4);out.push(Object.assign({},G,{title,text:b.x?esc(b.x):G.text,marks:G.items.reduce((a,x)=>a+x.marks,0)}));}return;}
+    else if(b.k==='dis'){const c=O(b,'count');text='The score below differs from what you hear in '+({1:'one place',2:'two places',3:'three places'}[c]||c+' places')+' (pitch or rhythm). Locate each discrepancy, then correct the score to match the performance.';items=one({unit:'dis',cfg:{bars:O(b,'bars'),count:c,clef:O(b,'clef')||'treble'},diff:O(b,'diff')||'med'});}
+    else if(b.k==='sanal'){let G=null;for(let t=0;t<12&&!G;t++)G=scoreAnalysisGroup(Math.max(7,Math.min(10,y)),O(b,'len'));if(G){const tot=G.items.reduce((a,x)=>a+(x.marks||1),0)||1;G.items.forEach(x=>x.marks=Math.round((x.marks||1)*m/tot*4)/4);{const ov=TestKit.ovrOf?TestKit.ovrOf(b):null;if(ov&&ov.plays)G.items.forEach(x=>x.plays=ov.plays);}out.push(Object.assign({},G,{title,text:b.x?esc(b.x):G.text,marks:G.items.reduce((a,x)=>a+x.marks,0)}));}return;}
     if(!items.length)return;{const bp=TestKit.bpmOf?TestKit.bpmOf(b):0;if(bp)items.forEach(it=>it.bpm=bp);}
+    {const ov=TestKit.ovrOf?TestKit.ovrOf(b):null;if(ov)items.forEach(it=>{if(ov.keys)it.keys=ov.keys;if(ov.span)it.span=ov.span;if(ov.plays)it.plays=ov.plays;});}
     {const gd=D(b.k)&&D(b.k).opts.some(od=>od.key==='gbars');const gb=gd?(O(b,'gbars')||[]).map(Number).filter(x=>x>0):[];const nb=+O(b,'bars')||0;const gb2=gb.filter(x=>!nb||x<=nb);
       if(gb2.length){items.forEach(it=>it.gbars=gb2);const L=gb2.slice().sort((a,c)=>a-c);text=text.replace(/ ?The first (note|bar)( of each part)? is given\.?/,'')+' Bar'+(L.length>1?'s ':' ')+(L.length>1?L.slice(0,-1).join(', ')+' and '+L[L.length-1]:L[0])+(L.length>1?' are':' is')+' already written in'+(L.includes(1)?'':', and so is the first note')+': complete the other bars.';}}out.push({title,text:b.x?esc(b.x):text,marks:items.reduce((a,it)=>a+it.marks,0),items});});
   return out;}
@@ -908,7 +940,7 @@ function testTeacher(){if(testRun.ct){openCustomBuilder();return;}TaskKit.requir
   document.getElementById('tstopen').onclick=()=>{const p=TestKit.parse(document.getElementById('tstcode').value);if(!p){toast('That isn\'t a test code');return;}if(p.y!==YEAR){YEAR=p.y;paintYear();}testRun={y:p.y,seed:p.seed,sem:p.sem};closeGuide();openUnit();toast('Test '+testCode()+' opened');};});}
 // paper versions of the aural questions
 function tq(pos){if(!runQs[ui])runQs[ui]=[];if(!runQs[ui][pos])runQs[ui][pos]=UNITS[ui].gen({level,diff:'easy',mode:'choice',year:YEAR,pos,cfg:()=>null});return runQs[ui][pos];}
-function paperScore(q,notes){const d=q.dict,M=d.metre;return ENGRAVE.drawScore({clef:d.clef||'treble',ks:d.ks||0,bpb:M.bpb,g:M.g,numer:M.numer,denom:M.denom,pickup:d.pickup||0,bars:d.bars,notes,rhythmOnly:!!q.rhythmOnly,barsPerSystem:d.bars<=2?d.bars:4,mode:'raw'}).svg.replace('<svg ','<svg style="width:'+Math.min(100,Math.max(2,Math.min(4,d.bars))*25)+'%" ');}
+function paperScore(q,notes,bl){const d=q.dict,M=d.metre;const meta=ENGRAVE.drawScore(Object.assign({clef:d.clef||'treble',ks:d.ks||0,bpb:M.bpb,g:M.g,numer:M.numer,denom:M.denom,pickup:d.pickup||0,bars:d.bars,notes,rhythmOnly:!!q.rhythmOnly,barsPerSystem:d.bars<=2?d.bars:4,mode:'raw'},q.noBars?rhNBspec(q,14):{}));return (bl?rhBLsvg(meta.svg,meta,bl.on,bl.cols):meta.svg).replace('<svg ','<svg style="width:'+Math.min(100,Math.max(2,Math.min(4,d.bars))*25)+'%" ');}
 function keyNotes(q){const d=q.dict;const r=ENGRAVE.resolveLine(d.notes,d.ks||0,d.pickup||0,d.metre.bpb,'true');return d.notes.map((n,i)=>({onset:n.onset,dur:n.dur,rest:n.rest,tie:n.tie,trip:n.trip,d:n.d,acc:r.shown[i],color:GV(q,i)?'#000':'#b3261e'}));}
 function paperSolfa(q,key){const d=q.dict;if(!d||q.rhythmOnly||q.noSolfa||!ENGRAVE.solfaFor(d.scaleType))return '';const ns=d.notes.filter(n=>!n.rest);const g=sfGiven(q);
   return `<div class="lbl" style="margin-top:2mm">Sol-fa</div><div class="boxes sf">${ns.map((n,i)=>{const sy=ENGRAVE.solfaOf(n.midi,d.tonicMidi,d.scaleType);return (Array.isArray(g)?g.includes(i):i<g)?`<span class="b g">${sy}</span>`:`<span class="b${key?' k':''}">${key?sy:''}</span>`;}).join('')}</div>`;}
@@ -925,7 +957,7 @@ function paperItem(q,it,key){if(q&&q.recog)return paperRecog(q,key,it);const K=s
     const bpb=d.metre.bpb;const played=sc((q.played||d.notes).map(n=>Object.assign({},n,{color:C[disBarOf(q,n.onset)]?'#b3261e':'#000'})));
     return `<div class="cell wide"><div class="note">Printed score:</div>${printed}<div class="note" style="margin-top:2mm">As performed (differences in red): ${list.map(b=>'bar '+(b+1)+' '+C[b]).join(', ')}</div>${paperScore(q,played)}</div>`;}
   if(q.kind==='barorder'){const wide=q.nb>4?' style="flex:1 1 22%;max-width:calc(25% - 3mm);min-width:0"':' style="min-width:0"';const C='border:1px solid #000;text-align:center;font-family:Arial,sans-serif;';return `<div class="cell wide"><div class="barset">${q.start.map((b,pos)=>`<div class="bcell"${wide}><b style="display:block">${q.letters[pos]}</b>${boCell(q,b,'#000').replace('<svg ','<svg style="width:100%;height:auto;max-width:100%" ')}</div>`).join('')}</div><table style="border-collapse:collapse;margin-top:3mm"><tr>${q.answer.map((_,i)=>`<td style="${C}font-size:9pt;padding:1mm 2mm">Bar ${i+1}</td>`).join('')}</tr><tr>${q.answer.map((a,i)=>`<td style="${C}height:9mm;width:14mm;font-size:13pt;font-weight:700;${GV(q,i)?'background:#eee;':''}color:${key&&!GV(q,i)?'#b3261e':'#000'}">${GV(q,i)||key?a:''}</td>`).join('')}</tr></table></div>`;}
-  if(q.kind==='rhythmheads'){const durs=q.dict.notes.map((n,i)=>key||GV(q,i)?n.dur:null);return `<div class="cell wide">${paperScore(q,rhNotes(q,key?null:{0:'#000'},durs).map(n=>Object.assign(n,{color:'#000'})))}</div>`;}
+  if(q.kind==='rhythmheads'){const durs=q.dict.notes.map((n,i)=>key||GV(q,i)?n.dur:null);return `<div class="cell wide">${paperScore(q,rhNotes(q,key?null:{0:'#000'},durs).map(n=>Object.assign(n,{color:'#000'})),q.noBars&&key?{on:rhTrueBL(q)}:null)}${q.noBars?'<div class="note">Add the rhythm to each notehead, then draw in the barlines.</div>':''}</div>`;}
   if(q.kind==='numerals'&&q.solfaDict){const d=q.dict,M=d.metre;const svg=ENGRAVE.drawScore({clef:'treble',ks:d.ks||0,bpb:M.bpb,g:M.g,numer:M.numer,denom:M.denom,pickup:0,bars:d.bars,notes:d.notes.map(n=>({onset:n.onset,dur:n.dur,d:dia('B',4),acc:''})),rhythmOnly:true,barsPerSystem:d.bars,mode:'raw'}).svg.replace('<svg ','<svg style="width:'+Math.min(100,d.bars*25)+'%" ');
     return `<div class="cell wide">${svg}<div class="boxes sf">${q.answer.map((a,i)=>GV(q,i)?`<span class="b g">${a}</span>`:`<span class="b${key?' k':''}">${key?a:''}</span>`).join('')}</div></div>`;}
   if(q.kind==='numerals'&&q.scoreSvg)return `<div class="cell wide">${q.scoreSvg}<div class="boxes" style="margin-top:2mm">${q.answer.map((a,i)=>`<span class="b${GV(q,i)?' g':key?' k':''}">${GV(q,i)||key?a:''}</span>`).join('')}</div><div class="note">${q.slotLabels.join(' · ')}</div></div>`;
@@ -948,7 +980,7 @@ function ansYou(q,it){const r=q&&q._resp;if(!r)return '<div class="na">Not answe
     notes.forEach((n,i)=>{if(n.idx!==undefined&&n.state!=='empty')n.color=ok[i]?G:B;});return `<div class="cell wide">${paperScore(q,notes)}${sfY()}</div>`;}
   if(q.kind==='written')return TestKit.writtenYou(q);
   if(q.kind==='barorder'&&r.bo)return `<div class="cell wide"><div class="boxes">${r.bo.map((b,pos)=>pos<q.given?`<span class="b g">${q.letterOf[b]}</span>`:`<span class="b ${b!=null&&q.sig[b]===q.sig[pos]?'ok':'no'}">${b==null?'·':q.letterOf[b]}</span>`).join('')}</div><div class="note">Correct order: ${q.answer.join(' ')}</div></div>`;
-  if(q.kind==='rhythmheads'&&r.rh){const G=TestKit.GOOD,B=TestKit.BAD;const col={};q.dict.notes.forEach((n,i)=>{col[i]=GV(q,i)?'#000':(r.rh[i]&&eq(r.rh[i],n.dur))?G:B;});return `<div class="cell wide">${paperScore(q,rhNotes(q,col,r.rh))}</div>`;}
+  if(q.kind==='rhythmheads'&&r.rh){const G=TestKit.GOOD,B=TestKit.BAD;const col={};q.dict.notes.forEach((n,i)=>{col[i]=GV(q,i)?'#000':(r.rh[i]&&eq(r.rh[i],n.dur))?G:B;});let bl=null;if(q.noBars){const T=rhTrueBL(q),on=r.rhBL||[],cols={};T.forEach((t,k)=>{if(on[k])cols[k]={col:t?G:B};else if(t)cols[k]={col:B};});bl={on,cols};}return `<div class="cell wide">${paperScore(q,rhNotes(q,col,r.rh),bl)}</div>`;}
   if(q.kind==='drum'&&r.dg)return `<div class="cell wide">${TestKit.drumGridHtml({bars:q.bars,rows:q.rows,state:r.dg,pat:q.pat,mode:'result'})}</div>`;
   if(q.kind==='numerals'&&r.rn&&q.rows){return `<div class="cell wide">${q.rows.map(R=>`<div class="note">${esc(R.label)}</div><div class="boxes sf">${q.answer.slice(R.from,R.to).map((a,k)=>{const i=R.from+k;return GV(q,i)?`<span class="b g">${esc(a)}</span>`:`<span class="b ${r.rn[i]===a?'ok':'no'}">${esc(r.rn[i]||'–')}</span>`;}).join('')}</div>`).join('')}</div>`;}
   if(q.kind==='numerals'&&r.rn){const F=a=>q.solfaDict?esc(a||'–'):a?(q.fmt?q.fmt(a):fmtRN(a)):'–';return `<div class="cell wide"><div class="boxes${q.solfaDict?' sf':''}">${q.answer.map((a,i)=>GV(q,i)?`<span class="b g">${F(a)}</span>`:`<span class="b ${r.rn[i]===a?'ok':'no'}">${F(r.rn[i])}</span>`).join('')}</div>${q.slotLabels?`<div class="note">${q.slotLabels.join(' · ')}</div>`:''}</div>`;}
@@ -1078,12 +1110,14 @@ function examTonModQ(ctx,u,r,cfg){const q=u.gen(Object.assign({},ctx,{cfg:(gk)=>
 // an excerpt in context: a phrase-shaped melody (the dictation builder) over an implied-harmony accompaniment, in a chosen texture, metre and tonality
 const CHORDS_FOR={major:{I:[0,''],IV:[5,''],V:[7,''],vi:[9,'mi'],ii:[2,'mi']},minor:{I:[0,'mi'],IV:[5,'mi'],V:[7,''],vi:[8,''],ii:[2,'dim']},natminor:{I:[0,'mi'],IV:[5,'mi'],V:[7,'mi'],vi:[8,''],ii:[2,'dim']},dorian:{I:[0,'mi'],IV:[5,''],V:[10,''],vi:[10,''],ii:[2,'mi']},mixolydian:{I:[0,''],IV:[5,''],V:[10,''],vi:[9,'mi'],ii:[5,'']}};
 function examExcerpt(o){o=o||{};const scale=o.scale||A_pick(['major','natural minor','harmonic minor']);const kind=/minor/.test(scale)?'minor':scale==='dorian'?'dorian':scale==='mixolydian'?'mixolydian':'major';
-  const metre=o.metre||A_pick(['4/4','3/4','6/8']);const dict=ENGRAVE.buildDictation({diff:'med',scaleNames:[scale],bars:4,clef:'treble',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});
+  const metre=o.metre||A_pick(['4/4','3/4','6/8']);const NB=+o.bars===8?8:4;const dict=ENGRAVE.buildDictation({diff:'med',scaleNames:[scale],bars:NB,clef:'treble',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});
   const M=dict.metre,bpb=M.bpb;const C=CHORDS_FOR[scale==='natural minor'?'natminor':kind];const cad=o.cadence||'perfect';
   // chord plan: half-bar chords in 4/4 and 6/8 (question I I | IV V, answer I I | cadence); one chord a bar in 3/4
   const cb=(eq(bpb,3)&&!M.compound)?3:bpb/2;let plan;
   if(cb===3){plan={perfect:['I','IV','V','I'],plagal:['I','V','IV','I'],imperfect:['I','IV','I','V'],interrupted:['I','IV','V','vi']}[cad];}
   else{plan={perfect:['I','I','IV','V','I','I','V','I'],plagal:['I','I','IV','V','I','I','IV','I'],imperfect:['I','I','IV','I','I','IV','ii','V'],interrupted:['I','I','IV','V','I','I','V','vi']}[cad];}
+  // eight bars: a first phrase that ends on V (a half close), then the answering phrase with the cadence asked for
+  if(NB===8)plan=(cb===3?['I','IV','ii','V']:['I','I','IV','IV','I','vi','ii','V']).concat(cb===3?{perfect:['I','vi','V','I'],plagal:['I','V','IV','I'],imperfect:['I','vi','ii','V'],interrupted:['I','ii','V','vi']}[cad]:{perfect:['I','vi','IV','ii','I','IV','V','I'],plagal:['I','vi','IV','V','I','I','IV','I'],imperfect:['I','vi','IV','I','vi','IV','ii','V'],interrupted:['I','vi','IV','ii','I','IV','V','vi']}[cad]);
   const seq=plan.map(rn=>[rn].concat(C[rn]));const R=dict.tonicMidi>64?dict.tonicMidi-12:dict.tonicMidi;const prog=voiceProg(seq,R);
   // keep the melody inside the harmony: strong beats of each half bar snap to that chord's tones; the final note fits the cadence
   const pool=dict.pool.map(p=>p.midi);const snap=(n,semis)=>{const want=semis.map(x=>((R+x)%12+12)%12);let best=n.midi,bd=99;pool.forEach(m=>{if(!want.includes(((m%12)+12)%12))return;const dd=Math.abs(m-n.midi);if(dd<bd){bd=dd;best=m;}});if(best!==n.midi){n.midi=best;const pp=dict.pool.find(p=>p.midi===best);if(pp){n.d=pp.d;n.acc=pp.acc;n.letter=pp.letter;}}};
@@ -1091,8 +1125,8 @@ function examExcerpt(o){o=o||{};const scale=o.scale||A_pick(['major','natural mi
     const strong=eq(pos,0)||(cb===3&&eq(pos,2));if(strong&&i!==dict.notes.length-1)snap(n,tones);if(i===dict.notes.length-1){snap(n,cad==='imperfect'?[7,11,2,10]:cad==='interrupted'?[0,3,8,9]:[0,4,7,3]);}});
   const ev=soundingOf(dict.notes);const mel={mids:ev.map(n=>n.midi),durs:ev.map(n=>n.dur)};
   const texture=o.texture||A_pick(['homophonic','homophonic','monophonic','polyphonic']);
-  let counter=null;if(texture==='polyphonic'){const d2=ENGRAVE.buildDictation({diff:'easy',scaleNames:[scale],bars:4,clef:'bass',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});const e2=soundingOf(d2.notes);let shift=dict.tonicMidi-d2.tonicMidi;shift=((shift%12)+18)%12-6;const melMean=ev.filter(n=>n.midi!=null).reduce((a,n)=>a+n.midi,0)/Math.max(1,ev.filter(n=>n.midi!=null).length);let mids=e2.map(n=>n.midi==null?null:n.midi+shift);const cm=mids.filter(x=>x!=null).reduce((a,b)=>a+b,0)/Math.max(1,mids.filter(x=>x!=null).length);while(cm-(melMean-10)>6&&mids.some(x=>x!=null&&x-12>=36)){mids=mids.map(x=>x==null?null:x-12);break;}counter={mids,durs:e2.map(n=>n.dur)};
-    const d3=ENGRAVE.buildDictation({diff:'easy',scaleNames:[scale],bars:4,clef:'treble',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});const e3=soundingOf(d3.notes);let sh3=dict.tonicMidi-d3.tonicMidi;sh3=((sh3%12)+18)%12-6;let m3=e3.map(n=>n.midi==null?null:n.midi+sh3);const mean=a=>{const f=a.filter(x=>x!=null);return f.reduce((s,b)=>s+b,0)/Math.max(1,f.length);};const tgt=(melMean+mean(mids))/2;let bo=0;[-36,-24,-12,0,12,24].forEach(o=>{if(Math.abs(mean(m3)+o-tgt)<Math.abs(mean(m3)+bo-tgt))bo=o;});m3=m3.map(x=>x==null?null:x+bo);counter.mid={mids:m3,durs:e3.map(n=>n.dur)};}
+  let counter=null;if(texture==='polyphonic'){const d2=ENGRAVE.buildDictation({diff:'easy',scaleNames:[scale],bars:NB,clef:'bass',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});const e2=soundingOf(d2.notes);let shift=dict.tonicMidi-d2.tonicMidi;shift=((shift%12)+18)%12-6;const melMean=ev.filter(n=>n.midi!=null).reduce((a,n)=>a+n.midi,0)/Math.max(1,ev.filter(n=>n.midi!=null).length);let mids=e2.map(n=>n.midi==null?null:n.midi+shift);const cm=mids.filter(x=>x!=null).reduce((a,b)=>a+b,0)/Math.max(1,mids.filter(x=>x!=null).length);while(cm-(melMean-10)>6&&mids.some(x=>x!=null&&x-12>=36)){mids=mids.map(x=>x==null?null:x-12);break;}counter={mids,durs:e2.map(n=>n.dur)};
+    const d3=ENGRAVE.buildDictation({diff:'easy',scaleNames:[scale],bars:NB,clef:'treble',metre,maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});const e3=soundingOf(d3.notes);let sh3=dict.tonicMidi-d3.tonicMidi;sh3=((sh3%12)+18)%12-6;let m3=e3.map(n=>n.midi==null?null:n.midi+sh3);const mean=a=>{const f=a.filter(x=>x!=null);return f.reduce((s,b)=>s+b,0)/Math.max(1,f.length);};const tgt=(melMean+mean(mids))/2;let bo=0;[-36,-24,-12,0,12,24].forEach(o=>{if(Math.abs(mean(m3)+o-tgt)<Math.abs(mean(m3)+bo-tgt))bo=o;});m3=m3.map(x=>x==null?null:x+bo);counter.mid={mids:m3,durs:e3.map(n=>n.dur)};}
   const spb=o.spb||(M.compound?0.42:0.5);const fx=o.fx||null,inst=o.inst&&INSTR[o.inst]?o.inst:null;const melTot=mel.durs.reduce((a,b)=>a+b,0);
   let melI=null;if(inst){const Iv=INSTR[inst];const f=mel.mids.filter(x=>x!=null);const mn=f.reduce((a,b)=>a+b,0)/Math.max(1,f.length);let sh=0;while(mn+sh>Iv.hi-5&&sh>-36)sh-=12;while(mn+sh<Iv.lo+5&&sh<36)sh+=12;melI=mel.mids.map(x=>x==null?null:x+sh);}
   const play=()=>{const parts=melI?[]:[{mids:mel.mids,durs:mel.durs,offset:0,amp:1.05}];
@@ -1171,7 +1205,7 @@ const TASKU={name:'Class task',key:'task',special:true,task:true,ask:'Listen.',g
   gen(ctx){const R=window.TaskKit&&TaskKit.run;const it=R&&R.items[ctx.pos];if(!it)return null;const ri=UNITS.findIndex(u=>u.key===it.u);const u=UNITS[ri];if(!u)return null;
     const cfg=(gk)=>(it.cfg&&gk in it.cfg)?it.cfg[gk]:cfgGet(ri,gk);
     const L=runQs[ui]||(runQs[ui]=[]);for(let p=0;p<ctx.pos;p++)if(!L[p])L[p]=TASKU.gen(Object.assign({},ctx,{pos:p}));const prev=L.slice(0,ctx.pos).filter(Boolean).map(x=>({sig:qSig(x),grp:x.__grp}));let q=null,first=null;
-    for(let t=0;t<12;t++){let c=null;try{c=withSeed(it.seed+t*7919,()=>u.gen(Object.assign({},ctx,{diff:it.d||'med',mode:u.canNotate?(it.m||'choice'):undefined,year:R.task.y,cfg})));}catch(e){c=null;}if(!c)continue;c.__grp=it.si;if(!first)first=c;if(!isRepeat(c,prev)){q=c;break;}}
+    for(let t=0;t<12;t++){let c=null;try{c=withSeed(it.seed+t*7919,()=>postCfg(withOvr(ovrFromCfg(cfg),()=>u.gen(Object.assign({},ctx,{diff:it.d||'med',mode:u.canNotate?(it.m||'choice'):undefined,year:R.task.y,cfg}))),cfg));}catch(e){c=null;}if(!c)continue;c.__grp=it.si;if(!first)first=c;if(!isRepeat(c,prev)){q=c;break;}}
     if(!q)q=first;
     if(!q)return null;q._from=ri;q._task=it;return q;}};
 // ---- live skills: Sing it (microphone) and Tap it (tap the rhythm in time) ----
@@ -1223,7 +1257,12 @@ function renderLive(q){renderTabs();renderDots();const c=document.getElementById
 function drawTapLine(q,g){const el=document.getElementById('taptl');if(!el)return;const T=q.total*q.spb;const X=t=>(6+Math.max(0,Math.min(1,t/T))*88).toFixed(1);
   el.innerHTML=`<svg viewBox="0 0 100 18" preserveAspectRatio="none"><line x1="6" y1="9" x2="94" y2="9" stroke="#d0d5dd" stroke-width=".6"/>${g.exp.map((e,i)=>`<line x1="${X(e)}" y1="3" x2="${X(e)}" y2="15" stroke="${g.hits[i].ok?'#58cc02':'#ff4b4b'}" stroke-width="1.2"/>`).join('')}${g.taps.map(t=>`<circle cx="${X(t)}" cy="9" r="1.3" fill="#1f2328"/>`).join('')}</svg><div class="tapkey"><span style="color:#58cc02">▮</span> note in time · <span style="color:#ff4b4b">▮</span> missed · ● your taps</div>`;}
 addEventListener('keydown',e=>{if(!tapActive)return;if(e.code==='Space'||e.key==='Enter'||e.key==='j'||e.key==='f'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)tapActive.tap();}},true);
-UNITS=[TODAY,WEAK].concat(UNITS,[SING,TAP,EXAM,TEST,TASKU]);
+// ---- My practice set: the student picks the sections; each question uses that section's own ⚙ settings ----
+const MIX={name:'My practice set',short:'My set',key:'mix',special:true,ask:'Listen.',guide:`<p class="prompt">My practice set</p><ul><li>Build your own set: tap <b>⚙ Customise</b> and choose the sections you want to practise together.</li><li>Each question uses that section's own ⚙ settings (keys, length, tempo, clef…), so set those up in each section first.</li><li>The questions take turns between the sections you chose.</li></ul>`,
+  gen(ctx){const mi=UNITS.indexOf(MIX);const on=cfgGet(mi,'secs')||[];let list=REAL().filter(u=>on.includes(u.key));if(!list.length)list=REAL();if(!MIX._ord||MIX._ord.join()!==list.map(u=>u.key).join())MIX._ord=list.map(u=>u.key);
+    const r=list[ctx.pos%list.length];const ri=UNITS.indexOf(r);const cf=gk=>cfgGet(ri,gk);const q=postCfg(withOvr(ovrFromCfg(cf),()=>r.gen(Object.assign({},ctx,{mode:resolveMode(ri),cfg:cf}))),cf);q._from=ri;return q;}};
+UNITS=[TODAY,WEAK,MIX].concat(UNITS,[SING,TAP,EXAM,TEST,TASKU]);
+MIX.cfg=[G('secs','Sections in my set',REAL().map(u=>Y(u.key,u.name,7)))];
 const TASKI=()=>UNITS.indexOf(TASKU);
 let taskPrev=null;
 function taskOpen(){const R=TaskKit.run;order=[...Array(R.total).keys()];runQs[ui]=[];
@@ -1313,7 +1352,7 @@ function finishSection(u){const us=uStat[u],pct=Math.round(us.cor/N*100);
   logComplete(UNITS[u].name,pct);toast('🎉 '+UNITS[u].name+' complete — '+pct+'%');burst('win',innerWidth/2,140,true);
   if(PROF){grant('firstset');if(pct===100)grant('perfect');if(UNITS[u].key==='today'){PROF.todayDone=(PROF.todayDone||0)+1;saveProfiles();}checkAch();}}
 const qid=()=>ui+'.'+order[qi];
-function curQ(){const pos=order[qi];if(!runQs[ui])runQs[ui]=[];if(!runQs[ui][pos])runQs[ui][pos]=UNITS[ui].gen({level,diff:dictDiff,mode:resolveMode(ui),year:YEAR,pos,cfg:(gk)=>cfgGet(ui,gk)});return runQs[ui][pos];}
+function curQ(){const pos=order[qi];if(!runQs[ui])runQs[ui]=[];if(!runQs[ui][pos]){const cf=(gk)=>cfgGet(ui,gk),U=UNITS[ui];runQs[ui][pos]=U.special?U.gen({level,diff:dictDiff,mode:resolveMode(ui),year:YEAR,pos,cfg:cf}):postCfg(withOvr(ovrFromCfg(cf),()=>U.gen({level,diff:dictDiff,mode:resolveMode(ui),year:YEAR,pos,cfg:cf})),cf);}return runQs[ui][pos];}
 
 // ---- fx: confetti + drifting notes ----
 const cvs=document.getElementById('fx'),fxctx=cvs.getContext('2d');
@@ -1484,7 +1523,7 @@ function h2hCheck(){if(!h2h)return;const w=h2h.score.findIndex(s=>s>=5);if(w<0)r
   g.classList.add('open');document.getElementById('gback').classList.add('open');burst('win',innerWidth/2,innerHeight/2,true);
   document.getElementById('h2hre').onclick=()=>{h2h.score=[0,0];h2h.turn=0;closeGuide();runQs[ui]=[];qi=0;load();};
   document.getElementById('h2hend').onclick=()=>{h2h=null;closeGuide();order=[...Array(N).keys()];runQs[ui]=[];qi=0;load();};}
-function openUnit(){dropPark();if(sprintOn)endSprint(true);runQs[ui]=[];if(UNITS[ui].task){if(window.TaskKit&&TaskKit.run){taskOpen();return;}ui=2;}if(UNITS[ui].exam){buildExamPlan();order=[...Array(examPlan.length).keys()];qi=0;examOn=false;clearInterval(examTick);examStartCard();return;}order=[...Array(N).keys()];qi=0;load();}
+function openUnit(){dropPark();if(sprintOn)endSprint(true);runQs[ui]=[];if(UNITS[ui].task){if(window.TaskKit&&TaskKit.run){taskOpen();return;}ui=UNITS.findIndex(u=>!u.special);}if(UNITS[ui].exam){buildExamPlan();order=[...Array(examPlan.length).keys()];qi=0;examOn=false;clearInterval(examTick);examStartCard();return;}order=[...Array(N).keys()];qi=0;load();}
 function feedback(msg,cls,why){const f=document.getElementById('fb');if(!f)return;f.innerHTML=msg+(why?`<div class="why">${why}</div>`:'');f.className='feedback '+(cls||'');}
 function loadRef(){document.documentElement.style.setProperty('--accent',RCOL);renderTabs();
   const c=document.getElementById('card');c.innerHTML=REFS[ui].render();if(REFS[ui].wire)REFS[ui].wire(c);c.scrollTop=0;}
@@ -1494,11 +1533,11 @@ function armBtnTimer(secs,sel){playing=true;const b=document.getElementById('pla
   if(b){b.disabled=false;b.classList.add('on');}playMark(sel||'#play');
   clearTimeout(playTimer);playTimer=setTimeout(()=>{playing=false;const bb=document.getElementById('play');if(bb){bb.disabled=false;bb.classList.remove('on');}playMark(null);},Math.max(400,secs*1000));}
 // one part of a two-part dictation on its own
-function playSolo(w,pos){const q=pos!=null?tq(pos):curQ();if(!q||!q.playPart2)return;audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();q._plays=(q._plays||0)+0.5;const s=bpmSPB(q);let r;try{r=s?AUDIO.withSpb(s,()=>q.playPart2(w)):q.playPart2(w);}catch(e){r=2;}armBtnTimer(r||2,pos!=null?'[data-solo="'+w+'"][data-p="'+pos+'"]':'[data-tp="'+w+'"]');}
+function playSolo(w,pos){const q=pos!=null?tq(pos):curQ();if(!q||!q.playPart2)return;if(playCapHit(q,0.5))return;audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();q._plays=(q._plays||0)+0.5;const s=bpmSPB(q);let r;try{r=s?AUDIO.withSpb(s,()=>q.playPart2(w)):q.playPart2(w);}catch(e){r=2;}armBtnTimer(r||2,pos!=null?'[data-solo="'+w+'"][data-p="'+pos+'"]':'[data-tp="'+w+'"]');}
 function doPlay(q){let r;try{r=qPlay(q);}catch(e){r=1.2;}
   if(r&&typeof r.then==='function'){r.then(s=>armBtnTimer(s||1.6)).catch(()=>armBtnTimer(1.6));armBtnTimer(1.6);}
   else armBtnTimer(r||1.2);}
-function playCurrent(){const q=curQ();q._plays=(q._plays||0)+1;audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
+function playCurrent(){const q=curQ();if(playCapHit(q,1))return;q._plays=(q._plays||0)+1;setTimeout(paintPlaysLeft,0);audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
   const b=document.getElementById('play');
   if(q.needsSamples){if(b){b.disabled=true;b.textContent='Loading…';}
     AUDIO.probeSamples().then(ok=>{if(b){b.textContent='▶ Play';}
@@ -1512,7 +1551,7 @@ function soundingOf(notes){const out=[];for(let i=0;i<notes.length;i++){const n=
 function playMark(sel){document.querySelectorAll('.pp.playing,.playbtn.playing,.replaybtn.playing,[data-solo].playing,.mineBtn.playing').forEach(b=>b.classList.remove('playing'));if(sel){const b=typeof sel==='string'?document.querySelector(sel):sel;if(b)b.classList.add('playing');}}
 function armPartsTimer(secs,which){playing=true;playMark(which?'.pp[data-pt="'+which+'"]':null);
   clearTimeout(playTimer);playTimer=setTimeout(()=>{playing=false;playMark(null);},Math.max(600,secs*1000));}
-function playPart(which){const q=curQ();if(!q||!q.dict)return;q._plays=(q._plays||0)+(which==='whole'?1:0.5);const src=q.kind==='discrep'?q.played:q.dict.notes;
+function playPart(which){const q=curQ();if(!q||!q.dict)return;if(playCapHit(q,which==='whole'?1:0.5))return;setTimeout(paintPlaysLeft,0);q._plays=(q._plays||0)+(which==='whole'?1:0.5);const src=q.kind==='discrep'?q.played:q.dict.notes;
   const M=q.dict.metre, bpb=M.bpb||4, half=q.dict.totalBeats/2;
   let sel=soundingOf(src); if(which==='h1')sel=sel.filter(n=>n.onset<half-1e-6);else if(which==='h2')sel=sel.filter(n=>n.onset>=half-1e-6);
   audioUnlocked=true;if(playing&&AUDIO)AUDIO.stop();
@@ -1578,14 +1617,14 @@ function embedFrame(){const w=document.getElementById('embedwrap');return w?w.qu
 (function(){const c=document.getElementById('card');if(!c||!window.MutationObserver)return;new MutationObserver(()=>{if(!c.firstChild)return;c.style.display='';const w=document.getElementById('embedwrap');if(w)w.style.display='none';}).observe(c,{childList:true});})();
 let EMBKEY=0,LASTQ=null;
 let dgState={};
-function snapWork(){return JSON.parse(JSON.stringify({pd,me,meCursor,meTieNext,rn,rnCur,slots,disMarks,dg:dgState,bo,rh}));}
+function snapWork(){return JSON.parse(JSON.stringify({pd,me,meCursor,meTieNext,rn,rnCur,slots,disMarks,dg:dgState,bo,rh,rhBL}));}
 function restoreWork(q){const w=q._work||q._resp;if(w){
     if(q.kind==='pitchdict'&&w.pd)pd=w.pd.map(x=>x?Object.assign({},x):undefined);
     else if((q.kind==='melodydict'||q.kind==='rhythmdict')&&w.me&&w.me.length){me=w.me.map(x=>Object.assign({},x));meCursor=w.meCursor;meTieNext=w.meTieNext;meHist=[];}
     else if(q.kind==='numerals'&&w.rn){rn=w.rn.slice();rnCur=w.rnCur;}
     else if(q.kind==='drum'&&w.dg){dgState=Object.assign({},w.dg);}
     else if(q.kind==='barorder'&&w.bo&&w.bo.length===q.nb){bo=w.bo.slice();}
-    else if(q.kind==='rhythmheads'&&w.rh&&w.rh.length===q.dict.notes.length){rh=w.rh.slice();}
+    else if(q.kind==='rhythmheads'&&w.rh&&w.rh.length===q.dict.notes.length){rh=w.rh.slice();if(Array.isArray(w.rhBL)&&w.rhBL.length===rh.length)rhBL=w.rhBL.slice();}
     else if(q.kind==='notate'&&w.slots)slots=w.slots.map(x=>x?Object.assign({},x):null);}
   if(q._picked!==undefined&&document.getElementById('opts')){answered=true;const T=HIDEFB();document.querySelectorAll('#opts button').forEach(b=>{b.disabled=true;if(b.dataset.o===q._picked)b.classList.add('picked');if(!T&&b.dataset.o===''+q.answer)b.classList.add('ok');if(!T&&b.dataset.o===q._picked&&q._picked!==''+q.answer)b.classList.add('no');});}}
 // ---- loop a section of the track: the question's audio is rendered once, then any stretch of it repeats until stopped ----
@@ -1594,7 +1633,7 @@ function loopOK(){const u=UNITS[ui];if(!u||!window.AUDIO||!AUDIO.loopPlay)return
   if(EMBED){const v=EMBED_P('lp','');if(v!==''&&v!==null&&v!==undefined)return +v===1;return dev();}
   const R=TK&&TK.run;if(R&&(u===UNITS[TASKI()]||((u.test||u.exam)&&R.task.tt)))return !!(TK.loopGo&&TK.loopGo());
   if(u.test||u.exam)return dev();return true;}
-function loopBtn(p){return loopOK()?`<button class="replaybtn lpbtn" data-loop="${p==null?'':p}" title="Loop a section of the track">🔁 Loop</button>`:'';}
+function loopBtn(p){const lq=p!=null&&p!==''?tq(+p):curQ();if(lq&&lq.__maxPlays)return '';return loopOK()?`<button class="replaybtn lpbtn" data-loop="${p==null?'':p}" title="Loop a section of the track">🔁 Loop</button>`:'';}
 let LP=null;
 const lpFmt=s=>{s=Math.max(0,s);const m=Math.floor(s/60),x=s-m*60;return m+':'+(x<10?'0':'')+x.toFixed(1);};
 async function loopData(q,p){const key=String(bpmSPB(q)||'')+'|'+dictSPB;if(q._lp&&q._lp.key===key)return q._lp;
@@ -1654,10 +1693,10 @@ function load(){if(LP)loopClose();document.body.classList.toggle('testing',TESTI
     ? `<div class="playpanel"><div class="playparts">
          <button class="pp" data-pt="whole">▶ ${UNITS[ui].exam&&q._exam?'Listen to Track '+q._exam.track:'Whole'}</button>
          <button class="pp sub" data-pt="h1">1st half</button>
-         <button class="pp sub" data-pt="h2">2nd half</button></div>${loopBtn()}
+         <button class="pp sub" data-pt="h2">2nd half</button></div>${loopBtn()}${q.__maxPlays?'<span class="playsleft" id="playsleft">'+playsLeftLabel(q)+'</span>':''}
        <span class="plabel">${(q.dict&&q.dict.bars)||4} bars in ${(q.dict&&q.dict.metre&&q.dict.metre.id)||'4/4'}${(()=>{const s=q.rhythmOnly?(q.scaleName||'').split('·').slice(1).join('·').trim():q.scaleName;return s?' · '+esc(s):'';})()}${q.cue?' · tonic chord and starting note, then a count-in':' · one-bar count-in'}</span>
        </div>`
-    : `<div class="playpanel"><button class="playbtn" id="play">▶ ${UNITS[ui].exam&&q._exam?'Listen to Track '+q._exam.track+(q._exam.excerpt?' (excerpt '+q._exam.excerpt+')':''):(q.twoPart&&q.sepOK?'Both parts':'Play')}</button><button class="replaybtn" id="replay">Replay</button>${loopBtn()}${q.twoPart&&q.sepOK&&q.playPart2?'<div class="playparts twosolo"><button class="pp sub" data-tp="u">Upper part only</button><button class="pp sub" data-tp="l">Lower part only</button></div>':''}<span class="plabel">${UNITS[ui].exam&&q._exam?'':(q.playLabel||'')}</span></div>`;
+    : `<div class="playpanel"><button class="playbtn" id="play">▶ ${UNITS[ui].exam&&q._exam?'Listen to Track '+q._exam.track+(q._exam.excerpt?' (excerpt '+q._exam.excerpt+')':''):(q.twoPart&&q.sepOK?'Both parts':'Play')}</button><button class="replaybtn" id="replay">Replay</button>${loopBtn()}${q.__maxPlays?'<span class="playsleft" id="playsleft">'+playsLeftLabel(q)+'</span>':''}${q.twoPart&&q.sepOK&&q.playPart2?'<div class="playparts twosolo"><button class="pp sub" data-tp="u">Upper part only</button><button class="pp sub" data-tp="l">Lower part only</button></div>':''}<span class="plabel">${UNITS[ui].exam&&q._exam?'':(q.playLabel||'')}</span></div>`;
   const hasDiff=(q.kind==='pitchdict'||q.kind==='melodydict'||q.kind==='rhythmdict'||q.kind==='discrep');
   const difftog = hasDiff ? `<div class="difftog" id="difftog"><span class="tlab">Difficulty</span><div class="tgrp">${[['easy','Easy'],['med','Medium'],['hard','Hard']].map(d=>`<button data-diff="${d[0]}" class="${dictDiff===d[0]?'on':''}">${d[1]}</button>`).join('')}</div></div>` : '';
   const tempotog = (q.multiPlay&&!q.__bpm) ? `<div class="tempotog" id="tempotog"><span class="tlab">Tempo</span><div class="tgrp">${tempos.map(t=>`<button data-spb="${t[0]}" class="${Math.abs(dictSPB-parseFloat(t[0]))<1e-6?'on':''}">${t[1]}</button>`).join('')}</div></div>` : '';
@@ -1691,11 +1730,11 @@ function load(){if(LP)loopClose();document.body.classList.toggle('testing',TESTI
     body=`<div class="scalebadge">Key: ${esc(q.scaleName)} · ${esc(q.dict.metre.id||'')}</div><div class="bobox" id="bobox"></div>
       <p class="hint">Tap the printed bars in the order you hear them: each one goes into the next space in Your order. Tap a bar in Your order to take it out, or drag bars to move them. ${q.given?'Bar 1 is given. ':''}🎧 Play my order plays the bars as you have them.</p>
       <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="hearme">🎧 Play my order</button><button class="btn-ghost" id="clear">Start again</button><button class="btn-ans" id="answer">Show answer</button></div>`;
-  } else if(q.kind==='rhythmheads'){rhReset(q);meSelDur=1;
+  } else if(q.kind==='rhythmheads'){rhReset(q);meSelDur=1;rhTool='val';
     const vals=[[4,'Semibreve'],[3,'Dotted minim'],[2,'Minim'],[1.5,'Dotted crotchet'],[1,'Crotchet'],[0.75,'Dotted quaver'],[0.5,'Quaver'],[0.25,'Semiquaver']];
     body=`<div class="scalebadge">${esc(q.dict.metre.id||'')} · Key: ${esc(q.scaleName)}</div><div class="scoreWrap" id="scoreWrap"></div><div class="rhbars" id="rhbars"></div>
-      <div class="toolbar"><span class="lab">Value</span><div class="mpal" id="mpal">${vals.map(v=>`<button data-d="${v[0]}" class="${eq(v[0],1)?'on':''}">${v[1]}</button>`).join('')}</div></div>
-      <p class="hint">Choose a value, then tap a notehead to give it that rhythm (tap it again to clear). When a bar adds up, it is written out in full. The first note is given.</p>
+      <div class="toolbar"><span class="lab">Value</span><div class="mpal" id="mpal">${vals.map(v=>`<button data-d="${v[0]}" class="${eq(v[0],1)?'on':''}">${v[1]}</button>`).join('')}${q.noBars?'<button id="blbtn" title="Add or remove a barline">| Barline</button>':''}</div></div>
+      <p class="hint">${q.noBars?'Choose a value, then tap a notehead to give it that rhythm (tap it again to clear). Then choose <b>| Barline</b> and tap between two noteheads to add a barline (tap it again to remove it). The first note is given.':'Choose a value, then tap a notehead to give it that rhythm (tap it again to clear). When a bar adds up, it is written out in full. The first note is given.'}</p>
       <div class="names" id="names"></div>
       <div class="controls"><button class="btn-check" id="check">Check</button><button class="btn-ghost" id="hearme">🎧 Play my answer</button><button class="btn-ghost" id="undo">Undo</button><button class="btn-ghost" id="clear">Clear</button><button class="btn-ans" id="answer">Show answer</button></div>`;
   } else if(q.kind==='numerals'){rn=rnFresh(q);rnCur=rnFirst(q);
@@ -2083,8 +2122,10 @@ function wire(q){setTimeout(lockLabel,0);
   } else if(q.kind==='rhythmheads'){
     document.querySelectorAll('#mpal button[data-d]').forEach(b=>b.onclick=()=>{meSelDur=parseFloat(b.dataset.d);document.querySelectorAll('#mpal button[data-d]').forEach(x=>x.classList.toggle('on',x===b));});
     document.getElementById('check').onclick=checkRH;document.getElementById('answer').onclick=answerRH;
-    document.getElementById('undo').onclick=()=>{if(rhHist.length){rh=rhHist.pop();feedback('','');renderRH(false);}};
-    document.getElementById('clear').onclick=()=>{rhHist.push(rh.slice());rhReset(q);rhHist=rhHist.length?rhHist:[];feedback('','');renderRH(false);};
+    document.getElementById('undo').onclick=()=>{if(rhHist.length){const h=rhHist.pop();rh=h.r;rhBL=h.b;feedback('','');renderRH(false);}};
+    {const blb=document.getElementById('blbtn');if(blb)blb.onclick=()=>{rhTool=rhTool==='bl'?'val':'bl';blb.classList.toggle('on',rhTool==='bl');document.querySelectorAll('#mpal button[data-d]').forEach(x=>x.classList.toggle('on',rhTool!=='bl'&&eq(parseFloat(x.dataset.d),meSelDur)));};
+     document.querySelectorAll('#mpal button[data-d]').forEach(b=>b.addEventListener('click',()=>{rhTool='val';if(blb)blb.classList.remove('on');}));}
+    document.getElementById('clear').onclick=()=>{rhPush();rhReset(q);rhHist=rhHist.length?rhHist:[];feedback('','');renderRH(false);};
   } else if(q.kind==='drum'){document.getElementById('check').onclick=checkDrum;document.getElementById('answer').onclick=answerDrum;document.getElementById('clear').onclick=()=>{dgState={};feedback('','');renderDrum(false);};
   } else if(q.kind==='discrep'){wireAcc();
     document.querySelectorAll('#mpal button[data-d]').forEach(b=>b.onclick=()=>{meSelDur=parseFloat(b.dataset.d);document.querySelectorAll('#mpal button[data-d]').forEach(x=>x.classList.toggle('on',x===b));});
@@ -2212,7 +2253,7 @@ function openSettings(){renderSettings(UNITS[ui].special?UNITS.indexOf(fromUnit(
 function closeSettings(){document.getElementById('setmodal').classList.remove('open');document.getElementById('setback').classList.remove('open');runQs[ui]=[];load();}
 document.getElementById('setclose').onclick=closeSettings;document.getElementById('setback').onclick=closeSettings;
 
-cfgInit();loadProfile();paintYear();paintScore();ui=2;openUnit();
+cfgInit();loadProfile();paintYear();paintScore();ui=UNITS.findIndex(u=>!u.special);openUnit();
 try{ if(!localStorage.getItem('blitzAuralYear')){ if(currentName)askYear(); else window.PENDING_YEAR=true; } }catch(e){}
 try{ if(window.AUDIO&&AUDIO.preloadPiano) AUDIO.preloadPiano(); }catch(e){}
 if(EMBED==='partA'){document.body.classList.add('embed');closeGuide();if(EMBED_YEAR&&EMBED_YEAR!==YEAR){const ok=document.querySelector('#yearbar button[data-y="'+EMBED_YEAR+'"]');if(ok)setYear(EMBED_YEAR);}ui=UNITS.findIndex(u=>u.exam);openUnit();startExam();}
@@ -2242,7 +2283,7 @@ TaskKit.init({app:'aural',label:'Aural Blitz',years:[7,8,9,10,11,12],
 document.getElementById('taskbtn').onclick=()=>TaskKit.openStudentEntry();
 
 // ---- app-icon home screen (blitzui.js) ----
-function unitIcon(u){const UICON={sing:'mic',tap:'hand',today:'sun',weak:'target',met:'metro',rd:'rhythm',ivl:'interval',pd:'melody',two:'layers',bord:'form',dis:'magnify',scl:'stairs',ton:'tonality',chd:'chord',prog:'roman',cad:'cadence',tex:'layers',form:'form',dyn:'dynamics',tmp:'tempo',tim:'wave',dev:'loop',exam:'cap',test:'clipboard'};return UICON[u.key]||(u.exam?'cap':'note');}
+function unitIcon(u){const UICON={sing:'mic',tap:'hand',today:'sun',weak:'target',mix:'layers',met:'metro',rd:'rhythm',ivl:'interval',pd:'melody',two:'layers',bord:'form',dis:'magnify',scl:'stairs',ton:'tonality',chd:'chord',prog:'roman',cad:'cadence',tex:'layers',form:'form',dyn:'dynamics',tmp:'tempo',tim:'wave',dev:'loop',exam:'cap',test:'clipboard'};return UICON[u.key]||(u.exam?'cap':'note');}
 function goUnit(i){if(sprintOn)endSprint(true);h2h=null;if(examOn&&!UNITS[i].exam&&!confirm('Leave the exam? Your marks so far will be lost.'))return;examOn=false;clearInterval(examTick);
   if(mode!=='practise'){mode='practise';document.getElementById('mPr').classList.add('on');document.getElementById('mRe').classList.remove('on');document.getElementById('mRec').classList.remove('on');document.getElementById('dots').style.display='flex';document.getElementById('tabs').style.display='flex';}
   ui=i;BlitzUI.showHome(false);openUnit();}

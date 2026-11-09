@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["audio.js"]="20261108e";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["audio.js"]="20261109b";
 // audio.js — Web Audio playback engine for ATAR Music Aural Blitz.
 // All pitched/rhythmic exercises are synthesised (no files, works offline).
 // Instrument timbre uses bundled CC0 samples loaded lazily from ./samples/.
@@ -110,6 +110,7 @@
   // swing: push an off-beat eighth (the "and") to 2/3 of the beat
   function swungBeat(b,swing){ if(!swing) return b; const whole=Math.floor(b+1e-6), frac=b-whole; return Math.abs(frac-0.5)<1e-6 ? whole+2/3 : b; }
   window.AUDIO={
+    isRec:()=>!!REC,
     ready(){ return !!(window.AudioContext||window.webkitAudioContext); },
     // stop everything: fade the current bus out and abandon it, so notes already scheduled on it never resurface
     stop(){ if(REC) return; stopLoops(); timers.forEach(t=>clearTimeout(t)); timers.length=0;
