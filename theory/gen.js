@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["gen.js"]="20261108e";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["gen.js"]="20261123b";
 // gen.js — question generators for ATAR Music Theory Blitz (SCSA ATAR Music Year 11 + Year 12 content).
 // Every generator returns a question object:
 //   choice: {t:'choice', prompt, sub, show:{spec}|{svg}, opts:[{v, svg?}], answer:v, why}
@@ -489,7 +489,7 @@ function notateIntervalQ(){const clef=clefPick();const iv=pick(ivPool());const a
   const given=above?lower:upper,target=above?upper:lower;
   const items=[Object.assign(slot(0,null,'w'),{p:[given],given:true,slotNo:''}),slot(1,[target],'w')];
   return {t:'notate',prompt:'Write '+(/^[aeiou]/.test(T.ivWord(iv))?'an ':'a ')+T.ivWord(iv)+' '+(above?'above':'below')+' the given note.',sub:clefWord(clef)+'. '+(k?'Key signature of '+keyName(k)+' applies: add an accidental only if the key signature does not already give the note you need.':'No key signature: write any accidental the note needs.')+' Place the '+(above?'upper':'lower')+' note; the spelling (letter + accidental) must be correct.',clef,sig:k?k.sig:0,items,
-    why:'Count letter names for the number ('+iv.n+(big?', a compound interval: '+(iv.n-7)+'th plus an octave':'')+'), then semitones for the quality: '+an(T.ivWord(iv))+' is '+ivSemis(iv)+' semitones. '+name(given)+' → '+name(target)+'.'};}
+    why:'Count letter names for the number ('+iv.n+(big?', a compound interval: '+(iv.n-7)+'th plus an octave':'')+'), then semitones for the quality: '+an(T.ivWord(iv))+' is '+ivSemis(iv)+' semitone'+(ivSemis(iv)===1?'':'s')+'. '+name(given)+' → '+name(target)+'.'};}
 const ivSemis=iv=>{const c=P('C',0,4);return midi(T.transposeUp(c,iv))-midi(c);};
 function nameIntervalQ(){const clef=clefPick();const iv=pick(ivPool());const lower=ivLower(clef,iv.n>8?-6:-3);const upper=T.transposeUp(lower,iv);if(Math.abs(upper.a)>2||dia(upper)>RANGE[clef][1]+2)return nameIntervalQ();
   const harmonic=Math.random()<0.5&&iv.n>1;const items=harmonic?[n([lower,upper],'w')]:[n([lower],'w'),n([upper],'w')];
@@ -796,6 +796,139 @@ function notateChordSigQ(){ // a chord written with a key signature present (dia
   return {t:'notate',prompt:'Write the chord '+sym+' using the key signature of '+keyName(k)+'.',sub:clefWord(clef)+'. Root position. Add an accidental only where the key signature does not already give the note.',clef,sig:k.sig,items:[Object.assign(slot(0,notes,'w'),{chord:true,max:notes.length})],anyOctaveChord:true,
     why:sym+' = '+T.chord(c.root,c.type,0).map(name).join(' ')+' ('+c.rn+' in '+keyName(k)+').'};}
 // ======================================================================
+// ======================================================================
+// PART WRITING (SATB) · FIGURED BASS · MELODY WRITING  (Nov 2026)
+// Rules follow the department's harmony texts: Harmony in Context, Theory Essentials (contrary fifths),
+// the counterpoint "Common Errors Checklist", and AP Music Theory part-writing guidance.
+// ======================================================================
+const PWR={S:[60,79],A:[55,74],T:[48,67],B:[40,62]}; // C4–G5, G3–D5, C3–G4, E2–D4
+const VN=['Bass','Tenor','Alto','Soprano'];
+const pcOf=p=>((T.midi(p)%12)+12)%12;
+const sameName=(a,b)=>a.l===b.l&&a.a===b.a;
+// progressions: [degree, inversion, seventh?] ; the last two chords make the cadence
+const PW_PROGS={
+ major:[[[0,0],[3,0],[4,0],[0,0]],[[0,0],[5,0],[3,0],[4,0],[0,0]],[[0,0],[1,0],[4,0],[0,0]],[[0,0],[3,0],[0,1],[4,0],[0,0]],[[0,0],[1,1],[4,0],[0,0]],[[0,0],[5,0],[1,1],[4,0],[0,0]],[[0,0],[3,0],[4,0,1],[0,0]],[[0,0],[0,1],[3,0],[4,0],[0,0]],[[0,0],[3,0],[0,2],[4,0],[0,0]],[[0,0],[4,0],[5,0],[3,0],[4,0],[0,0]]],
+ minor:[[[0,0],[3,0],[4,0],[0,0]],[[0,0],[5,0],[3,0],[4,0],[0,0]],[[0,0],[1,1],[4,0],[0,0]],[[0,0],[3,0],[4,0,1],[0,0]],[[0,0],[3,0],[0,2],[4,0],[0,0]],[[0,0],[0,1],[3,0],[4,0],[0,0]],[[0,0],[4,0],[5,0],[3,0],[4,0],[0,0]]]
+};
+const FIG=[['',''],['6',''],['6','4']],FIG7=[['7',''],['6','5'],['4','3'],['4','2']];
+function pwChord(k,deg,inv,sev){const c=T.diatonicChord(k.tonic,k.mode,deg,!!sev);const tones=T.chord(c.root,c.type,0);// root, 3rd, 5th (7th)
+  const ltName=T.scale(k.tonic,k.mode==='major'?'major':'harmminor')[6];
+  const rnBase=c.rn.replace(/(maj7|ø7|°7|7)$/,'');const fig=sev?FIG7[inv]:FIG[inv];
+  const figTxt=sev?(inv===0?'7':inv===1?'65':inv===2?'43':'42'):(inv===0?'':inv===1?'6':'64');
+  return {deg,inv,sev:!!sev,root:c.root,type:c.type,tones,rn:c.rn,rnBase,lt:ltName,fig,figTxt,label:rnBase+(sev?(inv===0?'7':''):'')+(inv?T.INV_LETTER[inv]:''),
+    seventh:sev?tones[3]:null,third:tones[1],fifth:tones[2]};}
+function pwBassLine(chs){let prev=null;return chs.map(c=>{const bt=c.tones[c.inv];let best=null;
+  for(let o=1;o<=4;o++){const p=T.P(bt.l,bt.a,o);const m=T.midi(p);if(m<41||m>57)continue;const cost=prev==null?Math.abs(m-48):Math.abs(m-prev)+(Math.abs(m-prev)>7?3:0);if(!best||cost<best[0])best=[cost,p];}
+  prev=T.midi(best[1]);return best[1];});}
+// every legal upper-voice arrangement (T, A, S) of one chord over a given bass
+function pwVoicings(c,bass){const names=c.tones;const out=[];const cand=(lo,hi)=>{const a=[];for(let o=2;o<=6;o++)names.forEach(nm=>{const p=T.P(nm.l,nm.a,o);const m=T.midi(p);if(m>=lo&&m<=hi)a.push(p);});return a;};
+  const Ts=cand(PWR.T[0],PWR.T[1]),As=cand(PWR.A[0],PWR.A[1]),Ss=cand(PWR.S[0],PWR.S[1]);
+  Ts.forEach(t=>As.forEach(a=>Ss.forEach(s=>{const v=[bass,t,a,s];if(!pwVertical(c,v).length)out.push(v);})));return out;}
+// errors within one chord: notes, completeness, doubling, spacing, ranges, crossing
+function pwVertical(c,v,ctx){const E=[];const [b,t,a,s]=v;const ms=v.map(T.midi);
+  v.forEach((p,i)=>{if(!c.tones.some(x=>sameName(x,p)))E.push(VN[i]+' '+T.name(p)+' is not in the chord');});if(E.length)return E;
+  if(!sameName(b,c.tones[c.inv]))E.push('the bass should be the '+['root','3rd','5th','7th'][c.inv]);
+  const has=x=>v.some(p=>sameName(p,x));if(!has(c.tones[0]))E.push('no root');if(!has(c.third))E.push('no 3rd');if(c.sev&&!has(c.seventh))E.push('no 7th');
+  if(c.inv===2&&!has(c.fifth))E.push('no 5th');
+  const cnt=x=>v.filter(p=>sameName(p,x)).length;if(cnt(c.lt)>1)E.push('doubled leading note');if(c.sev&&cnt(c.seventh)>1)E.push('doubled 7th');
+  if(!c.sev&&c.inv===0&&cnt(c.third)>1&&c.type==='maj'&&!(ctx&&ctx.allow3))E.push('doubled 3rd (double the root)');
+  if(c.inv===2&&cnt(c.fifth)<2)E.push('in a 6-4 chord, double the bass (the 5th)');
+  if(!(ms[0]<=ms[1]&&ms[1]<=ms[2]&&ms[2]<=ms[3]))E.push('voices crossed');
+  if(ms[3]-ms[2]>12)E.push('soprano and alto more than an octave apart');if(ms[2]-ms[1]>12)E.push('alto and tenor more than an octave apart');
+  [['S',3],['A',2],['T',1],['B',0]].forEach(([k,i])=>{if(ms[i]<PWR[k][0]||ms[i]>PWR[k][1])E.push(VN[i].toLowerCase()+' out of range');});
+  return E;}
+// errors between two chords
+function pwMotion(c1,v1,c2,v2,k){const E=[];const m1=v1.map(T.midi),m2=v2.map(T.midi);const iv=(x,y)=>((y-x)%12+12)%12;
+  for(let i=0;i<4;i++)for(let j=i+1;j<4;j++){const a1=iv(m1[i],m1[j]),a2=iv(m2[i],m2[j]);const moved=m1[i]!==m2[i]||m1[j]!==m2[j];if(!moved)continue;
+    const same=Math.sign(m2[i]-m1[i])===Math.sign(m2[j]-m1[j]);const sz1=m1[j]-m1[i],sz2=m2[j]-m2[i];
+    if(a1===7&&a2===7&&m1[i]!==m2[i])E.push((same?'parallel':'consecutive')+' 5ths ('+VN[j].toLowerCase()+' and '+VN[i].toLowerCase()+')');
+    if(a1===0&&a2===0&&sz1!==0&&sz2!==0&&m1[i]!==m2[i])E.push((same?'parallel':'consecutive')+' octaves ('+VN[j].toLowerCase()+' and '+VN[i].toLowerCase()+')');
+    if(sz1===0&&sz2===0&&m1[i]!==m2[i])E.push('parallel unisons ('+VN[j].toLowerCase()+' and '+VN[i].toLowerCase()+')');}
+  // hidden (direct) 5ths/8ves: outer voices in similar motion into a perfect interval with a leap in the soprano
+  {const a2=iv(m2[0],m2[3]);const same=Math.sign(m2[0]-m1[0])===Math.sign(m2[3]-m1[3])&&m2[3]!==m1[3]&&m2[0]!==m1[0];if(same&&(a2===7||a2===0)&&Math.abs(m2[3]-m1[3])>2&&!(iv(m1[0],m1[3])===a2))E.push('hidden '+(a2===7?'5ths':'octaves')+' in the outer voices (soprano leaps)');}
+  // overlap: a voice moves past where the neighbouring voice just was
+  for(let i=0;i<3;i++){if(m2[i]>m1[i+1]||m2[i+1]<m1[i])E.push(VN[i].toLowerCase()+' and '+VN[i+1].toLowerCase()+' overlap');}
+  // melodic intervals
+  for(let i=0;i<4;i++){const d=Math.abs(m2[i]-m1[i]);const ld=Math.abs(T.dia(v2[i])-T.dia(v1[i]));
+    if(d===3&&ld===1)E.push(VN[i].toLowerCase()+' moves by an augmented 2nd');if(d===6&&i>0)E.push(VN[i].toLowerCase()+' leaps a tritone');if(d>12)E.push(VN[i].toLowerCase()+' leaps more than an octave');}
+  // the leading note rises to the tonic in V–I when it is in the soprano; a chordal 7th falls by step
+  if(c1.deg===4&&c2.deg===0){const i=v1.findIndex((p,ix)=>ix===3&&sameName(p,c1.lt));if(i===3&&!(m2[3]-m1[3]===1))E.push('the leading note in the soprano should rise to the tonic');}
+  if(c1.sev){for(let i=0;i<4;i++){if(sameName(v1[i],c1.seventh)){const d=m2[i]-m1[i];if(!(d===-1||d===-2))E.push('the 7th ('+VN[i].toLowerCase()+') should fall by step');}}}
+  return E;}
+function pwSolve(chs,bass,k){const Vs=chs.map((c,i)=>pwVoicings(c,bass[i]));
+  // allow a doubled 3rd in VI/vi after V (interrupted cadence)
+  chs.forEach((c,i)=>{if(i>0&&chs[i-1].deg===4&&c.deg===5){const extra=[];const names=c.tones;const cand=(lo,hi)=>{const a=[];for(let o=2;o<=6;o++)names.forEach(nm=>{const p=T.P(nm.l,nm.a,o);const m=T.midi(p);if(m>=lo&&m<=hi)a.push(p);});return a;};
+    cand(...PWR.T).forEach(t=>cand(...PWR.A).forEach(a=>cand(...PWR.S).forEach(s=>{const v=[bass[i],t,a,s];if(!pwVertical(c,v,{allow3:true}).length)extra.push(v);})));Vs[i]=extra;}});
+  const n=chs.length;const cost=[],from=[];
+  for(let i=0;i<n;i++){cost.push(Vs[i].map(()=>Infinity));from.push(Vs[i].map(()=>-1));}
+  Vs[0].forEach((v,j)=>{const s=T.midi(v[3]);cost[0][j]=Math.abs(s-70)*0.3+Math.abs(T.midi(v[2])-T.midi(v[1])-6)*0.05;});
+  for(let i=1;i<n;i++)Vs[i].forEach((v,j)=>{Vs[i-1].forEach((u,h)=>{if(cost[i-1][h]===Infinity)return;if(pwMotion(chs[i-1],u,chs[i],v,k).length)return;
+    const mv=[1,2,3].reduce((a,x)=>a+Math.abs(T.midi(v[x])-T.midi(u[x])),0);const c=cost[i-1][h]+mv+(i===n-1&&!sameName(v[3],chs[i].tones[0])?3:0);if(c<cost[i][j]){cost[i][j]=c;from[i][j]=h;}});});
+  let bj=-1,bc=Infinity;cost[n-1].forEach((c,j)=>{if(c<bc){bc=c;bj=j;}});if(bj<0)return null;const sol=[];for(let i=n-1;i>=0;i--){sol.unshift(Vs[i][bj]);bj=from[i][bj];}return sol;}
+function pwQ(kind){let k=randKey();if(k.mode==='minor'&&!S('minorKeys'))k={tonic:T.relMajor(k.tonic),mode:'major',sig:k.sig};
+  for(let tries=0;tries<30;tries++){const sev=UPTO()>=11;const pool=PW_PROGS[k.mode].filter(p=>(sev||!p.some(x=>x[2]))&&(UPTO()>=11||!p.some(x=>x[1]===2)));
+    const prog=pick(pool);const chs=prog.map(([d,inv,s])=>pwChord(k,d,inv,s));const bass=pwBassLine(chs);const sol=pwSolve(chs,bass,k);if(!sol)continue;
+    const labels=chs.map(c=>c.label);const figs=chs.map(c=>c.fig);
+    const prompt=kind==='fig'?'Realise this figured bass in four parts (SATB) in '+keyName(k)+'.':'Add soprano, alto and tenor above this bass in '+keyName(k)+'.';
+    const sub=kind==='fig'?'The figures show the intervals above the bass (no figure = 5/3, a root-position chord; 6 = first inversion; 6/4 = second inversion; 7 = seventh chord). Write the chords first, then check the voice leading.':'The Roman numerals are given under the bass (b = first inversion, c = second inversion). Write each voice on its stave: soprano and alto on the treble, tenor on the bass.';
+    return {t:'satb',kind,prompt,sub,k,sig:k.sig,chs,bass,sol,labels,figs,
+      why:'One correct answer: '+sol.map((v,i)=>labels[i]+' '+v.slice().reverse().map(T.name).join('-')).join(' · ')+' (soprano–alto–tenor–bass). Other voicings are fine if they follow the rules.'};}
+  return null;}
+function satbRnQ(){return pwQ('rn');}
+function satbFigQ(){return pwQ('fig');}
+// check a student's SATB: returns per-chord ok and a list of named errors
+function pwCheck(q,work){const chs=q.chs,n=chs.length;const bad=new Array(n).fill(false);const errs=[];
+  const full=i=>work[i]&&work[i].every(Boolean);
+  for(let i=0;i<n;i++){if(!full(i)){bad[i]=true;errs.push('Chord '+(i+1)+': '+(['soprano','alto','tenor'].filter((_,j)=>!work[i]||!work[i][3-j]).join(', ')||'notes')+' missing');continue;}
+    const v=[q.bass[i],work[i][1],work[i][2],work[i][3]];const E=pwVertical(chs[i],v,{allow3:i>0&&chs[i-1].deg===4&&chs[i].deg===5});if(E.length){bad[i]=true;E.forEach(e=>errs.push('Chord '+(i+1)+': '+e));}}
+  for(let i=1;i<n;i++){if(!full(i)||!full(i-1))continue;const v1=[q.bass[i-1],...work[i-1].slice(1)],v2=[q.bass[i],...work[i].slice(1)];const E=pwMotion(chs[i-1],v1,chs[i],v2,q.k);
+    if(E.length){bad[i-1]=bad[i]=true;E.forEach(e=>errs.push('Chords '+i+'–'+(i+1)+': '+e));}}
+  return {bad,errs,frac:bad.filter(b=>!b).length/n};}
+
+// ---- melody writing over a chord progression, marked against named rules ----
+const MW_PROGS={major:[[0,3,4,0],[0,5,4,0],[0,1,4,0]],minor:[[0,3,4,0],[0,5,4,0]]};
+const MW_RHY=[[['q','q','q','q'],['h','q','q'],['q','q','h'],['q','q','q','q']],[['h','h'],['q','q','q','q'],['h','q','q'],['q','q','h']]];
+function melodyWriteQ(){let k=randKey();if(k.mode==='minor'&&!S('minorKeys'))k={tonic:T.relMajor(k.tonic),mode:'major',sig:k.sig};
+  const degs=pick(MW_PROGS[k.mode]).slice();
+  const chs=degs.map(d=>pwChord(k,d,0,false));const rh=pick(MW_RHY).map(b=>b.slice());rh[3]=['w'];
+  const sc=T.scale(k.tonic,k.mode==='major'?'major':'harmminor');
+  // a model melody that passes every rule (generated, then checked)
+  let model=null;for(let t=0;t<300&&!model;t++){const m=mwModel(k,chs,rh,sc);if(m&&mwRules(k,chs,rh,m,sc).every(r=>r.ok))model=m;}
+  if(!model)return null;
+  const items=[];let si=0;rh.forEach((br,b)=>{br.forEach(d=>{items.push(slot(si,[model[si]],d));si++;});items.push(b===3?fin():bar());});
+  return {t:'notate',rules:true,prompt:'Write a melody for this progression in '+keyName(k)+'.',sub:'Treble clef, rhythm given. Chords: '+chs.map(c=>c.rn).join(' | ')+'. Follow the melody-writing rules: you are marked on each rule, so any melody that follows them all is right.',clef:'treble',sig:k.sig,time:[4,4],items,
+    mw:{k,chs,rh,sc},chordLine:chs.map(c=>c.rn+' ('+T.chordSym(c.root,c.type)+')'),why:'One melody that follows every rule: '+model.map(T.name).join(' ')+'.'};}
+function mwModel(k,chs,rh,sc){const out=[];const lo=60,hi=79;const scM=[];for(let o=3;o<=6;o++)sc.forEach(p=>{const q=T.P(p.l,p.a,o);const m=T.midi(q);if(m>=lo&&m<=hi)scM.push(q);});scM.sort((a,b)=>T.midi(a)-T.midi(b));
+  const isCT=(p,c)=>c.tones.some(x=>sameName(x,p));let idx=-1;
+  const start=scM.filter(p=>isCT(p,chs[0])&&T.midi(p)>=62&&T.midi(p)<=72);if(!start.length)return null;idx=scM.indexOf(pick(start));
+  const total=rh.reduce((a,b)=>a+b.length,0);let n=0;
+  for(let b=0;b<4;b++){for(let j=0;j<rh[b].length;j++){if(n===0){out.push(scM[idx]);n++;continue;}
+    const last=n===total-1,pen=n===total-2;let cands=[];
+    if(last){cands=scM.filter((p,i)=>sameName(p,sc[0])&&Math.abs(i-idx)===1);}
+    else if(j===0){cands=scM.filter((p,i)=>isCT(p,chs[b])&&Math.abs(i-idx)<=3&&i!==idx);}
+    else if(pen){cands=scM.filter((p,i)=>(sameName(p,sc[1])||sameName(p,sc[6]))&&Math.abs(i-idx)<=2);}
+    else cands=scM.filter((p,i)=>Math.abs(i-idx)<=2&&i!==idx);
+    if(!cands.length)return null;const p=pick(cands);idx=scM.indexOf(p);out.push(p);n++;}}
+  return out;}
+function mwRules(k,chs,rh,mel,sc){const ms=mel.map(T.midi);const R=[];const isCT=(p,c)=>c.tones.some(x=>sameName(x,p));const step=(a,b)=>Math.abs(T.dia(b)-T.dia(a))===1&&Math.abs(T.midi(b)-T.midi(a))<=2;
+  const firsts=[];let n=0;rh.forEach(bar=>{firsts.push(n);n+=bar.length;});
+  R.push({ok:isCT(mel[0],chs[0]),r:'Start on a note of the tonic chord ('+chs[0].tones.slice(0,3).map(T.name).join(', ')+')'});
+  R.push({ok:sameName(mel[mel.length-1],sc[0]),r:'End on the tonic ('+T.name(sc[0])+')'});
+  R.push({ok:mel.length>1&&step(mel[mel.length-2],mel[mel.length-1]),r:'Approach the last note by step'});
+  const fb=firsts.map((f,b)=>isCT(mel[f],chs[b]));R.push({ok:fb.every(Boolean),r:'The first note of each bar belongs to that bar’s chord'+(fb.every(Boolean)?'':' (bar '+fb.map((x,i)=>x?0:i+1).filter(Boolean).join(', ')+')')});
+  const span=Math.max(...ms)-Math.min(...ms);R.push({ok:span<=16&&Math.min(...ms)>=60&&Math.max(...ms)<=81,r:'Keep the range within a 10th (and between middle C and A5)'});
+  let badLeap=0,noRecover=0,steps=0,rep=1,maxRep=1;for(let i=1;i<ms.length;i++){const d=ms[i]-ms[i-1],ad=Math.abs(d);const ld=Math.abs(T.dia(mel[i])-T.dia(mel[i-1]));
+    if(ad>12||ad===6||(ad===3&&ld===1)||(ad===8&&ld===4))badLeap++;if(step(mel[i-1],mel[i]))steps++;
+    if(ad>=8&&i+1<ms.length){const e=ms[i+1]-ms[i];if(!(Math.sign(e)===-Math.sign(d)&&Math.abs(e)<=2))noRecover++;}
+    if(ad===0){rep++;maxRep=Math.max(maxRep,rep);}else rep=1;}
+  R.push({ok:!badLeap,r:'No leaps bigger than an octave, and no tritones or augmented leaps'});
+  R.push({ok:!noRecover,r:'After a leap of a 6th or more, move by step the other way'});
+  R.push({ok:steps>=Math.ceil((ms.length-1)/2),r:'Move mostly by step (at least half the moves)'});
+  const top=Math.max(...ms);R.push({ok:ms.filter(m=>m===top).length===1,r:'Have one high point (the highest note only once)'});
+  R.push({ok:maxRep<=2,r:'No note more than twice in a row'});
+  return R;}
+function mwCheck(q,mel){return mwRules(q.mw.k,q.mw.chs,q.mw.rh,mel,q.mw.sc);}
+
 const UNITS=[
  {id:'pitch',name:'Pitch & Notation',short:'Pitch',yr:7,gens:[[noteNameQ,3],[spnQ,1,8],[notateNoteQ,5],[notateSeqQ,3],[enharmonicQ,1,9],[accidentalQ,2],[tabQ,1,11],[drumQ,1,11],[drumReadQ,1,11],[chordSymBasicQ,1,11]],
   guide:`<b>Reading &amp; writing pitch</b><ol><li><b>Clefs:</b> treble lines E G B D F, spaces F A C E; bass lines G B D F A, spaces A C E G. Alto clef: middle C on the middle line. Tenor clef: middle C on the 4th line.</li><li><b>SPN:</b> middle C = C4; each octave numbers from C upward.</li><li><b>Accidentals:</b> ♯ up a semitone, ♭ down, ♮ cancels, 𝄪/𝄫 two semitones. An accidental lasts to the end of the bar.</li><li><b>Enharmonics:</b> same sound, different name (C♯ = D♭, E♯ = F, C♭ = B).</li><li><b>TAB:</b> six lines = six strings (top line = high E); numbers = frets. Standard tuning E A D G B E.</li><li><b>Drum kit:</b> percussion clef; kick in the 1st space, snare in the 3rd space, hi-hat/cymbals as × in the top space. Papers give a legend: read it first.</li></ol>`},
@@ -817,6 +950,8 @@ const UNITS=[
   guide:`<b>Transposition</b><ol><li>A transposing instrument sounds a fixed interval BELOW what is written. To write its part from concert pitch, transpose UP by that interval and change the key signature to match.</li><li>B♭ instruments (trumpet, clarinet, soprano sax) sound a major 2nd lower → write up a major 2nd (tenor sax: a major 9th lower). E♭ alto sax sounds a major 6th lower (bari sax a major 13th). Horn in F sounds a perfect 5th lower. Clarinet in A sounds a minor 3rd lower.</li><li>New key = old key up the same interval (B♭ major concert → C major for a B♭ instrument). Transpose accidentals too.</li><li><b>Transposing to a new key</b> (e.g. up a perfect 4th): new key signature first, then move every note the same interval, checking each accidental against the new key.</li><li>Clef transposition keeps the pitch and changes where it sits; octave transposition keeps the letter names.</li></ol>`},
  {id:'form',name:'Form, Signs & Devices',short:'Form',yr:7,gens:[[formQ,4],[signRenderQ,3,8],[deviceRenderQ,4]],
   guide:`<b>Form, signs, devices, texture</b><ul><li><b>Forms:</b> binary AB, ternary ABA, rondo ABACA, verse–chorus, AABA, strophic, through-composed, 12-bar blues, sonata (exposition–development–recapitulation), theme and variations.</li><li><b>Signs:</b> repeat signs, 1st/2nd time bars, fermata, Fine, Coda, D.C., D.S., D.C. al Fine, D.S. al Coda, segue/attacca.</li><li><b>Devices:</b> ostinato/riff, pedal, sequence, imitation, inversion, augmentation, diminution, call and response.</li><li><b>Texture:</b> monophonic = a single melody (may be block-harmonised); homophonic = melody with accompaniment; polyphonic = independent melodies together.</li></ul>`},
+ {id:'partw',name:'Part Writing & Melody',short:'Part writing',yr:10,gens:[[melodyWriteQ,3],[satbRnQ,3,11],[satbFigQ,2,11]],
+  guide:`<b>Writing melodies and four-part harmony</b><ul><li><b>Melody:</b> start on a note of the tonic chord, end on the tonic approached by step, put a chord note on the first beat of each bar, move mostly by step, recover from a big leap with a step the other way, keep one high point and a range within a 10th.</li><li><b>SATB:</b> soprano and alto on the treble stave, tenor and bass on the bass stave. Ranges: S C4–G5 · A G3–D5 · T C3–G4 · B E2–D4. Keep S–A and A–T within an octave; voices must not cross or overlap.</li><li><b>Doubling:</b> double the root in root position; never double the leading note or a 7th; in a 6-4 chord double the bass.</li><li><b>Voice leading:</b> no parallel or consecutive 5ths or octaves; avoid hidden 5ths/octaves in the outer voices when the soprano leaps; the leading note in the soprano rises to the tonic; a 7th falls by step; no augmented 2nds.</li><li><b>Figured bass:</b> no figure = 5/3 (root position) · 6 = first inversion · 6/4 = second inversion · 7, 6/5, 4/3, 4/2 = seventh chords.</li></ul>`}
 ];
 function hasDbl(q){const re=/[𝄪𝄫]/;const chk=p=>p&&Math.abs(p.a)===2;
   if(re.test(q.prompt||'')||re.test(q.answer||''))return true;
@@ -855,31 +990,35 @@ function semitoneQ(){const y=UPTO();const type=pick(['major','natminor'].concat(
     why:T.scaleName(t,type)+': semitones between '+ans+'. '+(type==='major'?'Major: T T S T T T S.':type==='natminor'?'Natural minor: T S T T S T T.':'Harmonic minor: T S T T S (T+S) S.')});}
 function stSyl(p,key){const k=(T.LETTERS.indexOf(p.l)-T.LETTERS.indexOf(key.tonic.l)+7)%7;return (key.mode==='minor'?SOLFA_MIN:SOLFA_MAJ)[k];}
 function stLower(a,b){return dia(a)<=dia(b)?[a,b]:[b,a];}
-function makeStudy(kind){if(kind==='ivkey'||kind==='ivmel')return makeIvStudy(kind);const y=UPTO();let key;
+function makeStudy(kind,o){o=o||{};if(kind==='ivkey'||kind==='ivmel')return makeIvStudy(kind);const y=UPTO();let key;const nB=kind==='visual'?(+o.bars===4?4:8):4;
   if(kind==='study'){const t=pick(keyTonics(Math.min(S('keysMax')||1,y<=7?1:2)));key={tonic:t,mode:'major',sig:T.sigOf(t,'major')};}else key=testKey();
   const clef=(kind==='study'||y<=8)?'treble':pick(['treble','bass']);const ts=pick(y<=7?['2/4','3/4','4/4']:['2/4','3/4','4/4','6/8']);
   const mid=MIDD[clef];let items=null,bars=null;
-  for(let t=0;t<20;t++){items=melody(key,clef,ts,4,{lo:mid-4,hi:mid+4});bars=[[]];items.forEach(it=>{if(it.k==='bar'||it.k==='fin'){bars.push([]);}else if(it.k==='n')bars[bars.length-1].push(it);});bars=bars.filter(b=>b.length);if(bars.length===4&&bars.every(b=>b.length>=2))break;}
+  for(let t=0;t<30;t++){items=melody(key,clef,ts,nB,{lo:mid-4,hi:mid+(nB>4?5:4)});bars=[[]];items.forEach(it=>{if(it.k==='bar'||it.k==='fin'){bars.push([]);}else if(it.k==='n')bars[bars.length-1].push(it);});bars=bars.filter(b=>b.length);if(bars.length===nB&&bars.every(b=>b.length>=2))break;}
   const st={kind,key,clef,ts,items,bars,info:{}};
   if(kind==='visual'){const I=st.info;const tm=pick(ST_TEMPO.slice(1,5));I.tempo=tm;items.unshift({k:'txt',s:tm[0],bold:true,high:true});
     const d1=pick(ST_DYN.slice(1,5));bars[0][0].mk={dyn:d1[0]};I.dyn={bar:1,mark:d1};
     if(bars[0].length>=3){bars[0][1].mk=Object.assign(bars[0][1].mk||{},{sl:1});bars[0][2].mk=Object.assign(bars[0][2].mk||{},{slEnd:1});}
-    const hb=pick([1,3]);const hp=pick(['cresc','dim']);const hbn=bars[hb];hbn[0].mk=Object.assign(hbn[0].mk||{},{hp});hbn[hbn.length-1].mk=Object.assign(hbn[hbn.length-1].mk||{},{hpEnd:1});I.hp={bar:hb+1,type:hp};
-    const ab=hb===1?2:1;const an=bars[ab][Math.min(1,bars[ab].length-1)];const at=pick(['stac','acc','ten']);an.art=[at];I.art={bar:ab+1,type:at};
-    const okN=y<=8?[2,3,4,5,8]:[2,3,4,5,6,7,8];const bb=hb===1?3:2;const bn=bars[bb];const pairs=[];for(let i=0;i+1<bn.length;i++){const [lo,hi]=stLower(bn[i].p[0],bn[i+1].p[0]);if(dia(lo)===dia(hi))continue;const iv=T.interval(lo,hi);if(iv&&okN.includes(iv.n)&&['M','m','P'].includes(iv.q))pairs.push([i,iv]);}
+    const hb=nB>4?pick([1,3,5,6]):pick([1,3]);const hp=pick(['cresc','dim']);const hbn=bars[hb];hbn[0].mk=Object.assign(hbn[0].mk||{},{hp});hbn[hbn.length-1].mk=Object.assign(hbn[hbn.length-1].mk||{},{hpEnd:1});I.hp={bar:hb+1,type:hp};
+    const ab=nB>4?pick([2,4,6].filter(x=>x!==hb)):(hb===1?2:1);const an=bars[ab][Math.min(1,bars[ab].length-1)];const at=pick(['stac','acc','ten']);an.art=[at];I.art={bar:ab+1,type:at};
+    const okN=y<=8?[2,3,4,5,8]:[2,3,4,5,6,7,8];const bb=nB>4?pick([2,3,4,5,6].filter(x=>x!==hb&&x!==ab)):(hb===1?3:2);const bn=bars[bb];const pairs=[];for(let i=0;i+1<bn.length;i++){const [lo,hi]=stLower(bn[i].p[0],bn[i+1].p[0]);if(dia(lo)===dia(hi))continue;const iv=T.interval(lo,hi);if(iv&&okN.includes(iv.n)&&['M','m','P'].includes(iv.q))pairs.push([i,iv]);}
     if(pairs.length){const [i,iv]=pick(pairs);bn[i].mk=Object.assign(bn[i].mk||{},{br:'*1'});bn[i+1].mk=Object.assign(bn[i+1].mk||{},{brEnd:1});I.iv={bar:bb+1,iv};}
-    for(let bb2=0;bb2<4&&!I.semi;bb2++){const bn2=bars[bb2];if(bn2.length<3)continue;for(let i=0;i+1<bn2.length;i++){if(Math.abs(T.midi(bn2[i].p[0])-T.midi(bn2[i+1].p[0]))===1){I.semi={bar:bb2+1,i,count:bn2.length};break;}}}
+    for(let bb2=0;bb2<nB&&!I.semi;bb2++){const bn2=bars[bb2];if(bn2.length<3)continue;for(let i=0;i+1<bn2.length;i++){if(Math.abs(T.midi(bn2[i].p[0])-T.midi(bn2[i+1].p[0]))===1){I.semi={bar:bb2+1,i,count:bn2.length};break;}}}
     const pool={8:['key','time','tempo','dyn','hp','art','iv','semi'],9:['key','time','tempo','dyn','hp','art','iv','semi'],10:['key','time','tempo','dyn','hp','art','iv','semi']}[Math.max(8,Math.min(10,y))];
     const av=pool.filter(a=>(a!=='iv'||I.iv)&&(a!=='semi'||I.semi));const vis=shuffle(av.filter(a=>['dyn','hp','art','iv','semi'].includes(a))).slice(0,2);const rest=shuffle(av.filter(a=>!vis.includes(a))).slice(0,2);
     st.asks=pool.filter(a=>vis.includes(a)||rest.includes(a));st.noTime=st.asks.includes('time');}
   return st;}
+// a long score is printed on two lines of four bars
+function stShow(st){const sp=stStave(st);const sh=show(sp);if(!st.bars||st.bars.length<=4)return sh;let n=0,cut=-1;sp.items.forEach((it,i)=>{if(cut<0&&it.k==='bar'){n++;if(n===4)cut=i;}});if(cut<0)return sh;
+  const a=Object.assign({},sp,{items:sp.items.slice(0,cut+1)}),b=Object.assign({},sp,{time:null,items:sp.items.slice(cut+1),barStart:5});
+  const two=pap=>'<div class="twoline">'+E.render(Object.assign({},a,pap?{paper:true}:{})).svg+E.render(Object.assign({},b,pap?{paper:true}:{})).svg+'</div>';sh.svg=two(false);sh.svgP=two(true);return sh;}
 function stStave(st,extra){return stave(st.clef,st.key.sig,st.noTime?null:METRE(st.ts),st.items.map(it=>Object.assign({},it)),Object.assign({barNums:true},extra||{}));}
 // the tone set: every pitch of the melody once, lowest to highest (sol-fa with Kodály octave marks: l, d r m s l d′)
 function toneSet(st){const seen={};st.items.filter(it=>it.k==='n').forEach(it=>{const p=it.p[0];seen[T.midi(p)+':'+p.l]=p;});return Object.values(seen).sort((a,b)=>T.midi(a)-T.midi(b));}
 function tsSyl(p,st){const k=st.key;const doP=k.mode==='minor'?T.transposeUp(k.tonic,'m3'):k.tonic;const last=st.items.filter(it=>it.k==='n').slice(-1)[0];
   // the do that frames the melody: the one at or below its final note (the tonic), so the final tonic carries no mark
   let d0=dia(P(doP.l,doP.a,last.p[0].o));if(k.mode==='minor'){if(d0<dia(last.p[0]))d0+=7;}else if(d0>dia(last.p[0]))d0-=7;const s=stSyl(p,k);const dp=dia(p);return s+(dp<d0?',':dp>=d0+7?'′':'');}
-function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2),st);const k=st.key,I=st.info,b=st.bars;const sh=show(stStave(st));const base={_sharedShow:true};
+function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2),st);const k=st.key,I=st.info,b=st.bars;const sh=stShow(st);const base={_sharedShow:true};
   if(part==='tsSf'){const ts=toneSet(st);const ans=ts.map(p=>tsSyl(p,st));const basic=k.mode==='minor'?SOLFA_MIN:SOLFA_MAJ;const pal=[...new Set(basic.concat(ans))].sort((a,b2)=>{const ix=x=>SOLFA_MAJ.indexOf(x.replace(/[,′]/,''));const oc=x=>x.endsWith(',')?-1:x.endsWith('′')?1:0;return oc(a)-oc(b2)||ix(a)-ix(b2);});
     return Object.assign(base,{t:'notate',prompt:'Write the tone set of this melody in sol-fa: every pitch once, from the lowest to the highest.',sub:'Mark the octaves: a comma for notes below do (l, s,), a dash for notes above the next do (d′ r′).',clef:st.clef,sig:k.sig,time:METRE(st.ts),items:stStave(st).items,show:sh,sfOnly:true,noPaperStave:true,sfNotes:ts.map(p=>({k:'n',p:[p],dur:'q'})),solfa:ans,sfPal:pal,why:'Tone set: '+ans.join(' ')+' ('+ts.map(name).join(' ')+').'});}
   if(part==='tsN'){const ts=toneSet(st);const items=ts.map((p,i)=>slot(i,[p],'w'));
@@ -908,7 +1047,7 @@ function studyQ(part,st){if(part.startsWith('ci'))return ivStudyQ(+part.slice(2)
   if(part==='time'){const ans=st.ts;return Object.assign(base,choice('The time signature has been left off. Which time signature belongs at the start?',['2/4','3/4','4/4','6/8'],ans,{show:sh,why:'Count the beats in each bar: '+ans+'.'}));}
   if(part==='tempo2'||part==='tempoV'){const t=I.tempo;return Object.assign(base,choice('What does '+t[0]+' at the start mean?',ST_TEMPO.slice(0,5).map(x=>x[1]),t[1],{show:sh,why:t[0]+' = '+t[1]+'.'}));}
   if(part==='dynV'){const d=I.dyn.mark;return Object.assign(base,choice('What does '+d[0]+' in bar 1 tell the player?',ST_DYN.map(x=>x[1]),d[1],{show:sh,why:d[0]+' = '+d[1]+'.'}));}
-  if(part==='hp'){return Object.assign(base,choice('In which bar is the player told to get gradually '+(I.hp.type==='cresc'?'louder':'softer')+'?',['Bar 1','Bar 2','Bar 3','Bar 4'],'Bar '+I.hp.bar,{show:sh,why:(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.'}));}
+  if(part==='hp'){return Object.assign(base,choice('In which bar is the player told to get gradually '+(I.hp.type==='cresc'?'louder':'softer')+'?',[...Array(st.bars.length).keys()].map(i=>'Bar '+(i+1)),'Bar '+I.hp.bar,{show:sh,why:(I.hp.type==='cresc'?'The crescendo hairpin (<)':'The diminuendo hairpin (>)')+' is in bar '+I.hp.bar+'.'}));}
   if(part==='art'){const a=ST_ART[I.art.type];return Object.assign(base,choice('What does the '+a[0]+' marking in bar '+I.art.bar+' tell the player?',['Play it short and detached','Play it with an accent (stress it)','Hold it for its full length','Pause on it'],a[1],{show:sh,why:a[0][0].toUpperCase()+a[0].slice(1)+': '+a[1].toLowerCase()+'.'}));}
   if(part==='semi'){const S=I.semi;const ord=['1st','2nd','3rd','4th','5th','6th','7th','8th'];const opts=[];for(let i=0;i+1<S.count&&i<6;i++)opts.push(ord[i]+' and '+ord[i+1]);const ans=ord[S.i]+' and '+ord[S.i+1];
     return Object.assign(base,choice('Which two neighbouring notes in bar '+S.bar+' are a semitone apart?',opts.slice(0,Math.max(4,S.i+2)).slice(-6),ans,{show:sh,why:'The '+ans+' notes of bar '+S.bar+' are a semitone apart.'}));}
@@ -976,5 +1115,5 @@ function ivStudyQ(i,st){const iv=st.asks[i];const ans=T.ivWord(iv);const qs=[...
 const BYNAME={};UNITS.forEach(u=>u.gens.forEach(([fn])=>BYNAME[fn.name]=fn));BYNAME.chordRnQ=noDbl(chordRnQ);BYNAME.notateRnQ=noDbl(notateRnQ);BYNAME.semitoneQ=semitoneQ;BYNAME.keySigGridQ=keySigGridQ;BYNAME.keySigWriteCtQ=keySigWriteCtQ;BYNAME.keyMelodyQ=keyMelodyQ;
 function defaultWhy(q){if(q.why)return;if(q.t==='match'&&q.pairs)q.why=q.pairs.map(p=>'<b>'+p[0]+'</b> — '+p[1]).join(' · ');}
 function one(name){let q=null;for(let i=0;i<20&&!q;i++)q=BYNAME[name]();const u=UNITS.find(u=>u.gens.some(g=>g[0].name===name))||UNITS.find(u=>u.id==='chords');q.unit=u.id;q.gen=name;defaultWhy(q);return q;}
-return {studyShow:st=>show(stStave(st)),hasDbl,UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,setGensel,RANGE,MIDD,inClef,fitScale,stave,one,makeStudy,studyQ,studyItems};
+return {PW:{check:pwCheck,mw:mwCheck},studyShow:st=>stShow(st),hasDbl,UNITS,SCHEMA,DEFAULTS,getSet,setLevel,applySet,makeSet,unitsOn,gensOn,setGensel,RANGE,MIDD,inClef,fitScale,stave,one,makeStudy,studyQ,studyItems};
 })();

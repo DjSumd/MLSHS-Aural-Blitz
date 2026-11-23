@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["task.js"]="20261109b";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["task.js"]="20261123b";
 // task.js — Class tasks for Aural Blitz and Theory Blitz (shared, identical in both apps).
 // A teacher builds a task (sections, counts, settings) and shares it as a link / QR / code.
 // Students complete it in a locked mode. The result is a sealed receipt: compressed JSON encrypted
@@ -48,6 +48,14 @@
   const verifyLink=code=>{const a=appAddr();return a?a+'#verify='+code:'';};
 
   // ---------- QR ----------
+  // scan students' result QR codes with the camera (BarcodeDetector: Chrome on Android, Chromebooks and Macs)
+  async function scanQR(onCode,onDone){if(!('BarcodeDetector' in window)){A.toast('This browser can’t scan QR codes. Use Chrome on an Android phone or a Chromebook, or paste the codes instead.');return;}
+    let stream;try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}});}catch(e){A.toast('The camera isn’t available. Allow camera access for this site, then try again.');return;}
+    const det=new BarcodeDetector({formats:['qr_code']});const ov=document.createElement('div');ov.className='tkscan';ov.innerHTML='<div class="tkscanc"><video playsinline muted></video><p class="sub" id="tkscanmsg">Point the camera at a student’s QR code. Each new code is added automatically.</p><div class="controls"><button class="btn-check" id="tkscandone">Done</button></div></div>';document.body.appendChild(ov);
+    const v=ov.querySelector('video');v.srcObject=stream;await v.play().catch(()=>{});const seen=new Set();let n=0,on=true;
+    const stop=()=>{on=false;stream.getTracks().forEach(t=>t.stop());ov.remove();if(onDone)onDone(n);};ov.querySelector('#tkscandone').onclick=stop;
+    const tick=async()=>{if(!on)return;try{const r=await det.detect(v);for(const c of r){const t=c.rawValue||'';if(!t||seen.has(t))continue;seen.add(t);const res=await onCode(t);if(res&&res.added){n+=res.added;try{navigator.vibrate&&navigator.vibrate(60);}catch(e){}}
+      const m=ov.querySelector('#tkscanmsg');if(m)m.textContent=(res&&res.added?'Added. ':res&&res.dup?'Already recorded. ':'That isn’t a result code for this teacher key. ')+n+' added so far.';}}catch(e){}setTimeout(tick,250);};tick();}
   function qrSVG(text,px){try{const q=qrcode(0,'L');q.addData(text,'Byte');q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true}).replace('<svg ','<svg style="width:'+(px||240)+'px;height:'+(px||240)+'px;background:#fff" ');}catch(e){return '<p class="sub">This is too long for a QR code — use the link or code.</p>';}}
 
   // ---------- modal ----------
@@ -107,7 +115,7 @@
     return `<div class="tkdone"><div class="qnum">Class task complete</div><p class="prompt">${esc(R.task.ti||'Task')} — done</p>
       <p class="sub"><b>${esc(R.name)}</b>${R.task.cl?' · '+esc(R.task.cl):''} · ${sc.got} / ${sc.max} · ${mins} min${(S.att||1)>1?' · attempt '+S.att:''}</p>
       ${(S.hist||[]).length?`<p class="sub">Earlier attempts: ${S.hist.map(h=>'attempt '+h.att+' '+h.got+' / '+h.max).join(' · ')}. Your best so far: <b>${Math.max(sc.got,...S.hist.map(h=>h.got))} / ${sc.max}</b>. Your teacher keeps your best attempt.</p>`:''}
-      <div class="setgrp" style="text-align:left"><div class="setlabel">Your result code</div><textarea id="tkcode" class="tkin tkcodebox" rows="4" readonly>${code}</textarea></div>
+      <div class="setgrp" style="text-align:left"><div class="setlabel">Your result code</div><textarea id="tkcode" class="tkin tkcodebox" rows="4" readonly>${code}</textarea><div class="controls" style="margin-top:4px"><button class="btn-ghost" id="tkqrbtn">▦ Show it as a QR code</button></div><div id="tkqr" style="text-align:center"></div></div>
       ${R.task.em?`<p class="sub"><b>Press Email it to my teacher, then press Send in Outlook.</b> If Outlook doesn't open, use the other email button, or copy the code and paste it where your teacher asks.</p>
       <div class="controls"><button class="btn-check" id="tkmail">✉ Email it to my teacher</button><button class="btn-ghost" id="tkmail2">Use my email app</button></div>
       <div class="controls"><button class="btn-ghost" id="tkcopy">Copy result code</button><button class="btn-ghost" id="tkback2">Back to practice</button></div>`
@@ -119,7 +127,7 @@
     const body='Result for '+R.name+(R.task.cl?' ('+R.task.cl+')':'')+' — '+(R.task.ti||'Class task')+'.\n\nSealed result code (please don\'t change it):\n[['+R.state.receipt+']]\n';return {to:R.task.em,subj,body};}
   TK.wireFinish=function(){const R=TK.run;const as=document.getElementById('tkans2');if(as)as.onclick=()=>A.answerSheet();
     const m1=document.getElementById('tkmail');if(m1)m1.onclick=()=>{const m=mailParts();const u='https://outlook.office.com/mail/deeplink/compose?to='+encodeURIComponent(m.to)+'&subject='+encodeURIComponent(m.subj)+'&body='+encodeURIComponent(m.body);window.open(u,'_blank','noopener');R.state.mailed=Date.now();saveRun();};
-    const m2=document.getElementById('tkmail2');if(m2)m2.onclick=()=>{const m=mailParts();location.href='mailto:'+encodeURIComponent(m.to)+'?subject='+encodeURIComponent(m.subj)+'&body='+encodeURIComponent(m.body);R.state.mailed=Date.now();saveRun();};const c=document.getElementById('tkcopy');if(c)c.onclick=()=>{copy(R.state.receipt,'Result code copied');R.state.copied=Date.now();saveRun();};const box=document.getElementById('tkcode');if(box)box.onfocus=()=>box.select();const b=document.getElementById('tkback2');if(b)b.onclick=()=>TK.leave();
+    const m2=document.getElementById('tkmail2');if(m2)m2.onclick=()=>{const m=mailParts();location.href='mailto:'+encodeURIComponent(m.to)+'?subject='+encodeURIComponent(m.subj)+'&body='+encodeURIComponent(m.body);R.state.mailed=Date.now();saveRun();};const c=document.getElementById('tkcopy');if(c)c.onclick=()=>{copy(R.state.receipt,'Result code copied');R.state.copied=Date.now();saveRun();};const box=document.getElementById('tkcode');if(box)box.onfocus=()=>box.select();const qb=document.getElementById('tkqrbtn');if(qb)qb.onclick=()=>{const el=document.getElementById('tkqr');if(el.innerHTML){el.innerHTML='';qb.textContent='▦ Show it as a QR code';return;}el.innerHTML=qrSVG('[['+R.state.receipt+']]',260)+'<p class="sub">Hold this up for your teacher to scan with 📷 Scan QR codes in Results.</p>';qb.textContent='Hide the QR code';R.state.copied=Date.now();saveRun();};const b=document.getElementById('tkback2');if(b)b.onclick=()=>TK.leave();
     const rz=document.getElementById('tkresit');if(rz)rz.onclick=()=>{const sent=R.state.mailed||R.state.copied;if(!confirm((sent?'':'Have you sent this attempt\'s result code to your teacher? Once you start the resit, this screen is replaced (the code still works if you copied it).\n\n')+'Start a fresh attempt now?'))return;TK.resit();};};
 
   // ---------- student entry ----------
@@ -306,7 +314,7 @@
     modal(`<p class="prompt">Results</p>${tabsHtml('res')}${note?`<p class="sub"><b>${note}</b></p>`:''}
       <div class="setgrp"><div class="setlabel">Add results</div><textarea id="tkcodes" rows="3" class="tkin" placeholder="Paste result codes, or whole emails: one or many at once. Anything that isn't a result code is ignored."></textarea>
         <div class="tkdrop" id="tkdrop">Or drop result emails or files here <span>(.eml, .msg, .txt)</span> · <a href="#" id="tkpickf">choose files</a><input type="file" id="tkfiles" multiple accept=".eml,.msg,.txt,.htm,.html,.csv,text/*" style="display:none"></div>
-        <div class="controls" style="margin-top:6px"><button class="btn-check" id="tkadd">Add results</button><button class="btn-ghost" id="tkhow">How to collect them from Outlook</button></div></div>
+        <div class="controls" style="margin-top:6px"><button class="btn-check" id="tkadd">Add results</button><button class="btn-ghost" id="tkscan">📷 Scan QR codes</button><button class="btn-ghost" id="tkhow">How to collect them from Outlook</button></div></div>
       ${ids.length?`<div class="setgrp"><div class="setlabel">Task</div><select id="tkpick" class="setsel">${ids.map(id=>{const t=tasks.find(x=>x.id===id)||res.find(r=>r.k===id);return `<option value="${id}"${id===cur?' selected':''}>${esc((t.ti||'Task')+(t.cl?' · '+t.cl:''))}</option>`;}).join('')}</select></div>`:''}
       ${rows.length?`<div class="reftable"><table><tr><th>Student</th><th>${anyRe?'Best mark':'Mark'}</th><th>%</th>${anyRe?'<th>Attempts</th>':''}<th>Time</th><th>Finished</th><th>Flags</th></tr>${rows.map(r=>`<tr><td><a href="#" data-det="${r.fp}">${esc(r.nm)}</a></td><td><b>${r.got} / ${r.n}</b></td><td>${Math.round(r.got/r.n*100)}%</td>${anyRe?'<td>'+(r._all.length>1?r._all.length+' <span style="color:var(--muted);font-size:12px">('+r._all.map(x=>x.got).join(', ')+')</span>':'1')+'</td>':''}<td>${fmtMin(r.fn-r.st)}</td><td>${new Date(r.fn*1000).toLocaleString('en-AU',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${toMark(r)?`<span class="tkflag mark">✎ ${toMark(r)} to mark</span> `:''}${r.flags.filter(f=>f[0]==='warn').map(f=>`<span class="tkflag">${esc(f[1])}</span>`).join(' ')}</td></tr>`).join('')}</table></div>
         ${rows.some(r=>toMark(r))?`<div class="controls" style="margin-top:0"><button class="btn-check" id="tkmarkw">✎ Mark written answers (${rows.reduce((a,r)=>a+toMark(r),0)})</button></div>`:''}
@@ -314,6 +322,7 @@
         <div class="controls"><button class="btn-check" id="tkana">Question analysis</button><button class="btn-ghost" id="tkleague">Class league</button><button class="btn-ghost" id="tkcsv">Export CSV</button><button class="btn-ghost" id="tkprint">Print</button><button class="btn-ans" id="tkclr">Delete these results</button></div>`:'<p class="sub">No results for this task yet.</p>'}`,true);wireTabs();
     const report=r=>results(r.last.length?r.last[r.last.length-1].k:cur,`${r.added} added${r.dup?' · '+r.dup+' already recorded':''}${r.bad?' · '+r.bad+' couldn\'t be opened (not sealed to this teacher key, or incomplete)':''}${!r.total?'no result codes found':''}`);
     document.getElementById('tkadd').onclick=async()=>report(await addCodes(document.getElementById('tkcodes').value));
+    {const sb=document.getElementById('tkscan');if(sb)sb.onclick=()=>scanQR(async txt=>{const r=await addCodes(txt);return r;},()=>results(cur,'Scanning finished'));}
     const fi=document.getElementById('tkfiles'),dz=document.getElementById('tkdrop');
     document.getElementById('tkpickf').onclick=e=>{e.preventDefault();fi.click();};fi.onchange=async()=>{if(fi.files.length)report(await addCodes(await readFiles(fi.files)));};
     dz.ondragover=e=>{e.preventDefault();dz.classList.add('on');};dz.ondragleave=()=>dz.classList.remove('on');
@@ -427,6 +436,7 @@
   .tkx{border:0;background:transparent;cursor:pointer;color:var(--muted)}
   .tkfull{position:fixed;inset:0;background:#fff;z-index:200;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer}.tkfull p{font-family:var(--sans);font-size:22px;font-weight:600;color:#111}
   .tkverified{text-align:center;border:3px solid #5d8a63;border-radius:8px;padding:14px}.tkverified.warn{border-color:#b4433a}.tkbig{font-family:var(--serif);font-size:44px;font-weight:600;margin:4px 0}.tkbig span{font-size:20px;color:var(--muted)}
+  .tkscan{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:90;display:flex;align-items:center;justify-content:center;padding:12px}.tkscanc{background:#fff;border-radius:14px;padding:12px;max-width:520px;width:100%;text-align:center}.tkscanc video{width:100%;border-radius:10px;background:#000}
   .tkdone{text-align:center}.tkdrop{margin-top:6px;border:1.5px dashed var(--rule);border-radius:6px;padding:12px;text-align:center;font-size:13px;color:#4d463c;background:#fff}.tkdrop span{color:var(--muted)}.tkdrop.on{border-color:var(--ink);background:var(--paper2)}.tkcodebox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;word-break:break-all;resize:none;background:#fbf8f2}.tkdone .controls{justify-content:center}
   .taskbtn{background:transparent;border:1px solid rgba(239,233,220,.3);color:#cfc8ba;border-radius:999px;font-size:12px;font-weight:600;padding:6px 12px;cursor:pointer;font-family:var(--sans)}.taskbtn:hover{border-color:var(--cream);color:var(--cream)}
   body.tasking #examnew,body.tasking .tstteach,body.tasking .tstcover .codebox,body.tasking #examagain,body.tasking .topbar .modebar,body.tasking #yearbar,body.tasking #gear,body.tasking .tabs,body.tasking .btn-ans,body.tasking #gearbtn,body.tasking .sprintbtn,body.tasking .h2hbtn,body.tasking .newset,body.tasking .difftog,body.tasking .modetoggle,body.tasking #reset,body.tasking .taskbtn,body.tasking #avbtn{display:none!important}

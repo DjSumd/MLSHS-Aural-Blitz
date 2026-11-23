@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["engrave.js"]="20261109b";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["engrave.js"]="20261123b";
 // engrave.js — notation engine for ATAR Music Aural Blitz.
 // Generates dictations (rhythm + melody, full WACE rhythm vocabulary) and renders them as
 // proper notation: key signatures, bar-accidental rules, dots, flags, beams (with partial beams),
@@ -490,6 +490,28 @@
     let sys=Math.floor(vy/meta.sysH); sys=Math.max(0,Math.min(meta.nSys-1,sys)); const ly=vy-sys*meta.sysH;
     let d=Math.round(meta.top-(ly-TOPK*SS)/(SS/2)); d=Math.max(meta.top-8-7,Math.min(meta.top+9,d)); return {sys,d,x:vx};}
 
+  // a dictation built from given notes (real tunes, bass lines, outer voices)
+  // o = {scale:'major', key:'C'|'Bb'|'F#m'… (keyId), notes:[{s:semitones from tonic | null for a rest, dur, tie}], metre, clef, pickup, tonicMidi?}
+  function dictFrom(o){const sc=SCALES.find(s=>s.name===(o.scale||'major'))||SCALES[0];const minorish=MINF.test(sc.name);
+    const pool0=sc.keys.concat(MINF.test(sc.name)?MORE_MIN:(sc.name==='mixolydian'||sc.name==='dorian'?[]:MORE_MAJ));
+    const k=pool0.find(kk=>keyIdOf(sc,kk)===o.key)||sc.keys[0];const [tl,parent]=k,ks=MAJ_KS[parent];const clef=o.clef||'treble';
+    let tm=o.tonicMidi!=null?o.tonicMidi:tonicMidiFor(tl,parent,clef==='bass'?45:62,clef==='bass'?57:72);
+    if(o.fit&&o.tonicMidi==null){const ss=o.notes.filter(n=>n.s!=null).map(n=>n.s),lo=Math.min.apply(null,ss),hi=Math.max.apply(null,ss);const [L,H]=o.fit;const pc=tm%12;let best=null;
+      for(let m=pc;m<=127;m+=12){if(m+lo>=L&&m+hi<=H){const c=Math.abs(m+(lo+hi)/2-(L+H)/2);if(best===null||c<best[0])best=[c,m];}}
+      if(best)tm=best[1];else{for(let m=pc;m<=127;m+=12){const c=Math.abs(m+(lo+hi)/2-(L+H)/2);if(best===null||c<best[0])best=[c,m];}tm=best[1];}}
+    const full=SCALES.find(s=>s.name===(minorish?(sc.name==='harmonic minor'?'harmonic minor':'natural minor'):(sc.name==='mixolydian'||sc.name==='dorian'?sc.name:'major')))||sc;
+    const pool=scalePool(full,tl,tm,tm-30,tm+30);const ti=LORD.indexOf(tl);const km=keyAccMap(ks);
+    const spell=m=>{const p=pool.find(x=>x.midi===m);if(p)return p;
+      // chromatic: raise the scale note below (sharpwise) unless that letter is already sharp in the key; then lower the one above
+      const below=pool.filter(x=>x.midi===m-1)[0],above=pool.filter(x=>x.midi===m+1)[0];
+      if(below&&below.acc!=='s')return spellNote(m,below.letter);if(above)return spellNote(m,above.letter);return spellNote(m,LORD[(ti+1)%7]);};
+    const M=METRES[o.metre]||METRES['4/4'];let on=0;
+    const notes=o.notes.map(n=>{const r={onset:on,dur:n.dur,rest:n.s==null,tie:!!n.tie,trip:!!n.trip};on+=n.dur;if(n.s==null){r.midi=null;r.acc='';r.letter='';return r;}const p=spell(tm+n.s);r.midi=p.midi;r.d=p.d;r.acc=p.acc;r.letter=p.letter;return r;});
+    const pickup=o.pickup||0;const bars=Math.round(on/M.bpb);
+    const tonicName=tl+(km[tl]==='f'?'♭':km[tl]==='s'?'♯':'');const name=tonicName+' '+(o.label||sc.name);
+    return {pool,scaleName:name,scaleType:sc.name,keyLabel:name,tonicName,ks,tonicMidi:tm,tonicLetter:tl,notes,difficulty:'med',bars,pickup,totalBeats:bars*M.bpb,clef,
+      metre:{id:o.metre||'4/4',numer:M.numer,denom:M.denom,bpb:M.bpb,g:M.g.slice(),acc:M.acc.slice(),compound:M.compound}};}
+
   // exports
   Object.assign(window,{SS,GS,TOPK,dia,clefData,yOf,gEl,ledgerYs,accW,NW,drawWholeNote,midiOf,letterOf,ACCOFF});
   // sol-fa: moveable do, la-based minor. Only the four scales sung in class get syllables.
@@ -497,5 +519,5 @@
   const CHROM_SOLFA={0:'do',1:'di',2:'re',3:'me',4:'mi',5:'fa',6:'fi',7:'so',8:'si',9:'la',10:'te',11:'ti'};
   function solfaFor(scaleType){return SOLFA_SET[scaleType]||null;}
   function solfaOf(midi,tonicMidi,scaleType){const sc=SCALES.find(s=>s.name===scaleType),syl=SOLFA_SET[scaleType];if(!sc||!syl)return '';const off=((midi-tonicMidi)%12+12)%12;const k=sc.deg.findIndex(d=>d[0]===off);if(k>=0)return syl[k];return CHROM_SOLFA[/minor/.test(scaleType)?(off+9)%12:off]||'';}
-  window.ENGRAVE={keyIdOf,buildDictation,solfaFor,solfaOf,fillBar:(diff,metreId,len)=>fillBar(diff,METRES[metreId]||METRES['4/4'],{syncopation:true,noWhole:true},len),drawScore,hitTest,spellNote,resolveLine,keyAccMap,SCALES,METRES,MAJ_KS,KEYNAME,T3,barOf,posInBar};
+  window.ENGRAVE={dictFrom,keyIdOf,buildDictation,solfaFor,solfaOf,fillBar:(diff,metreId,len)=>fillBar(diff,METRES[metreId]||METRES['4/4'],{syncopation:true,noWhole:true},len),drawScore,hitTest,spellNote,resolveLine,keyAccMap,SCALES,METRES,MAJ_KS,KEYNAME,T3,barOf,posInBar};
 })();

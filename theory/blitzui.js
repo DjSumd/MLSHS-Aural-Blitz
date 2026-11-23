@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["blitzui.js"]="20261108e";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["blitzui.js"]="20261123b";
 // blitzui.js — the "Blitz" look shared by Aural Blitz and Theory Blitz (identical copy in both apps).
 // 1) a clean, rounded, app-icon home screen (tap an icon to open the exercise) with a bottom tab bar;
 // 2) a much richer avatar builder (face, hair, eyes, brows, mouth, extras, glasses, headwear, clothes, background, instrument).
@@ -363,17 +363,94 @@
         <button class="hgoal" id="hgoal" aria-label="Today: ${cnt} of ${goal} answers. Change your daily goal"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="26" fill="none" stroke="#e5e5e5" stroke-width="7"/><circle cx="32" cy="32" r="26" fill="none" stroke="${cnt>=goal?'#58cc02':'#ff9600'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${(C*done/goal).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 32 32)"/></svg><b>${cnt>=goal?'✓':cnt}</b><span>${cnt>=goal?'goal done':'/'+goal+' today'}</span></button></div>
       <div class="hbar">${ymode.length?`<div class="hyears" role="group" aria-label="Year">${ymode.map(y=>`<button class="${y===H.year()?'on':''}" data-y="${y}">Year ${y}</button>`).join('')}</div>`:''}
         <div class="htools"><button class="hchip" id="hbackup">💾 Back up</button>${H.customise?'<button class="hchip" id="hcust">⚙ Customise</button>':''}</div></div>
-      <div class="hstats"><div><span>🔥</span><b>${st.days||0}</b><small>day streak</small></div><div><span>⚡</span><b>${st.streak||0}</b><small>in a row</small></div><div><span>🎯</span><b>${st.acc||'—'}</b><small>accuracy</small></div><div><span>👑</span><b>${st.mastered||0}</b><small>mastered</small></div></div>
+      ${(()=>{const f=k=>list.find(u=>u.key===k);const td=f('today'),wk=f('weak'),rv=f('review');return `<div class="hchoices">${td?`<button class="hchoice main" data-i="${td.i}"><span class="ico">⚡</span><b>Warm-up</b><small>Today’s Blitz · about 5 min</small></button>`:''}${wk?`<button class="hchoice" data-i="${wk.i}"><span class="ico">🎯</span><b>My weak spots</b><small>where you lose marks</small></button>`:''}<button class="hchoice" id="hcpick"><span class="ico">📚</span><b>Choose a section</b><small>your skill map</small></button></div>
+      <div class="htools" style="justify-content:flex-start;margin:-2px 0 8px">${rv?`<button class="hchip" data-i="${rv.i}">📅 Review${rv.sub?' · '+esc(rv.sub):''}</button>`:''}${H.challenge?'<button class="hchip" id="hchal">⚔ Challenge a friend</button>':''}</div>`;})()}
       ${up?`<button class="upnext" id="upnext">${UI.icon(up.icon,up.hue||1)}<span class="uptxt"><small>${esc(up.why)}</small><b>${esc(up.name)}</b></span><span class="upgo">START</span></button>`:''}
-      ${path.length?`<div class="hsec ph">Your Year ${H.year()} path</div><div class="path">${(()=>{let out='',slot=0;const chests=UI.chests(st.name,H.year(),path);path.forEach((p,k)=>{const l=UI.level(p.m);out+=`<button class="pnode${k===pcur?' cur':''}${l>=5?' done':''}${l===0?' fresh':''}" data-i="${p.i}" style="--off:${[0,1,2,1,0,-1,-2,-1][slot%8]*38}px" aria-label="${esc(p.name)}, level ${l} of 5">${k===pcur?'<span class="pstart">START</span>':''}${UI.icon(p.icon,p.hue||k)}${l>=5?'<span class="ptick">✓</span>':''}<span class="nm">${esc(p.name)}</span>${crowns(l)}</button>`;slot++;const c=chests.find(c=>c.after===k);if(c){out+=`<div class="pchest ${c.state}" data-ck="${c.n}" style="--off:${[0,1,2,1,0,-1,-2,-1][slot%8]*38}px" title="${esc(c.tip)}"><span class="cb">${c.state==='open'?'🎉':c.state==='ready'?'🎁':'🔒'}</span><small>${c.state==='open'?'Opened':c.state==='ready'?'Tap to open':'Checkpoint'}</small></div>`;slot++;}});return out;})()}</div>`:''}
+      ${path.length?`<div class="hsec ph" id="hmap">Your skill map · Year ${H.year()}</div><div class="path">${(()=>{let out='',slot=0;const chests=UI.chests(st.name,H.year(),path);path.forEach((p,k)=>{const l=UI.level(p.m);out+=`<button class="pnode${k===pcur?' cur':''}${l>=5?' done':''}${l===0?' fresh':''}" data-i="${p.i}" style="--off:${[0,1,2,1,0,-1,-2,-1][slot%8]*38}px" aria-label="${esc(p.name)}, level ${l} of 5">${k===pcur?'<span class="pstart">START</span>':''}${UI.icon(p.icon,p.hue||k)}${l>=5?'<span class="ptick">✓</span>':''}<span class="nm">${esc(p.name)}</span>${crowns(l)}</button>`;slot++;const c=chests.find(c=>c.after===k);if(c){out+=`<div class="pchest ${c.state}" data-ck="${c.n}" style="--off:${[0,1,2,1,0,-1,-2,-1][slot%8]*38}px" title="${esc(c.tip)}"><span class="cb">${c.state==='open'?'🎉':c.state==='ready'?'🎁':'🔒'}</span><small>${c.state==='open'?'Opened':c.state==='ready'?'Tap to open':'Checkpoint'}</small></div>`;slot++;}});return out;})()}</div>`:''}
+      <div class="hstats low"><div><span>🔥</span><b>${st.days||0}</b><small>day streak</small></div><div><span>⚡</span><b>${st.streak||0}</b><small>in a row</small></div><div><span>🎯</span><b>${st.acc||'—'}</b><small>accuracy</small></div><div><span>👑</span><b>${st.mastered||0}</b><small>mastered</small></div></div>
       ${groups.map(([g,t])=>{const items=list.filter(u=>u.group===g);if(!items.length)return '';return `<div class="hsec">${t}</div><div class="igrid">${items.map((u,k)=>`<button class="itile" data-i="${u.i}" aria-label="${esc(u.name)}${u.m&&u.m.n?', '+Math.round(u.m.acc*100)+'% recently'+(u.m.mastered?', mastered':''):''}">${UI.icon(u.icon,u.hue!==undefined?u.hue:k+(g==='daily'?6:g==='test'?3:0))}${ring(u.m)}<span class="nm">${esc(u.name)}</span>${u.sub?`<span class="sb">${esc(u.sub)}</span>`:''}</button>`).join('')}</div>`;}).join('')}`;
-    el.querySelectorAll('.itile,.pnode').forEach(b=>b.onclick=()=>H.open(+b.dataset.i));
+    el.querySelectorAll('.itile,.pnode,.hchoice[data-i],.hchip[data-i]').forEach(b=>b.onclick=()=>H.open(+b.dataset.i));{const pk=document.getElementById('hcpick');if(pk)pk.onclick=()=>{const m=document.getElementById('hmap')||el.querySelector('.hsec');if(m)m.scrollIntoView({behavior:UI.motionOff()?'auto':'smooth',block:'start'});};const hc=document.getElementById('hchal');if(hc)hc.onclick=()=>H.challenge();}
     el.querySelectorAll('.pchest.ready').forEach(b=>b.onclick=()=>UI.openChest(st.name,H.year(),+b.dataset.ck));
     const on=(id,f)=>{const x=document.getElementById(id);if(x)x.onclick=f;};
     on('hav',()=>H.tab('me'));on('hswitch',()=>UI.pickProfile(false));on('hgoal',()=>UI.chooseGoal());on('hbackup',()=>UI.backup());on('hcust',()=>H.customise());if(up)on('upnext',()=>H.open(up.i));
     el.querySelectorAll('.hyears button').forEach(b=>b.onclick=()=>H.setYear(+b.dataset.y));};
   UI.unitBar=function(name,iconName,hue){const b=document.getElementById('unitbar');if(!b)return;b.innerHTML=`<button class="homebtn" id="homebtn">‹ Home</button>${UI.icon(iconName,hue||0)}<span class="unm">${esc(name)}</span>`;
     document.getElementById('homebtn').onclick=()=>H.home();};
+  // ================= Nov 2026: a calmer, clearer question screen =================
+  // Working memory is small (Helding p.315; Gebrian p.179): keep one main action in view, tuck the rest away.
+  document.addEventListener('click',e=>{document.querySelectorAll('.moremenu.open').forEach(m=>{if(!m.contains(e.target))m.classList.remove('open');});},true);
+  function moreMenu(label,cls){const w=document.createElement('div');w.className='moremenu'+(cls?' '+cls:'');w.innerHTML='<button class="btn-ghost morebtn" type="button" aria-haspopup="true">'+label+'</button><div class="morepop" role="menu"></div>';
+    w.querySelector('.morebtn').onclick=e=>{e.stopPropagation();const open=!w.classList.contains('open');document.querySelectorAll('.moremenu.open').forEach(m=>m.classList.remove('open'));w.classList.toggle('open',open);};
+    w.querySelector('.morepop').addEventListener('click',e=>{if(e.target.closest('button')&&!e.target.closest('details'))setTimeout(()=>w.classList.remove('open'),0);});return w;}
+  UI.moreMenu=moreMenu;document.addEventListener('pointerdown',()=>{UI._acted=true;},true);document.addEventListener('keydown',()=>{UI._acted=true;},true);
+  const mob=()=>window.matchMedia&&matchMedia('(max-width:720px)').matches;
+  UI.declutter=function(card,o){o=o||{};if(!card)return;
+    // 1. one main button: everything else in "More"
+    card.querySelectorAll('.controls').forEach(ct=>{if(ct.closest('.moremenu')||ct.dataset.dc)return;ct.dataset.dc=1;const ck=ct.querySelector('#check')||ct.querySelector('.btn-check');const others=[...ct.children].filter(b=>b.tagName==='BUTTON'&&b!==ck);
+      if(!ck||others.length<2)return;const w=moreMenu('⋯ More');const pop=w.querySelector('.morepop');others.forEach(b=>pop.appendChild(b));if(o.extra)o.extra.forEach(b=>pop.appendChild(b));ct.appendChild(w);});
+    // 2. play panel: one big Play; the halves stay as small chips; Loop and tempo/difficulty go behind ⋯
+    const pp=card.querySelector('.playpanel');if(pp&&!pp.dataset.dc){pp.dataset.dc=1;const loop=pp.querySelector('.lpbtn');const dopt=card.querySelector('#dictopts');
+      if(loop||dopt){const w=moreMenu('⋯','plmore');const pop=w.querySelector('.morepop');if(loop)pop.appendChild(loop);if(dopt){pop.appendChild(dopt);dopt.open=true;}const parts=pp.querySelector('.playparts');(parts||pp).appendChild(w);}}
+    // 3. the hint paragraph: shown the first time, then behind a ? button
+    const hint=card.querySelector('p.hint');if(hint&&o.kind&&!hint.dataset.dc){hint.dataset.dc=1;const k='blitzHint:'+o.kind;let seen=false;try{seen=!!localStorage.getItem(k);localStorage.setItem(k,'1');}catch(e){}
+      const b=document.createElement('button');b.type='button';b.className='hintq';b.textContent=seen?'? How to enter answers':'Hide help';if(seen)hint.classList.add('hhide');
+      b.onclick=()=>{const h=hint.classList.toggle('hhide');b.textContent=h?'? How to enter answers':'Hide help';};hint.parentNode.insertBefore(b,hint);
+      if(UI.demoFor(o.kind)){const d=document.createElement('button');d.type='button';d.className='hintq';d.textContent='▶ Show me';d.onclick=()=>UI.demo(o.kind,true);hint.parentNode.insertBefore(d,hint);}}
+    // 4. phones: tools and Check sit in a tray at the bottom, within thumb reach, and the stave stays in view
+    if(mob()&&o.tray!==false){const ct=[...card.querySelectorAll('.controls')].find(c=>c.querySelector('#check'));const tbs=[...card.querySelectorAll('.toolbar')].filter(t=>!t.closest('#fixtools')&&!t.closest('.qtray')&&t.style.display!=='none');
+      if(ct&&!ct.closest('.qtray')&&tbs.length){const tr=document.createElement('div');tr.className='qtray';ct.parentNode.insertBefore(tr,ct);tbs.forEach(t=>tr.appendChild(t));tr.appendChild(ct);}}
+    // 5. zoom on the stave
+    card.querySelectorAll('#scoreWrap,#sw,#satbw').forEach(w=>UI.zoomify(w));
+    // 6. a long stave on a phone held upright: suggest landscape (once a session)
+    if(mob()&&innerHeight>innerWidth&&o.wide&&!UI._landTip){UI._landTip=1;const t=document.createElement('div');t.className='landtip';t.innerHTML='📱↻ Turn your phone sideways for a bigger stave. <button type="button">OK</button>';t.querySelector('button').onclick=()=>t.remove();const at=card.querySelector('#scoreWrap,#sw,#satbw');if(at)at.parentNode.insertBefore(t,at);}
+    if(o.kind&&o.demo!==false)setTimeout(()=>{if(o.demoOk&&!o.demoOk())return;if(!UI._acted||document.querySelector('.bsum.open,.modal.open,#tkmodal.open'))return;if(UI.inHome&&UI.inHome())return;if(!card.isConnected||card.offsetParent===null)return;UI.demo(o.kind,false);},300);};
+  // ---- zoom: − / + on the stave (the score scrolls sideways when it is wider than the screen) ----
+  const ZL=[1,1.4,1.8];let zl=0;try{zl=+localStorage.getItem('blitzZoom')||0;}catch(e){}
+  UI.zoomify=function(w){if(!w||w.dataset.zm)return;w.dataset.zm=1;w.classList.add('zoomable');w.dataset.z=String(zl);const bar=document.createElement('div');bar.className='zbar';bar.innerHTML='<button type="button" data-zz="-1" aria-label="Smaller stave">−</button><button type="button" data-zz="1" aria-label="Bigger stave">+</button>';
+    bar.querySelectorAll('button').forEach(b=>b.onclick=e=>{e.stopPropagation();zl=Math.max(0,Math.min(ZL.length-1,zl+(+b.dataset.zz)));try{localStorage.setItem('blitzZoom',zl);}catch(_){}document.querySelectorAll('.zoomable').forEach(x=>x.dataset.z=String(zl));});
+    w.parentNode.insertBefore(bar,w);};
+  // ---- first-time animated demo for each kind of question ----
+  const DEMO={
+    pitchdict:{a:'stave',t:'Write the pitches',s:['Press ▶ Play and listen all the way through.','Tap the stave where each empty note belongs. Drag it up or down to fix it.','Choose ♯ ♭ ♮ first for a note that needs one, then press Check.']},
+    melodydict:{a:'value',t:'Write the melody',s:['Choose a note value (crotchet, quaver…).','Tap the stave at the right pitch: the note goes in at the cursor.','Keep going to the end of the last bar, then press Check.']},
+    rhythmdict:{a:'value',t:'Write the rhythm',s:['Choose a note value or Rest.','Tap the stave: it goes in at the cursor.','Fill every bar, then press Check.']},
+    rhythmheads:{a:'value',t:'Add the rhythm',s:['Choose a note value.','Tap a notehead to give it that value.','When every bar adds up, press Check.']},
+    numerals:{a:'slots',t:'Fill the boxes',s:['Tap a box.','Tap the answer underneath it: the next box lights up.','When every box is full, press Check.']},
+    choice:{a:'choice',t:'Listen and choose',s:['Press ▶ Play.','Tap the answer you hear (or press 1–4).','Wrong? Tap 🎧 Hear the difference.']},
+    barorder:{a:'slots',t:'Put the bars in order',s:['Listen to the whole melody.','Tap the printed bars in the order you hear them.','Press Check.']},
+    discrep:{a:'stave',t:'Find the differences',s:['Listen and follow the printed score.','Tap a bar once for a pitch difference, twice for rhythm.','Check, then correct the score.']},
+    notate:{a:'stave',t:'Write on the stave',s:['Pick an accidental if the note needs one.','Tap a line or space: the note goes in the next column.','Tap a note to select it; drag to move it. Then Check.']},
+    satb:{a:'stave',t:'Write in four parts',s:['Choose Soprano, Alto or Tenor.','Tap that voice’s stave in a column to write its note.','Fill every chord, then Check: errors are named chord by chord.']}};
+  UI.demoFor=k=>!!DEMO[k];
+  UI.demo=function(kind,force){const D=DEMO[kind];if(!D)return;const key='blitzDemo:'+kind;if(!force){let s=null;try{s=localStorage.getItem(key);localStorage.setItem(key,'1');}catch(e){}if(s)return;}
+    let ov=document.getElementById('bdemo');if(!ov){ov=document.createElement('div');ov.id='bdemo';ov.className='bsum';document.body.appendChild(ov);}
+    const art={stave:`<svg viewBox="0 0 220 90" class="dmart"><g stroke="#9a9284" stroke-width="1.2">${[0,1,2,3,4].map(k=>`<line x1="10" y1="${25+k*10}" x2="210" y2="${25+k*10}"/>`).join('')}</g><g class="dmnote"><ellipse cx="120" cy="45" rx="7" ry="5" fill="#1b1a18"/><line x1="126" y1="45" x2="126" y2="15" stroke="#1b1a18" stroke-width="1.5"/></g><text class="dmtap" x="112" y="80" font-size="26">👆</text></svg>`,
+      value:`<svg viewBox="0 0 220 90" class="dmart"><rect class="dmchip" x="12" y="8" width="56" height="22" rx="11" fill="#fff" stroke="#1b1a18"/><text x="40" y="23" text-anchor="middle" font-size="11">Crotchet</text><g stroke="#9a9284" stroke-width="1.2">${[0,1,2,3,4].map(k=>`<line x1="10" y1="${42+k*8}" x2="210" y2="${42+k*8}"/>`).join('')}</g><g class="dmnote"><ellipse cx="120" cy="58" rx="6" ry="4.5" fill="#1b1a18"/><line x1="125" y1="58" x2="125" y2="34" stroke="#1b1a18" stroke-width="1.5"/></g><text class="dmtap" x="112" y="88" font-size="24">👆</text></svg>`,
+      slots:`<svg viewBox="0 0 220 90" class="dmart">${[0,1,2,3].map(k=>`<rect x="${20+k*48}" y="10" width="40" height="30" rx="8" fill="#fff" stroke="${k===1?'#2e86c1':'#cfc8bb'}" stroke-width="2"/>`).join('')}<text class="dmnote" x="88" y="31" font-size="14" font-weight="700">IV</text>${['I','IV','V'].map((t,k)=>`<rect x="${40+k*50}" y="54" width="40" height="26" rx="8" fill="#fff" stroke="#1b1a18"/><text x="${60+k*50}" y="72" text-anchor="middle" font-size="13" font-weight="700">${t}</text>`).join('')}<text class="dmtap" x="92" y="90" font-size="24">👆</text></svg>`,
+      choice:`<svg viewBox="0 0 220 90" class="dmart"><rect x="70" y="6" width="80" height="26" rx="13" fill="#1cb0f6"/><text x="110" y="24" text-anchor="middle" font-size="13" fill="#fff" font-weight="700">▶ Play</text>${[0,1].map(k=>`<rect class="${k?'dmpick':''}" x="${20+k*95}" y="44" width="85" height="34" rx="10" fill="#fff" stroke="#cfc8bb" stroke-width="2"/><text x="${62+k*95}" y="66" text-anchor="middle" font-size="12">${k?'Minor':'Major'}</text>`).join('')}<text class="dmtap" x="150" y="90" font-size="24">👆</text></svg>`}[D.a];
+    ov.innerHTML=`<div class="bsumc dmcard"><p class="prompt">${esc(D.t)}</p>${art}<ol class="dmsteps">${D.s.map((s,i)=>`<li style="animation-delay:${i*1.1}s">${esc(s)}</li>`).join('')}</ol><div class="controls"><button class="btn-check" id="bdemook">Got it</button></div></div>`;
+    ov.classList.add('open');document.getElementById('bdemook').onclick=()=>ov.classList.remove('open');};
+  // ---- display: reduced motion, dark theme, larger text ----
+  const DSD={motion:'full',theme:'light',text:'std'};
+  UI.display=n=>Object.assign({},DSD,LSg('blitzDisplay:'+nk(n||''),{}));
+  UI.applyDisplay=n=>{const d=UI.display(n);const h=document.documentElement;h.classList.toggle('rmotion',d.motion==='reduced');h.classList.toggle('dark',d.theme==='dark');h.classList.toggle('bigtext',d.text==='big');};
+  UI.displayHtml=n=>{const d=UI.display(n);const row=(k,lab,opts)=>`<div class="setgrp"><div class="setlabel">${lab}</div><div class="setchips">${opts.map(([v,t])=>`<button class="chip ${d[k]===v?'on':''}" data-ds="${k}" data-v="${v}">${t}</button>`).join('')}</div></div>`;
+    return `<div class="psbox"><div class="pshead">Display</div>`+row('motion','Movement',[['full','Animations on'],['reduced','Reduced (no confetti)']])+row('theme','Theme',[['light','Light'],['dark','Dark']])+row('text','Text size',[['std','Standard'],['big','Larger']])+`</div>`;};
+  UI.wireDisplay=(el,n)=>{el.querySelectorAll('[data-ds]').forEach(b=>b.onclick=()=>{const o=UI.display(n);o[b.dataset.ds]=b.dataset.v;LSs('blitzDisplay:'+nk(n||''),o);UI.applyDisplay(n);el.querySelectorAll('[data-ds="'+b.dataset.ds+'"]').forEach(x=>x.classList.toggle('on',x===b));});};
+  UI.motionOff=()=>document.documentElement.classList.contains('rmotion');
+  // ---- small text-entry dialog (challenge codes) ----
+  UI.askText=function(title,sub,cb,place){let ov=document.getElementById('bask');if(!ov){ov=document.createElement('div');ov.id='bask';ov.className='bsum';document.body.appendChild(ov);}
+    ov.innerHTML=`<div class="bsumc"><p class="prompt">${esc(title)}</p><p class="sub">${sub||''}</p><input id="baskin" class="tkin" style="width:100%;font-size:18px;padding:10px" placeholder="${esc(place||'')}" autocomplete="off"><div class="controls"><button class="btn-ghost" id="baskno">Cancel</button><button class="btn-check" id="baskok">Go</button></div></div>`;
+    ov.classList.add('open');const i=document.getElementById('baskin');setTimeout(()=>i.focus(),50);const done=v=>{ov.classList.remove('open');if(v!=null)cb(v);};
+    document.getElementById('baskno').onclick=()=>done(null);document.getElementById('baskok').onclick=()=>done(i.value.trim());i.onkeydown=e=>{if(e.key==='Enter')done(i.value.trim());};};
+  // ---- an offer inside the question card (step it up / make it easier) ----
+  UI.offer=function(card,html,btns){if(!card)return;const old=card.querySelector('.offer');if(old)old.remove();const d=document.createElement('div');d.className='offer';d.innerHTML='<span>'+html+'</span>';
+    btns.forEach(([t,f,main])=>{const b=document.createElement('button');b.type='button';b.className=main?'btn-check':'btn-ghost';b.textContent=t;b.onclick=()=>{d.remove();f&&f();};d.appendChild(b);});
+    const fb=card.querySelector('#fb');if(fb)fb.parentNode.insertBefore(d,fb.nextSibling);else card.appendChild(d);};
+  // ---- challenge codes: section, year, seed and the challenger's score ----
+  UI.chalEncode=c=>'CH-'+[c.k,c.y,c.s.toString(36),c.their==null?'x':c.their,c.n||10,encodeURIComponent((c.name||'').slice(0,20))].join('.');
+  UI.chalDecode=t=>{const m=String(t||'').trim().match(/CH-([a-z0-9_]+)\.(\d+)\.([a-z0-9]+)\.(x|\d+(?:\.5)?)\.(\d+)\.?(.*)$/i);if(!m)return null;return {k:m[1],y:+m[2],s:parseInt(m[3],36),their:m[4]==='x'?null:+m[4],n:+m[5],name:decodeURIComponent(m[6]||'')};};
+
   // ================= STYLES =================
   const css=`
   body.nui{--nbg:#f3f5f9;--ncard:#ffffff;--nink:#1f2328;--nmut:#7b8494;--nline:#e5e7eb;--ngreen:#58cc02;--ngreenD:#46a302;--nblue:#1cb0f6;--nblueD:#1899d6;--nred:#ff4b4b;--nredD:#ea2b2b;--nfont:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Segoe UI',Roboto,Arial,sans-serif}
@@ -542,7 +619,68 @@ body:not(.tasking) #refbtn{display:none}
     .home>*{grid-column:1}.home>.hsec.ph{grid-column:2;grid-row:1;margin-top:4px}.home>.path{grid-column:2;grid-row:2/span 40;align-self:start;background:#fff;border-radius:24px;box-shadow:0 2px 0 var(--nline),0 8px 24px rgba(20,30,60,.06);padding:10px 0 14px}}
   @media (max-width:620px){body.nui:not(.paper) .hud .rst{display:none}body.nui:not(.paper) .avbtn>span:last-child{display:none}body.nui:not(.paper) header h1{font-size:22px}body.nui:not(.paper) .hud .stat:not(:has(#snum)):not(:has(#xptxt)){display:none}.hstats small{font-size:9px}.igrid{grid-template-columns:repeat(4,1fr)}.itile .ic{width:58px;height:58px;border-radius:16px}body.nui:not(.paper) header .eye{display:none}}
   `;
-  const st=document.createElement('style');st.textContent=css;document.head.appendChild(st);
+  const st=document.createElement('style');st.textContent=css+`
+.moremenu{position:relative;display:inline-block}.moremenu .morepop{display:none;position:absolute;right:0;bottom:calc(100% + 6px);z-index:40;background:#fff;border:1px solid #d8d2c6;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:8px;min-width:220px;max-width:86vw}
+.moremenu.open .morepop{display:flex;flex-direction:column;gap:6px}.moremenu .morepop>button{width:100%;margin:0!important}.moremenu .morepop details{width:100%}
+.plmore .morepop{bottom:auto;top:calc(100% + 6px)}.plmore .morebtn{min-width:46px;padding:0 12px}
+.controls .moremenu .morebtn{white-space:nowrap}
+.playparts .pp.sub{font-size:13px!important;padding:6px 12px!important;min-height:0!important;flex:0 0 auto!important}
+.playparts{display:flex!important;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}.playparts .pp[data-pt="whole"]{flex:1 1 100%!important;width:100%;max-width:none!important;font-size:18px!important;padding:12px!important}.playpanel .plabel{font-size:12.5px}.plmore .morebtn{height:34px;border-radius:999px!important;border:1px solid #d8d2c6!important;background:#fff!important;font-weight:800}
+.hint.hhide{display:none}.hintq{border:0;background:none;color:#1c7ed6;font-weight:700;font-size:13px;padding:4px 6px;cursor:pointer;margin:2px 8px 2px 0}
+.qtray{position:sticky;bottom:0;z-index:20;background:rgba(255,255,255,.97);backdrop-filter:blur(6px);margin:8px -14px -2px;padding:8px 14px calc(8px + env(safe-area-inset-bottom));border-top:1px solid #e5e0d6;box-shadow:0 -6px 18px rgba(0,0,0,.08)}
+.qtray .toolbar{margin:0 0 6px!important;overflow-x:auto;flex-wrap:nowrap!important}.qtray .toolbar>*{flex-shrink:0}.qtray .controls{margin:4px 0 0!important}
+.zbar{display:flex;justify-content:flex-end;gap:6px;margin:4px 0 -2px}.zbar button{width:34px;height:30px;border-radius:8px;border:1px solid #d8d2c6;background:#fff;font-size:18px;font-weight:800;cursor:pointer;line-height:1}
+.zoomable{overflow-x:auto}.zoomable[data-z="1"] svg{width:140%!important;max-width:none!important;height:auto!important}.zoomable[data-z="2"] svg{width:180%!important;max-width:none!important;height:auto!important}
+.landtip{margin:6px 0;padding:8px 10px;border-radius:10px;background:#eef6ff;border:1px solid #cfe0f5;font-size:13px}.landtip button{margin-left:6px;border:0;background:#1c7ed6;color:#fff;border-radius:8px;padding:3px 10px;font-weight:700}
+.offer{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0;padding:10px 12px;border-radius:12px;background:#fff8e6;border:1px solid #f0d58c;font-size:14px;font-weight:600}.offer span{flex:1 1 100%}.offer button{flex:0 0 auto;margin:0!important}
+.dmcard .dmart{width:100%;max-width:320px;display:block;margin:6px auto}.dmsteps{padding-left:20px;font-size:14.5px}.dmsteps li{margin:6px 0;opacity:0;animation:dmIn .5s forwards}
+@keyframes dmIn{to{opacity:1}}.dmnote{animation:dmNote 3.3s infinite}.dmtap{animation:dmTap 3.3s infinite}.dmpick{animation:dmPick 3.3s infinite}.dmchip{animation:dmPick 3.3s infinite}
+@keyframes dmNote{0%,35%{opacity:0;transform:translateY(-6px)}45%,100%{opacity:1;transform:none}}@keyframes dmTap{0%{transform:translate(40px,10px);opacity:0}25%{opacity:1}38%{transform:none}45%{transform:scale(.9)}60%,100%{transform:none;opacity:.7}}
+@keyframes dmPick{0%,40%{fill:#fff}50%,100%{fill:#d7f5c4}}
+.goalstrip.on{display:inline-block;padding:3px 10px;font-size:12.5px;margin:0 0 6px;border-radius:999px}
+.hchoices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.hchoice{border:2px solid #e5e5e5;border-bottom-width:4px;border-radius:16px;background:#fff;padding:12px 8px;text-align:center;cursor:pointer;font:inherit}
+.hchoice b{display:block;font-size:14.5px;margin-top:4px}.hchoice small{display:block;color:#777;font-size:11.5px;margin-top:2px}.hchoice .ico{font-size:28px;line-height:1}.hchoice.main{border-color:#58cc02;background:#f3fde9}
+.hstats.low{opacity:.9;margin-top:14px}.hxpline{font-size:12px;color:#777}
+html.rmotion *,html.rmotion *::before,html.rmotion *::after{animation:none!important;transition:none!important}html.rmotion .dmsteps li{opacity:1}
+html.dark{filter:invert(.92) hue-rotate(180deg);background:#111}html.dark img,html.dark .hav svg,html.dark .avatar svg,html.dark video{filter:invert(1) hue-rotate(180deg)}
+html.bigtext body{zoom:1.12}
+@media (orientation:landscape) and (max-height:520px){.qtray{position:static;box-shadow:none}.playpanel{padding:6px!important}}
+`;document.head.appendChild(st);
+  // ---- keyboard view: the answer's notes on a piano keyboard (Theory Essentials: harmony, ear training and keyboard together) ----
+  UI.keyboard=function(marks,opt){opt=opt||{};marks=(marks||[]).filter(m=>m&&m.m!=null);if(!marks.length)return '';const ms=marks.map(m=>m.m);
+    let lo=Math.min.apply(null,ms)-2,hi=Math.max.apply(null,ms)+2;while(((lo%12)+12)%12!==0&&((lo%12)+12)%12!==5)lo--;while(((hi%12)+12)%12!==4&&((hi%12)+12)%12!==11)hi++;if(hi-lo<16){hi+=12;while(((hi%12)+12)%12!==4&&((hi%12)+12)%12!==11)hi--;}
+    const BLK=[1,3,6,8,10];const isB=m=>BLK.includes(((m%12)+12)%12);const whites=[];for(let m=lo;m<=hi;m++)if(!isB(m))whites.push(m);const WW=22,WH=86,BW=14,BH=54;const W=whites.length*WW;
+    const col=m=>{const k=marks.find(x=>x.m===m);return k?k.c:null;};const lab=m=>{const k=marks.find(x=>x.m===m);return k&&k.t?k.t:'';};
+    const S=[];whites.forEach((m,i)=>{const c=col(m);S.push(`<rect x="${i*WW}" y="0" width="${WW-1}" height="${WH}" rx="3" fill="${c||'#fff'}" stroke="#8a8277" stroke-width="1"/>`);if(c&&lab(m))S.push(`<text x="${i*WW+WW/2-0.5}" y="${WH-8}" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">${lab(m)}</text>`);
+      if(((m%12)+12)%12===0)S.push(`<text x="${i*WW+WW/2-0.5}" y="${WH+11}" text-anchor="middle" font-size="9" fill="#8a8277">C${Math.floor(m/12)-1}</text>`);});
+    for(let m=lo;m<=hi;m++){if(!isB(m))continue;const wi=whites.indexOf(m-1);if(wi<0)continue;const x=(wi+1)*WW-BW/2-0.5;const c=col(m);S.push(`<rect x="${x}" y="0" width="${BW}" height="${BH}" rx="2" fill="${c||'#1b1a18'}" stroke="#1b1a18" stroke-width="1"/>`);if(c&&lab(m))S.push(`<text x="${x+BW/2}" y="${BH-6}" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">${lab(m)}</text>`);}
+    return `<div class="kbdview">${opt.title?'<div class="kbdt">'+opt.title+'</div>':''}<svg viewBox="-1 -1 ${W+2} ${WH+14}" style="width:100%;max-width:${Math.min(560,W*1.4)}px;height:auto">${S.join('')}</svg>${opt.key?'<div class="kbdk">'+opt.key+'</div>':''}</div>`;};
+  // ---- practice style (per student): feedback timing, mixed review, goals — Helding: summary feedback; Gebrian: interleaving; Colwell & Richardson: self-regulation ----
+  const PSD={fb:'each',mix:true,goal:true,retry:true};
+  UI.pstyle=n=>Object.assign({},PSD,LSg('blitzPstyle:'+nk(n||''),{}));
+  UI.setPstyle=(n,o)=>LSs('blitzPstyle:'+nk(n||''),Object.assign(UI.pstyle(n),o));
+  UI.pstyleHtml=n=>{const p=UI.pstyle(n);const row=(k,lab,opts)=>`<div class="setgrp"><div class="setlabel">${lab}</div><div class="setchips">${opts.map(([v,t])=>`<button class="chip ${String(p[k])===String(v)?'on':''}" data-ps="${k}" data-v="${v}">${t}</button>`).join('')}</div></div>`;
+    return `<div class="psbox"><div class="pshead">How you practise (every section)</div>`+row('fb','Feedback',[['each','After each question'],['end','At the end of the set']])+row('mix','Mixed review',[['true','On: earlier sections mixed in'],['false','Off']])+row('goal','Goal for each set',[['true','On'],['false','Off']])+row('retry','A second try before the answer',[['true','On (half XP for a fixed answer)'],['false','Off']])+`</div>`;};
+  UI.wirePstyle=(el,n,after)=>{el.querySelectorAll('[data-ps]').forEach(b=>b.onclick=()=>{const k=b.dataset.ps;let v=b.dataset.v;if(v==='true')v=true;else if(v==='false')v=false;const o={};o[k]=v;UI.setPstyle(n,o);el.querySelectorAll('[data-ps="'+k+'"]').forEach(x=>x.classList.toggle('on',x===b));if(after)after();});};
+  // ---- spaced review: each section moves through boxes (1, 3, 7, 14, 30 days) on its last five answers ----
+  const SR_DAYS=[1,3,7,14,30];const addDays=(d,n)=>{const t=new Date(d+'T12:00:00');t.setDate(t.getDate()+n);return t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');};
+  UI.srUpdate=function(P,key,hist){if(!P||!key||!hist)return;P.sr=P.sr||{};const r=P.sr[key]||(P.sr[key]={b:0,d:addDays(today(),1),c:0,last:''});r.c=(r.c||0)+1;if(r.c<5)return;
+    const last=hist.slice(-5);const acc=last.reduce((a,x)=>a+x,0)/last.length;const t=today();if(r.last===t&&acc>=0.8)return;
+    if(acc>=0.8){r.b=Math.min(SR_DAYS.length-1,(r.last?r.b+1:0));}else r.b=0;r.d=addDays(t,SR_DAYS[r.b]);r.last=t;r.c=0;};
+  UI.srDue=function(P,keys){if(!P||!P.sr)return [];const t=today();return keys.filter(k=>P.sr[k]&&P.sr[k].d<=t).sort((a,b)=>P.sr[a].d<P.sr[b].d?-1:1);};
+  // ---- goals and reflection ----
+  UI.GOALS=['Find the home note first','Write the rhythm before the pitches','Sing it back in my head before I answer','Listen to the bass line','Count the beats and find beat 1','Read the key signature first','Check every answer before I press Check','Use as few playings as I can'];
+  UI.goalStrip=(goal,choices,last)=>goal?`<div class="goalstrip on">🎯 Your goal: <b>${esc(goal)}</b></div>`:`<div class="goalstrip"><div>🎯 Pick a goal for this set${last?' <span class="gl">(last time: '+esc(last)+')</span>':''}</div><div class="setchips">${(choices||UI.GOALS).map(g=>`<button class="chip" data-goal="${esc(g)}">${esc(g)}</button>`).join('')}</div></div>`;
+  // ---- end-of-set summary (feedback at the end, goal reflection) ----
+  UI.summary=function(o){let ov=document.getElementById('bsum');if(!ov){ov=document.createElement('div');ov.id='bsum';ov.className='bsum';document.body.appendChild(ov);}
+    const rows=(o.rows||[]).map((r,i)=>`<li class="${r.ok?'ok':'no'}"><b>${i+1}.</b> ${r.ok?'✓':'✗'} ${r.label?esc(r.label)+': ':''}${r.why||''}</li>`).join('');
+    ov.innerHTML=`<div class="bsumc"><p class="prompt">${esc(o.title||'Set complete')}</p><p class="sub">${o.sub||''}</p>${rows?'<ol class="bsuml">'+rows+'</ol>':''}
+      ${o.goal?`<div class="setgrp"><div class="setlabel">Your goal was: ${esc(o.goal)}. Did it help?</div><div class="setchips">${['Yes','A bit','Not really'].map(x=>`<button class="chip" data-rf="${x}">${x}</button>`).join('')}</div></div>
+      <div class="setgrp"><div class="setlabel">Next time I will…</div><div class="setchips">${UI.GOALS.map(g=>`<button class="chip" data-nx="${esc(g)}">${esc(g)}</button>`).join('')}</div></div>`:''}
+      <div class="controls"><button class="btn-check" id="bsumok">${o.ok||'Review my answers'}</button></div></div>`;
+    ov.classList.add('open');const rf={};ov.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>{rf.helped=b.dataset.rf;ov.querySelectorAll('[data-rf]').forEach(x=>x.classList.toggle('on',x===b));});
+    ov.querySelectorAll('[data-nx]').forEach(b=>b.onclick=()=>{rf.next=b.dataset.nx;ov.querySelectorAll('[data-nx]').forEach(x=>x.classList.toggle('on',x===b));});
+    document.getElementById('bsumok').onclick=()=>{ov.classList.remove('open');if(o.onClose)o.onClose(rf);};};
   window.BlitzUI=UI;
 })();
 

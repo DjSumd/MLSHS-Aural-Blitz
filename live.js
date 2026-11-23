@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["live.js"]="20261109b";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["live.js"]="20261123b";
 // live.js — "Sing it" (microphone pitch check for sol-fa singing) and "Tap it" (tap a rhythm in time) for Aural Blitz.
 (function(){
   const LV={};
@@ -43,5 +43,22 @@
   function grade(exp,taps,spb){const tol=Math.max(0.09,Math.min(0.16,spb*0.25));const used=new Set();const hits=exp.map(e=>{let bi=-1,bd=1e9;taps.forEach((t,j)=>{if(used.has(j))return;const d=Math.abs(t-e);if(d<bd){bd=d;bi=j;}});if(bi>=0&&bd<=tol){used.add(bi);return {ok:true,d:taps[bi]-e};}return {ok:false};});
     const extra=taps.length-used.size;const n=exp.length;const good=hits.filter(h=>h.ok).length;return {hits,extra,frac:n?Math.max(0,(good-extra*0.5)/n):0,good,n,exp,taps};}
   LV.grade=grade;
+  // ---------- sight-singing in time: key cue, count-in, metronome; the pitch is sampled through each note and marked octave-free ----------
+  function tone(t,midi,d,amp){const c=AC();const o=c.createOscillator(),g=c.createGain();o.type='triangle';o.frequency.value=440*Math.pow(2,(midi-69)/12);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(amp||0.25,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+0.05);}
+  LV.keyCue=function(chord,first){const c=AC();if(c.state==='suspended')c.resume();const t=c.currentTime+0.1;chord.forEach(m=>tone(t,m,1.2,0.16));if(first!=null)tone(t+1.4,first,1.0,0.3);return 2.5;};
+  LV.sightRun=async function(o){let m;try{m=await openMic();}catch(e){o.onError&&o.onError(e);return null;}if(m.ctx.state==='suspended')await m.ctx.resume();
+    const c=AC();if(c.state==='suspended')await c.resume();const spb=o.spb,bpb=o.bpb;let t=c.currentTime+0.15;
+    if(o.chord){o.chord.forEach(mm=>tone(t,mm,1.2,0.16));t+=1.4;if(o.first!=null){tone(t,o.first,1.0,0.3);t+=1.25;}}
+    const ci=o.countIn||bpb;for(let b=0;b<ci;b++)click(t+b*spb,b===0);const first=t+ci*spb;
+    if(o.guide)for(let b=0;b<Math.ceil(o.total);b++)click(first+b*spb,b%bpb===0,b%bpb===0?900:700);
+    const frames=[];let stopped=false;const end=first+(o.total+0.4)*spb;o.onStart&&o.onStart((first-c.currentTime)*1000);
+    const iv=setInterval(()=>{if(stopped)return;const now=c.currentTime;m.an.getFloatTimeDomainData(m.buf);const p=detect(m.buf,m.ctx.sampleRate);const tb=(now-first)/spb;
+      if(p)frames.push({b:tb,midi:p.midi});o.onPitch&&o.onPitch(p,tb);
+      if(now>=end){stopped=true;clearInterval(iv);
+        const res=o.notes.map(n=>{const a=n.onset+Math.min(0.35,n.dur*0.3),z=n.onset+n.dur*0.92;const fs=frames.filter(f=>f.b>=a&&f.b<=z);const span=Math.max(1,(z-a)*spb/0.035);
+          if(fs.length<Math.max(2,span*0.3))return {ok:false,sung:null};const offs=fs.map(f=>{let off=(f.midi-n.midi)%12;off=((off+6)%12+12)%12-6;return off;}).sort((x,y)=>x-y);const med=offs[Math.floor(offs.length/2)];
+          const mids=fs.map(f=>f.midi).sort((x,y)=>x-y);return {ok:Math.abs(med)<=0.5,sung:mids[Math.floor(mids.length/2)],off:med};});
+        o.onDone&&o.onDone(res);}},35);
+    return {cancel:()=>{stopped=true;clearInterval(iv);}};};
   window.LiveKit=LV;
 })();

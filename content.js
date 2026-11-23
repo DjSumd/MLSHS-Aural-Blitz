@@ -1,4 +1,4 @@
-/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["content.js"]="20261109b";
+/*blitz-stamp*/(window.BLITZ_FILES=window.BLITZ_FILES||{})["content.js"]="20261123b";
 // content.js — MOUNT LAWLEY SHS · Music Aural Blitz, Years 7–12 (WA Curriculum Years 7–10 and WACE ATAR Units 1–4).
 // Every setting carries a year tag (yr). The student's year sets the defaults; ⚙ opens any item from any year.
 // Kinds: 'choice' | 'notate' | 'pitchdict' | 'melodydict' | 'rhythmdict' | 'numerals' | 'contour'.
@@ -180,7 +180,7 @@ var UNITS=[
     if(ctx.mode==='notate'){return {kind:'notate',clef:'treble',given:1,enharm:true,notes:[[R[0],Math.floor(root/12)-1,R[1]],[topN.letter,topN.octave,topN.acc]],mids:[root,root+iv.s],
         play:()=>AUDIO.interval(root,iv.s,'up'),playLabel:'Ascending interval — write the top note',prompt:'Write the note that completes the interval',why:`${iv.n} above ${noteName(rootN)} is <b>${noteName(topN)}</b> (${iv.s} semitones).`};}
     const dir=A_pick(dirs),names=ivls.map(x=>IVL[x].n);const hook=dir==='down'?(iv.dn?'Descending hook: '+iv.dn+'.':''):(iv.up?'Hook: '+iv.up+'.':'');
-    return {kind:'choice',options:ivls.slice().sort((a,b)=>IVL[a].s-IVL[b].s).map(x=>IVL[x].n),answer:iv.n,play:()=>AUDIO.interval(root,iv.s,dir),playOpt:(lab)=>{const c=ivls.find(x=>IVL[x].n===lab);return c?AUDIO.interval(root,IVL[c].s,dir):0;},playLabel:dir==='harm'?'Two notes together':dir==='down'?'Descending interval':'Ascending interval',why:`${iv.n} — ${iv.s} semitones (${noteName(rootN)} to ${noteName(topN)}). ${hook}`};}},
+    return {kind:'choice',options:ivls.slice().sort((a,b)=>IVL[a].s-IVL[b].s).map(x=>IVL[x].n),answer:iv.n,kbd:[root,root+iv.s],play:()=>AUDIO.interval(root,iv.s,dir),playOpt:(lab)=>{const c=ivls.find(x=>IVL[x].n===lab);return c?AUDIO.interval(root,IVL[c].s,dir):0;},playLabel:dir==='harm'?'Two notes together':dir==='down'?'Descending interval':'Ascending interval',why:`${iv.n} — ${iv.s} semitones (${noteName(rootN)} to ${noteName(topN)}). ${hook}`};}},
 
  {name:'Melodic dictation', key:'pd', ask:'Listen — write the notes.',
   guide:`<p class="prompt">Melody patterns</p><ul><li><b>Shape</b> questions: does each note go up, down or stay? Pick the matching contour.</li>
@@ -307,8 +307,8 @@ var UNITS=[
       return {kind:'choice',options:['One note','Two notes','A triad (three-note chord)'],answer:lab,play:()=>AUDIO.chord(0,notes,style),playLabel:'How many different notes are sounding?',why:n===3?'Three notes stacked in 3rds — a major triad.':n===2?'Two notes together — an interval, not a chord.':'A single note.'};}
     const quals=ctx.cfg('quals').filter(q=>CHORDQ[q]),q=A_pick(quals.length?quals:['Major']),Q=CHORDQ[q];
     if(qt==='inv'){const base=['Major','Minor','Diminished'].includes(q)?q:A_pick(['Major','Minor']);const inv=A_pick([0,1,2]);const INV=['Root position','1st inversion','2nd inversion']; // inversions are asked on triads only: a 7th or 9th chord re-stacked sounds like a cluster, not an inversion
-      return {kind:'choice',options:INV,answer:INV[inv],play:()=>AUDIO.chord(0,voiced(root,CHORDQ[base].iv,inv),style),playOpt:(lab)=>{const k=INV.indexOf(lab);return k<0?0:AUDIO.chord(0,voiced(root,CHORDQ[base].iv,k),style);},playLabel:base+' triad — which note is at the bottom?',why:`${INV[inv]} — the bass note is the ${inv===0?'root':inv===1?'3rd':'5th'}.`};}
-    return {kind:'choice',options:A_keep(quals),answer:q,play:()=>AUDIO.chord(0,voiced(root,Q.iv,0),style),playOpt:(lab)=>CHORDQ[lab]?AUDIO.chord(0,voiced(root,CHORDQ[lab].iv,0),style):0,playLabel:style==='arp'?'A chord, one note at a time':'A chord',why:`${q} — ${Q.cue}.${['Diminished 7th','Augmented'].includes(q)?' (Symmetrical — every inversion sounds the same.)':''}`};}},
+      return {kind:'choice',options:INV,answer:INV[inv],kbd:voiced(root,CHORDQ[base].iv,inv),play:()=>AUDIO.chord(0,voiced(root,CHORDQ[base].iv,inv),style),playOpt:(lab)=>{const k=INV.indexOf(lab);return k<0?0:AUDIO.chord(0,voiced(root,CHORDQ[base].iv,k),style);},playLabel:base+' triad — which note is at the bottom?',why:`${INV[inv]} — the bass note is the ${inv===0?'root':inv===1?'3rd':'5th'}.`};}
+    return {kind:'choice',options:A_keep(quals),answer:q,kbd:voiced(root,Q.iv,0),play:()=>AUDIO.chord(0,voiced(root,Q.iv,0),style),playOpt:(lab)=>CHORDQ[lab]?AUDIO.chord(0,voiced(root,CHORDQ[lab].iv,0),style):0,playLabel:style==='arp'?'A chord, one note at a time':'A chord',why:`${q} — ${Q.cue}.${['Diminished 7th','Augmented'].includes(q)?' (Symmetrical — every inversion sounds the same.)':''}`};}},
 
  {name:'Harmonic dictation', key:'prog', ask:'Listen — write the chords.',
   guide:`<p class="prompt">Chord changes &amp; progressions</p><ul><li>Year 7: can you hear when the chord <b>changes</b>? Count the changes, or say whether two chords are the same or different.</li>
@@ -467,6 +467,277 @@ var UNITS=[
     return {kind:'choice',options:A_keep(devs),answer:id,play,playLabel:'A short excerpt',why:`${id}: ${why}`};}}
 ];
 // ---- more settings for the dictations (⚙ Customise, Custom Tasks): length 1–8 bars, key, range, tempo, playings ----
+// ===================== Nov 2026 additions: real tunes, find doh, skeleton score, harmony from a melody, outer voices, jazz progressions, designated works =====================
+// ---- real tunes (public domain): s = semitones from the tonic, r = rest, ~ = tie into the next note. x4 / x8 = 4- or 8-bar excerpts ----
+const TUNES=[
+ {id:'ode',name:'Ode to Joy',by:'Beethoven, Symphony No. 9 (1824)',scale:'major',metre:'4/4',
+  x8:'4:1 4:1 5:1 7:1 7:1 5:1 4:1 2:1 0:1 0:1 2:1 4:1 4:1.5 2:0.5 2:2 4:1 4:1 5:1 7:1 7:1 5:1 4:1 2:1 0:1 0:1 2:1 4:1 2:1.5 0:0.5 0:2'},
+ {id:'twinkle',name:'Twinkle, Twinkle, Little Star',by:'traditional French melody',scale:'major',metre:'4/4',
+  x4:'0:1 0:1 7:1 7:1 9:1 9:1 7:2 5:1 5:1 4:1 4:1 2:1 2:1 0:2'},
+ {id:'frere',name:'Frère Jacques',by:'traditional French round',scale:'major',metre:'4/4',
+  x8:'0:1 2:1 4:1 0:1 0:1 2:1 4:1 0:1 4:1 5:1 7:2 4:1 5:1 7:2 7:0.5 9:0.5 7:0.5 5:0.5 4:1 0:1 7:0.5 9:0.5 7:0.5 5:0.5 4:1 0:1 0:1 -5:1 0:2 0:1 -5:1 0:2'},
+ {id:'clair',name:'Au clair de la lune',by:'traditional French',scale:'major',metre:'4/4',
+  x4:'0:1 0:1 0:1 2:1 4:2 2:2 0:1 4:1 2:1 2:1 0:4'},
+ {id:'buns',name:'Hot Cross Buns',by:'traditional English',scale:'major',metre:'4/4',
+  x4:'4:1 2:1 0:2 4:1 2:1 0:2 0:0.5 0:0.5 0:0.5 0:0.5 2:0.5 2:0.5 2:0.5 2:0.5 4:1 2:1 0:2'},
+ {id:'mary',name:'Mary Had a Little Lamb',by:'traditional American',scale:'major',metre:'4/4',
+  x8:'4:1 2:1 0:1 2:1 4:1 4:1 4:2 2:1 2:1 2:2 4:1 7:1 7:2 4:1 2:1 0:1 2:1 4:1 4:1 4:1 4:1 2:1 2:1 4:1 2:1 0:4'},
+ {id:'jingle',name:'Jingle Bells (chorus)',by:'James Lord Pierpont (1857)',scale:'major',metre:'4/4',
+  x8:'4:1 4:1 4:2 4:1 4:1 4:2 4:1 7:1 0:1.5 2:0.5 4:4 5:1 5:1 5:1.5 5:0.5 5:1 4:1 4:1 4:0.5 4:0.5 4:1 2:1 2:1 4:1 2:2 7:2'},
+ {id:'grace',name:'Amazing Grace',by:'traditional American hymn tune "New Britain"',scale:'major',metre:'3/4',pickup:1,
+  x4:'-5:1 0:2 4:0.5 0:0.5 4:2 2:1 0:2 -3:1 -5:2',
+  x8:'-5:1 0:2 4:0.5 0:0.5 4:2 2:1 0:2 -3:1 -5:2 -5:1 0:2 4:0.5 0:0.5 4:2 2:1 7:3~ 7:2'},
+ {id:'green',name:'Greensleeves',by:'traditional English (16th century)',scale:'natural minor',label:'minor',metre:'6/8',pickup:0.5,
+  x4:'0:0.5 3:1 5:0.5 7:0.75 8:0.25 7:0.5 5:1 2:0.5 -2:0.75 0:0.25 2:0.5 3:1 0:0.5 0:0.75 -1:0.25 0:0.5 2:1 -1:0.5 -5:1'},
+ {id:'yankee',name:'Yankee Doodle',by:'traditional American',scale:'major',metre:'4/4',
+  x8:'0:1 0:1 2:1 4:1 0:1 4:1 2:1 -5:1 0:1 0:1 2:1 4:1 0:2 -1:2 0:1 0:1 2:1 4:1 5:1 4:1 2:1 0:1 -1:1 -5:1 -3:1 -1:1 0:2 0:2'},
+ {id:'london',name:'London Bridge',by:'traditional English',scale:'major',metre:'4/4',
+  x4:'7:1.5 9:0.5 7:1 5:1 4:1 5:1 7:2 2:1 4:1 5:2 4:1 5:1 7:2'},
+ {id:'row',name:'Row, Row, Row Your Boat',by:'traditional',scale:'major',metre:'6/8',
+  x8:'0:1.5 0:1.5 0:1 2:0.5 4:1.5 4:1 2:0.5 4:1 5:0.5 7:3 12:0.5 12:0.5 12:0.5 7:0.5 7:0.5 7:0.5 4:0.5 4:0.5 4:0.5 0:0.5 0:0.5 0:0.5 7:1 5:0.5 4:1 2:0.5 0:3'},
+ {id:'farm',name:'Old MacDonald Had a Farm',by:'traditional',scale:'major',metre:'4/4',
+  x4:'0:1 0:1 0:1 -5:1 -3:1 -3:1 -5:2 4:1 4:1 2:1 2:1 0:3 r:1'},
+ {id:'minuet',name:'Minuet in G',by:'Christian Petzold (from the Notebook for Anna Magdalena Bach)',scale:'major',metre:'3/4',
+  x8:'7:1 0:0.5 2:0.5 4:0.5 5:0.5 7:1 0:1 0:1 9:1 5:0.5 7:0.5 9:0.5 11:0.5 12:1 0:1 0:1 5:1 7:0.5 5:0.5 4:0.5 2:0.5 4:1 5:0.5 4:0.5 2:0.5 0:0.5 -1:1 0:0.5 2:0.5 4:0.5 0:0.5 2:3'},
+ {id:'surprise',name:'"Surprise" Symphony theme',by:'Haydn, Symphony No. 94 (1791)',scale:'major',metre:'2/4',
+  x4:'0:0.5 0:0.5 4:0.5 4:0.5 7:0.5 7:0.5 4:1 5:0.5 5:0.5 2:0.5 2:0.5 -1:0.5 -1:0.5 -5:1'},
+ {id:'godrest',name:'God Rest You Merry, Gentlemen',by:'traditional English carol',scale:'natural minor',label:'minor',metre:'4/4',pickup:1,
+  x4:'0:1 0:1 7:1 7:1 5:1 3:1 2:1 0:1 -2:1 0:1 2:1 3:1 5:1 7:3'},
+ {id:'auld',name:'Auld Lang Syne',by:'traditional Scottish',scale:'major',metre:'4/4',pickup:1,
+  x4:'-5:1 0:1.5 0:0.5 0:1 4:1 2:1.5 0:0.5 2:1 4:1 0:1.5 0:0.5 4:1 7:1 9:3'}
+];
+function tuneNotes(str){return str.trim().split(/\s+/).map(t=>{const tie=t.endsWith('~');t=t.replace('~','');const [a,b]=t.split(':');return {s:a==='r'?null:parseInt(a,10),dur:parseFloat(b),tie};});}
+// a real tune as a dictation: key from the year (or the teacher's key), range fitted to the clef
+function realTuneDict(o){const want=o.bars>=8?'x8':'x4';let pool=TUNES.filter(t=>t[want]&&(!o.scales||o.scales.some(s=>s===t.scale||(t.scale==='natural minor'&&/minor/.test(s)))));
+  if(!pool.length)pool=TUNES.filter(t=>t[want]);if(!pool.length)pool=TUNES;const t=A_pick(pool);const str=t[want]||t.x4||t.x8;
+  const sc=ENGRAVE.SCALES.find(s=>s.name===t.scale);const minor=/minor/.test(t.scale);
+  let keys=sc.keys.filter(k=>Math.abs(ENGRAVE.MAJ_KS[k[1]])<=(o.maxKs==null?7:o.maxKs)).map(k=>ENGRAVE.keyIdOf(sc,k));if(!keys.length)keys=[ENGRAVE.keyIdOf(sc,sc.keys[0])];
+  if(o.keys&&o.keys.length){const hit=o.keys.filter(k=>minor?/m$/.test(k):!/m$/.test(k));if(hit.length)keys=hit;}
+  const clef=o.clef||'treble';const d=ENGRAVE.dictFrom({scale:t.scale,label:t.label,key:A_pick(keys),notes:tuneNotes(str),metre:t.metre,pickup:t.pickup||0,clef,fit:clef==='bass'?[41,62]:[60,81]});
+  d.tune=t;return d;}
+
+// ---- harmonise a melody bar by bar (or half-bar in 4/4): the chord that holds the most of the melody, V before the last bar, I at the end ----
+const HARM_MAJ=[['I',0,''],['ii',2,'mi'],['IV',5,''],['V',7,''],['vi',9,'mi']],HARM_MIN=[['i',0,'mi'],['iv',5,'mi'],['V',7,''],['VI',8,'']];
+function harmonise(d,allowed){const M=d.metre,minor=/minor/.test(d.scaleType);let set=(minor?HARM_MIN:HARM_MAJ);if(allowed)set=set.filter(e=>allowed.includes(e[0])||e[1]===0);
+  const seg=(!M.compound&&M.bpb===4)?2:M.bpb;const pick=d.pickup||0;const total=d.totalBeats;const nseg=Math.round((total-pick)/seg);const out=[];
+  for(let k=0;k<nseg;k++){const a=pick+k*seg,b=a+seg;
+    let best=null;set.forEach(e=>{const pcs=(TY[e[2]]||[0,4,7]).map(iv=>(e[1]+iv)%12);let sc=0;
+      d.notes.forEach(n=>{if(n.rest||n.midi==null)return;const s0=Math.max(a,n.onset),s1=Math.min(b,n.onset+n.dur);if(s1<=s0+1e-6)return;const rel=((n.midi-d.tonicMidi)%12+12)%12;const w=(s1-s0)*(Math.abs(n.onset-a)<1e-6?1.6:1);sc+=pcs.includes(rel)?w:-0.6*w;});
+      if(k===nseg-1&&e[1]===0)sc+=6;if(k===nseg-2&&e[1]===7)sc+=2.2;if(k===0&&e[1]===0)sc+=1.5;if(out.length&&out[out.length-1]===e&&k<nseg-1)sc-=0.4;
+      if(!best||sc>best[0])best=[sc,e];});out.push(best[1]);}
+  return {seq:out,seg};}
+// accompaniment parts for AUDIO.parts: bass on the chord root, three upper voices, under the melody
+function accompParts(d,seq,seg){const R=d.tonicMidi;const vc=voiceProg(seq.map(e=>[e[0],e[1],e[2]]),R>64?R-12:R);const pick=d.pickup||0;
+  const bass=[],t1=[],t2=[],t3=[],du=[];if(pick>0){bass.push(null);t1.push(null);t2.push(null);t3.push(null);du.push(pick);}
+  vc.forEach(v=>{let b=v[0];while(b>55)b-=12;while(b<40)b+=12;bass.push(b);t1.push(v[1]);t2.push(v[2]);t3.push(v[3]);du.push(seg);});
+  const ev=[];d.notes.forEach((n,i)=>{if(i>0&&d.notes[i-1].tie&&ev.length){ev[ev.length-1].dur+=n.dur;return;}ev.push({m:n.rest?null:n.midi,dur:n.dur});});
+  return [{mids:ev.map(e=>e.m),durs:ev.map(e=>e.dur),amp:1.05},{mids:bass,durs:du,amp:0.62},{mids:t1,durs:du,amp:0.36},{mids:t2,durs:du,amp:0.36},{mids:t3,durs:du,amp:0.36}];}
+function ciOfMetre(M){return M.id==='7/8'?{n:7,beat:0.5,accents:[0,2,4]}:M.id==='5/4'?{n:5,beat:1,accents:[0,3]}:{n:M.compound?Math.round(M.numer/3):M.numer,beat:M.compound?1.5:1,accents:[0]};}
+function playWithAccomp(d,parts,cue){const tm=d.tonicMidi,minor=/minor/.test(d.scaleType);const ci=ciOfMetre(d.metre);if(d.pickup)ci.len=Math.max(0.5,ci.n*ci.beat-d.pickup);
+  return AUDIO.parts(parts,d.metre.compound?0.42:0.6,{cue:cue===false?null:{chord:[tm-12,tm+(minor?3:4)-12,tm+7-12]},countIn:ci});}
+const rnLabel=(e,d)=>e[0];
+
+// ---- Scale degrees: find doh, name the note after a cadence, name the note a tune stops on ----
+const DEG_MAJ=[['do',0,'1'],['re',2,'2'],['mi',4,'3'],['fa',5,'4'],['so',7,'5'],['la',9,'6'],['ti',11,'7']];
+const DEG_MIN=[['la',0,'1'],['ti',2,'2'],['do',3,'3'],['re',5,'4'],['mi',7,'5'],['fa',8,'6'],['si',11,'7']];
+const degLab=(t,minor)=>t[0]+' · '+t[2];
+const DEGU={name:'Scale degrees',key:'deg',ask:'Listen — where is doh?',
+  guide:`<p class="prompt">Finding doh</p><ul><li>Every tune has a <b>home note</b> (the tonic, <i>do</i>; in minor, <i>la</i>). Hum it after the music stops: it is the note that sounds finished.</li>
+   <li><b>Note after a cadence:</b> the chords set the key, then one note sounds. Sing down (or up) to doh and count the steps. <i>so</i> sounds open, <i>ti</i> wants to rise to <i>do</i>, <i>fa</i> wants to fall to <i>mi</i>.</li>
+   <li><b>Find doh:</b> a tune plays, then four notes. Which one is home? Tap each option to hear it.</li>
+   <li><b>Where does it stop?</b> The tune stops before it gets home. Which degree is the last note?</li></ul>`,
+  cfg:[ G('qtype','Question type',[Y('find','Find doh after a tune',7),Y('after','Name the note after a cadence',8),Y('stop','Which degree does the tune stop on?',9)]),
+        G('degs','Degrees',[Y('1','do (1)',7),Y('3','mi (3)',7),Y('5','so (5)',7),Y('2','re (2)',8),Y('6','la (6)',8),Y('4','fa (4)',9),Y('7','ti (7)',9)]),
+        SG('mode','Key',[{id:'major',label:'Major'},{id:'minor',label:'Minor (la is home)'},{id:'both',label:'Both'}],{7:'major',10:'both'}) ],
+  gen(ctx){const qt=A_pick(ctx.cfg('qtype')),md=ctx.cfg('mode');const minor=md==='both'?Math.random()<0.4:md==='minor';const T=minor?DEG_MIN:DEG_MAJ;
+    const degs=ctx.cfg('degs');const opts=T.filter(t=>degs.includes(t[2]));const use=opts.length>=2?opts:T.slice(0,3);
+    if(qt==='after'){const R=A_root(55,62);const seq=minor?[['i',0,'mi'],['iv',5,'mi'],['V',7,''],['i',0,'mi']]:[['I',0,''],['IV',5,''],['V',7,''],['I',0,'']];const vc=voiceProg(seq,R);
+      const tg=A_pick(use);let m=R+12+tg[1];if(m>79)m-=12;const lines=[0,1,2,3].map(j=>({mids:vc.map(v=>v[j]).concat([null,null]),durs:[1,1,1,1.5,1,2],amp:j===0?0.7:0.42}));lines.push({mids:[null,m],durs:[5.5,2],amp:1.1});
+      const ans=degLab(tg,minor);return {kind:'choice',options:use.map(t=>degLab(t,minor)),answer:ans,play:()=>AUDIO.parts(lines,0.62),playOpt:lab=>{const t=T.find(x=>degLab(x,minor)===lab);return t?AUDIO.parts([{mids:[R+12,null,R+12+t[1]],durs:[1,0.5,1.5]}],0.62):0;},
+        playLabel:(minor?'A minor':'A major')+' cadence, then one note. Which degree is it?',why:`It was ${tg[0]} (${tg[2]}). Tap the options to hear each one after ${minor?'la':'do'}.`};}
+    const sc=minor?['natural minor']:['major'];const dict=ENGRAVE.buildDictation({diff:ctx.year<=8?'easy':'med',scaleNames:sc,bars:ctx.year<=8?2:4,clef:'treble',metre:A_pick(['3/4','4/4']),maxKs:4,rests:false,ties:false,anacrusis:false,triplets:false});
+    const ev=dict.notes.filter(n=>!n.rest);const tm=dict.tonicMidi;
+    if(qt==='stop'){let cut=ev.length-1;for(let k=ev.length-2;k>=Math.floor(ev.length/2);k--){const rel=((ev[k].midi-tm)%12+12)%12;const t=T.find(x=>x[1]===rel);if(t&&use.includes(t)&&rel!==0){cut=k;break;}}
+      const part=ev.slice(0,cut+1);const rel=((part[part.length-1].midi-tm)%12+12)%12;const tg=T.find(x=>x[1]===rel)||T[0];const pool=use.includes(tg)?use:use.concat([tg]);
+      return {kind:'choice',options:T.filter(t=>pool.includes(t)).map(t=>degLab(t,minor)),answer:degLab(tg,minor),play:()=>AUDIO.melody(part.map(n=>n.midi),part.map((n,i)=>i===part.length-1?2:n.dur),0.58,0,undefined,{cue:{chord:[tm-12,tm-12+(minor?3:4),tm-5]}}),
+        playLabel:'The tonic chord, then a tune that stops before it gets home. Which degree is the last note?',why:`The last note was ${tg[0]} (${tg[2]}) in ${dict.scaleName}.`};}
+    // find doh: four notes, one is the tonic
+    const others=A_shuf(T.filter(t=>t[1]!==0)).slice(0,3);const cands=A_shuf([T[0]].concat(others));const base=tm>66?tm-12:tm;const mids=cands.map(t=>base+t[1]);
+    const labs=['Note A','Note B','Note C','Note D'];const k=cands.indexOf(T[0]);const tune=ctx.year>=9?ev.slice(0,ev.length-1):ev;
+    return {kind:'choice',options:labs,answer:labs[k],play:()=>AUDIO.melody(tune.map(n=>n.midi).concat([null]).concat(mids),tune.map(n=>n.dur).concat([1.5]).concat(mids.map(()=>1.2)),0.58),
+      playOpt:lab=>{const i=labs.indexOf(lab);return i<0?0:AUDIO.melody([mids[i]],[1.6],0.6);},
+      playLabel:'A tune, then four single notes (A, B, C, D). Which note is doh, the home note?'+(ctx.year>=9?' The tune stops just before home.':''),why:`${labs[k]} was ${minor?'la':'do'}, the tonic of ${dict.scaleName}. The others were ${cands.filter(t=>t!==T[0]).map(t=>t[0]).join(', ')}.`};}};
+
+// ---- Skeleton score (WACE): fill in the missing bars of a melody over a given accompaniment ----
+const SKEL={name:'Skeleton score',key:'skel',ask:'Listen — complete the missing bars.',
+  guide:`<p class="prompt">Skeleton score</p><ul><li>The melody is printed except for the <b>empty bars</b>. The chords are shown above the stave and played with the melody.</li>
+   <li>Follow the printed notes as you listen so you know exactly where the gap starts. Sing the last printed note, then work out the gap by step and leap.</li>
+   <li>The chord above each gap tells you which notes are likely on the strong beats.</li><li>⚙: rhythm given (write the pitches) or write the rhythm and the pitches.</li></ul>`,
+  cfg:[ G('qtype','Question type',[Y('pitch','Missing bars: write the pitches (rhythm given)',9),Y('both','Missing bars: write the rhythm and pitches',10)]),
+        SG('bars','Length',[{id:'4',label:'4 bars'},{id:'8',label:'8 bars'}],{9:'4',11:'8'}),
+        SG('missing','Missing bars',[{id:'1',label:'1 bar'},{id:'2',label:'2 bars'}],{9:'1',11:'2'}),
+        G('scales','Scales',[Y('major','Major',9),Y('natural minor','Natural minor',10),Y('harmonic minor','Harmonic minor',11)]),
+        G('metres','Time signatures',[Y('3/4','3/4',9),Y('4/4','4/4',9),Y('6/8','6/8',10)]) ],
+  gen(ctx){const bars=parseInt(ctx.cfg('bars'),10)||4,miss=parseInt(ctx.cfg('missing'),10)||1,qt=A_pick(ctx.cfg('qtype'));
+    const d=ENGRAVE.buildDictation({diff:ctx.diff==='easy'?'easy':'med',scaleNames:ctx.cfg('scales'),bars,clef:'treble',metre:A_pick(ctx.cfg('metres')),maxKs:maxKsFor(ctx.year),rests:false,ties:false,anacrusis:false,triplets:false,syncopation:ctx.year>=10});
+    const H=harmonise(d);const parts=accompParts(d,H.seq,H.seg);const bpb=d.metre.bpb;
+    const starts=bars>=8?(miss===2?[1,5]:[1,2,5,6]):(miss===2?[1]:[1,2]);const b0=A_pick(starts);const gone=[b0,b0+miss-1];
+    const inGap=n=>{const b=Math.floor(n.onset/bpb+1e-6);return b>=gone[0]&&b<=gone[1];};const mask=d.notes.map(n=>!inGap(n));
+    const names=H.seq.map(e=>chordName(d.tonicLetter,d.tonicMidi,[e[0],e[1],e[2]]));const per=bpb/H.seg;
+    const chordLine='<div class="chordline">'+[...Array(bars).keys()].map(b=>'<span class="'+(b>=gone[0]&&b<=gone[1]?'gap':'')+'"><i>'+(b+1)+'</i>'+names.slice(b*per,(b+1)*per).join(' ')+'</span>').join('')+'</div>';
+    const gapTxt=miss===2?'bars '+(gone[0]+1)+'–'+(gone[1]+1):'bar '+(gone[0]+1);
+    const why='Key: '+d.scaleName+'. The missing '+gapTxt+': '+d.notes.filter(inGap).map(noteName).join(' ')+'. Chords: '+names.join(' – ')+'.';
+    return {kind:qt==='both'?'melodydict':'pitchdict',dict:d,gIdx:mask.map((m,i)=>m?i:-1).filter(i=>i>=0),scaleName:d.scaleName,preHtml:chordLine,cue:false,play:()=>playWithAccomp(d,parts),
+      playLabel:bars+' bars in '+d.metre.id+' · melody with chords · tonic chord and a count-in first',
+      prompt:qt==='both'?'Complete '+gapTxt+': write the rhythm and the pitches':'Complete '+gapTxt+': the rhythm is given, write the pitches',why};}};
+
+// ---- Designated works (SCSA Music ATAR, for teaching in 2027): facts from the fact files and analyses in the department library ----
+// [question, answer, [three distractors], explanation]
+const DW_BANK=[
+ {id:'scar',t:'Missy Higgins · Scar',y:11,u:'Unit 1 · Elements',q:[
+  ['Who wrote Scar?','Missy Higgins and Kevin Griffin',['Missy Higgins alone','Missy Higgins and John Porter','Kevin Griffin alone'],'Higgins wrote it with Kevin Griffin of the American band Better Than Ezra.'],
+  ['Which album is Scar from?','The Sound of White (2004)',['On a Clear Night (2007)','The Ol’ Razzle Dazzle (2012)','The Special Two EP'],'Scar was the first single from her debut album The Sound of White.'],
+  ['Who produced Scar?','John Porter',['Kevin Griffin','Andrew Powell','Norman Granz'],'John Porter produced the track.'],
+  ['How did Scar do in Australia?','Number 1 on the ARIA singles chart',['Number 1 in the UK only','It peaked just outside the Top 40','Number 1 on the US Billboard Hot 100'],'It went to number 1 and won the ARIA Award for Single of the Year (2004).'],
+  ['Higgins said Scar is about…','staying true to herself when the music industry tried to change her songs and image',['a car accident she was in as a teenager','leaving Melbourne for London','the end of a long relationship'],'She wrote it at 19, at the start of her career.'],
+  ['How did Missy Higgins first come to national attention?','Winning triple j Unearthed in 2001',['Winning Australian Idol','A viral busking video','Supporting Pink on tour'],'She won Unearthed with All for Believing.']]},
+ {id:'web',t:'Louis Armstrong · West End Blues',y:11,u:'Unit 1 · Elements',q:[
+  ['Who composed West End Blues?','Joe ‘King’ Oliver',['Louis Armstrong','Earl Hines','Jelly Roll Morton'],'King Oliver, Armstrong’s mentor, composed it; Clarence Williams wrote the lyrics.'],
+  ['When was Armstrong’s recording made?','1928, in Chicago',['1925, in New Orleans','1938, in New York','1923, in Richmond, Indiana'],'Recorded 28 June 1928 in Chicago for the Okeh label.'],
+  ['What is the form?','12-bar blues choruses, framed by an introduction and a coda',['32-bar AABA song form','Verse and chorus','Through-composed'],'Each chorus is a 12-bar blues in E♭ (concert).'],
+  ['How does the record begin?','An unaccompanied trumpet cadenza in free time',['A piano introduction in tempo','The full band playing the melody','A drum solo'],'Armstrong’s opening cadenza is one of the most famous passages in jazz.'],
+  ['Who plays piano?','Earl Hines',['Lil Hardin Armstrong','Fats Waller','Jelly Roll Morton'],'Earl Hines was the pianist in the 1928 Hot Five.'],
+  ['What is the concert key?','E♭',['C','B♭','F'],'The blues choruses are in E♭ (concert pitch).'],
+  ['In the vocal chorus, Armstrong…','scat sings, trading phrases with the clarinet',['sings the lyrics with the full band','whistles the melody','sings in harmony with the trombone'],'Scat singing answers Jimmy Strong’s low clarinet: call and response.']]},
+ {id:'haydn',t:'Haydn · Trumpet Concerto in E♭, iii',y:11,u:'Unit 1 · Elements',q:[
+  ['Haydn wrote the concerto for…','Anton Weidinger',['Johann Nepomuk Hummel','Leopold Mozart','Michael Haydn'],'He wrote it in 1796 in Vienna for the trumpeter Anton Weidinger.'],
+  ['What was new about Weidinger’s trumpet?','It had keys, so it could play every chromatic note',['It had three valves','It used crooks to change key','It was a slide trumpet'],'Natural trumpets could only play the harmonic series; the keyed trumpet could play chromatically.'],
+  ['What is the key of the concerto?','E♭ major',['C major','B♭ major','D major'],'Concerto for Trumpet and Orchestra in E♭ major, Hob. VIIe:1.'],
+  ['What is the form of the third movement?','Rondo',['Theme and variations','Minuet and trio','Binary'],'The finale is a rondo: the refrain returns between contrasting episodes.'],
+  ['When was the first performance?','1800, at the Burgtheater, Vienna',['1796, in London','1791, at Esterháza','1809, in Paris'],'28 March 1800, with Weidinger as soloist.'],
+  ['Which era is the concerto from?','Classical',['Baroque','Romantic','Renaissance'],'Haydn (1732–1809) is a central composer of the Classical era.'],
+  ['What is the tempo marking of the third movement?','Allegro',['Andante','Adagio','Presto'],'Movements: I Allegro · II Andante · III Allegro.']]},
+ {id:'wuthering',t:'Kate Bush · Wuthering Heights',y:11,u:'Unit 2 · Narratives',q:[
+  ['The song is based on…','Emily Brontë’s novel Wuthering Heights (1847)',['Charlotte Brontë’s Jane Eyre','a BBC radio play','Thomas Hardy’s Far from the Madding Crowd'],'Bush wrote it after seeing the end of a 1967 BBC television adaptation of the novel.'],
+  ['From whose point of view is it sung?','Cathy, as a ghost at Heathcliff’s window',['Heathcliff','Emily Brontë','a narrator watching the story'],'Bush sings as Cathy’s ghost.'],
+  ['How old was Kate Bush when she wrote it?','18',['15','21','25'],'She wrote it on 5 March 1977, aged 18.'],
+  ['Which album is it from?','The Kick Inside',['Hounds of Love','The Dreaming','Never for Ever'],'Released 20 January 1978 by EMI.'],
+  ['Why was its UK number 1 historic?','It was the first UK number 1 written and performed by a female solo artist',['It was the first single sold on CD','It was the first number 1 with a music video','It was the first number 1 recorded at AIR Studios'],'It stayed at number 1 in the UK for four weeks.'],
+  ['Who produced the recording?','Andrew Powell',['David Gilmour','John Porter','George Martin'],'Andrew Powell produced it and wrote the arrangements; David Gilmour had helped her get signed.']]},
+ {id:'atrain',t:'Ellington/Fitzgerald · Take the A Train',y:11,u:'Unit 2 · Narratives',q:[
+  ['Who composed Take the A Train?','Billy Strayhorn',['Duke Ellington','Ella Fitzgerald','Mercer Ellington'],'Strayhorn, Ellington’s closest collaborator, wrote it in 1939.'],
+  ['What is the form of the tune?','AABA, 32 bars',['12-bar blues','ABAC, 32 bars','Verse and chorus'],'Four 8-bar sections: A A B A.'],
+  ['What is the ‘A’ train?','A New York subway line to Harlem',['A train from Chicago to New Orleans','Ellington’s tour bus','A steam train in Strayhorn’s home town'],'Strayhorn wrote it from Ellington’s directions to his home in Harlem.'],
+  ['Why did Ellington need new music in 1941?','A dispute with ASCAP stopped radio stations playing his own ASCAP music',['His band had broken up','His publisher had gone bankrupt','He had moved to Hollywood'],'Strayhorn’s tune became the band’s signature theme.'],
+  ['Ella Fitzgerald improvising with nonsense syllables is called…','scat singing',['vocalese','yodelling','melisma'],'Fitzgerald was famous for scat, imitating instruments with her voice.'],
+  ['In what key is the tune written?','C major',['E♭ major','F major','B♭ major'],'The written key is C major.'],
+  ['When was it first recorded by the Duke Ellington Orchestra?','1941',['1928','1939','1957'],'Composed 1939, first recorded 1941.']]},
+ {id:'indian',t:'James Ledger · Indian Pacific',y:11,u:'Unit 2 · Narratives',q:[
+  ['What journey does Indian Pacific depict?','The train between Sydney and Perth, across the Nullarbor',['The Ghan, from Adelaide to Darwin','A ferry across the Indian Ocean','The train from Perth to Kalgoorlie'],'The Indian Pacific runs from the Indian Ocean to the Pacific Ocean.'],
+  ['Where and when did Ledger write it?','In London, in 1996',['In Perth, in 2006','In Sydney, in 1986','In Melbourne, in 1999'],'It was his first orchestral work, written far from home.'],
+  ['Which unusual percussion instrument does it use?','A length of railway track struck with a hammer',['A car horn','A typewriter','An anvil'],'Percussion II also plays glockenspiel, tambourine, hi-hat, bongos and pedal bass drum.'],
+  ['Who gave the first performance?','Perth Modern School Senior Orchestra (1999)',['The West Australian Symphony Orchestra (1996)','The London Symphony Orchestra (1997)','The Sydney Symphony Orchestra (2001)'],'Conducted by Christopher Sears on 1 April 1999.'],
+  ['About how long is it?','About 6 minutes',['About 20 minutes','About 2 minutes','About 45 minutes'],'A short orchestral journey.'],
+  ['What is James Ledger’s home state?','Western Australia',['Victoria','Queensland','Tasmania'],'He is a Western Australian composer.']]},
+ {id:'marryuna',t:'Baker Boy · Marryuna',y:12,u:'Unit 3 · Identities',q:[
+  ['Which languages are in the lyrics?','English and Yolŋu Matha',['English and Kriol','English and Noongar','English and Pitjantjatjara'],'Baker Boy merges “two worlds into one”.'],
+  ['Who sings the chorus on the original release?','Yirrmal',['Baker Boy','Dallas Woods','Briggs'],'The song is by Baker Boy featuring Yirrmal (2017).'],
+  ['What does marryuna mean?','To dance with no shame, for the joy of dancing',['A ceremony for the sea','A welcome to country','The sound of the yidaki'],'The title stresses dancing; the music is built for it.'],
+  ['What is the key?','F minor',['C major','A minor','E♭ major'],'The rap verses sit on F; the chorus uses minor pentatonic.'],
+  ['What is the metre and tempo?','4/4 at about 108 BPM',['6/8 at about 60 BPM','3/4 at about 140 BPM','4/4 at about 72 BPM'],'Simple quadruple with 16th-note rhythms.'],
+  ['Which Indigenous instrument is sampled throughout?','Yidaki (didgeridoo)',['Clapsticks','Bullroarer','Gum leaf'],'The sampled yidaki gives an Indigenous Australian take on hip hop.'],
+  ['What happens to the drums in the breakdown?','A half-time feel: the snare moves from beats 2 and 4 to beat 3',['They double the tempo','They stop completely','They switch to a swing feel'],'The half-time breakdown acts as a bridge.']]},
+ {id:'simone',t:'Nina Simone · To Be Young, Gifted and Black',y:12,u:'Unit 3 · Identities',q:[
+  ['Where does the title come from?','Lorraine Hansberry’s play To Be Young, Gifted and Black',['A Langston Hughes poem','A speech by Martin Luther King Jr','A James Baldwin novel'],'Hansberry was a friend of Simone.'],
+  ['Where did Simone first perform the song in 1969?','The Harlem Cultural Festival',['Newport Jazz Festival','Woodstock','Monterey Pop Festival'],'Filmed and released in 2021 in the documentary Summer of Soul.'],
+  ['What is the main key?','C major',['F minor','E♭ major','G major'],'The B section leans towards A minor.'],
+  ['What is the form?','A short song: a verse (A) and a bridge (B)',['12-bar blues','Through-composed','Sonata form'],'Live versions add an improvised, preached ending.'],
+  ['Which genre does it draw on most?','Soul, with gospel influence',['Bebop','Reggae','Progressive rock'],'The harmony opens with a gospel-like I–IV–I.'],
+  ['What was Nina Simone’s birth name?','Eunice Waymon',['Eunice Simone','Nina Hayes','Ella Waymon'],'She trained as a classical pianist before singing in nightclubs as Nina Simone.'],
+  ['Which texture describes the song?','Homophonic: melody with accompaniment',['Monophonic','Polyphonic','Heterophonic'],'Voice over piano and band.']]},
+ {id:'beach',t:'Amy Beach · Gaelic Symphony, i',y:12,u:'Unit 3 · Identities',q:[
+  ['Why is the Gaelic Symphony historic?','It was the first symphony composed and published by an American woman',['It was the first symphony written in America','It was the first symphony with a choir','It was the first symphony recorded'],'Premiered by the Boston Symphony Orchestra in 1896.'],
+  ['What is the key of the first movement?','E minor',['G major','C minor','A♭ major'],'Symphony in E minor, Op. 32 (1894).'],
+  ['What is the form of the first movement?','Sonata form, with an extended introduction and a third theme',['Rondo','Theme and variations','Strophic'],'Exposition, development, recapitulation.'],
+  ['In which key is the second subject in the exposition?','G major, the relative major',['B minor, the dominant minor','E major, the tonic major','C major, the subdominant'],'In the recapitulation, the second theme returns unusually in A♭ major.'],
+  ['What is the main metre?','6/8 (compound duple)',['4/4','3/4','5/4'],'Marked Allegro con fuoco: fast, with fire.'],
+  ['Where do the first and second subjects come from?','Beach’s own song Dark is the Night!',['An Irish dance tune','A Scottish hymn','A Dvořák symphony'],'The closing theme is the Irish dance tune Conchobhar ua Raghallaigh Cluann.'],
+  ['Which era does the symphony belong to?','Late Romantic',['Classical','Baroque','Minimalist'],'Emotional expression and national identity drawn from folk melody.']]},
+ {id:'bohemian',t:'Queen · Bohemian Rhapsody',y:12,u:'Unit 4 · Innovations',q:[
+  ['Who wrote Bohemian Rhapsody?','Freddie Mercury',['Brian May','Freddie Mercury and Brian May','Roger Taylor'],'Mercury called it a “mock opera” made from three songs he had written.'],
+  ['Which album is it from?','A Night at the Opera (1975)',['A Day at the Races (1976)','News of the World (1977)','Sheer Heart Attack (1974)'],'Released as the lead single in 1975.'],
+  ['What is the form?','Through-composed: intro, ballad, opera section, hard rock section, coda',['Verse and chorus','12-bar blues','AABA'],'It has no chorus.'],
+  ['Which genre does it best represent?','Progressive rock',['Punk','Disco','Heavy metal'],'Prog rock blends rock with classical and other influences in long, unusual structures.'],
+  ['In what key is the ballad section (in the SCSA score)?','B♭ major',['A major','E♭ major','C minor'],'The opera section starts in A major and moves to E♭ major.'],
+  ['Which two metres are used most?','4/4 and 12/8',['3/4 and 6/8','5/4 and 7/8','2/4 and 9/8'],'There are brief bars of 5/4, 2/4 and 6/8.']]},
+ {id:'thin',t:'Lisa Young · Tha Thin Tha',y:12,u:'Unit 4 · Innovations',q:[
+  ['What is konnakol?','South Indian (Carnatic) vocal percussion',['North Indian slide guitar','A Balinese gamelan technique','West African talking drum'],'Rhythms are spoken in syllables called solkattu, organised in tala cycles.'],
+  ['Which album is Tha Thin Tha from?','The Eternal Pulse (2009)',['The Grace (2007)','A Night at the Opera (1975)','Kind of Blue (1959)'],'Composed by Lisa Young and bassist Ben Robertson.'],
+  ['What is the instrumentation?','Voice, jazz guitar, double bass and drum kit',['Voice, tabla and sitar','Voice, piano and string quartet','Voice and choir only'],'There is also an SATB choir arrangement.'],
+  ['What is the metre and tempo?','4/4 at about 160 BPM',['7/8 at about 100 BPM','6/8 at about 60 BPM','3/4 at about 200 BPM'],'Heavy use of 16th notes; a syncopated 4-bar riff at rehearsal mark B.'],
+  ['What is the key?','A major, with a mixolydian feel (G♯ is never used)',['A minor','D major throughout','C major'],'The final head moves to the subdominant.'],
+  ['How does the piece open?','A monophonic texture: one line',['Full band homophony','A polyphonic choir','A drum solo'],'The first head is homophonic; the riff section can be heard as polyphonic.']]},
+ {id:'shortride',t:'John Adams · Short Ride in a Fast Machine',y:12,u:'Unit 4 · Innovations',q:[
+  ['Which style is the piece associated with?','Minimalism (post-minimalism)',['Serialism','Neo-Classicism','Impressionism'],'Repetition, ostinato and gradual change, with rich Romantic orchestration.'],
+  ['Which instrument keeps the steady pulse from the start?','Wood block',['Snare drum','Timpani','Triangle'],'Other parts then add conflicting rhythms against it.'],
+  ['What kind of piece is it?','A fanfare for orchestra',['A nocturne','A rhapsody','A requiem'],'Written in 1986 for the Pittsburgh Symphony Orchestra’s Great Woods festival.'],
+  ['When was it written?','1986',['1966','1996','1976'],'For the Great Woods summer festival.'],
+  ['Which unusual instruments join the orchestra?','Two synthesisers',['Electric guitar and bass','A drum kit','A pipe organ'],'They use analog brass patches.'],
+  ['What is the form?','Through-composed',['Sonata form','Rondo','Strophic'],'It develops continuously without repeating large sections.'],
+  ['Which progression gives the grand ending?','B♭ – C – D major',['I – IV – V – I','ii – V – I','i – VI – III – VII'],'Heard most clearly at bar 178 before the final climax.']]}
+];
+let DW_DECK=[];
+const DWU={name:'Designated works',key:'dw',ask:'Designated works — pick the answer.',
+  guide:`<p class="prompt">Designated works</p><ul><li>Questions on the SCSA designated works for teaching in 2027: Year 11 (Units 1–2) and Year 12 (Units 3–4).</li><li>Listen to the preferred recording while you work. Choose which works to study in ⚙.</li><li>Sources: the Year 11 ATAR Music Preparation Package fact files and the department’s ATAR workbooks.</li></ul>`,
+  cfg:[ G('works','Works',DW_BANK.map(w=>Y(w.id,w.t+' ('+w.u+')',w.y))) ],
+  gen(ctx){const ws=ctx.cfg('works');const pool=[];DW_BANK.filter(w=>ws.includes(w.id)).forEach(w=>w.q.forEach((q,i)=>pool.push(w.id+'#'+i)));
+    if(!pool.length)DW_BANK.forEach(w=>w.q.forEach((q,i)=>pool.push(w.id+'#'+i)));DW_DECK=DW_DECK.filter(k=>pool.includes(k));if(!DW_DECK.length)DW_DECK=A_shuf(pool);const key=DW_DECK.shift();const [wid,qi]=key.split('#');const w=DW_BANK.find(x=>x.id===wid),q=w.q[+qi];
+    return {kind:'choice',options:A_shuf([q[1]].concat(q[2])),answer:q[1],prompt:w.t+': '+q[0],teacherPlays:w.u+' · Year '+w.y+'. Listen to the preferred recording if your teacher plays it.',why:q[3]};}};
+
+// ---- harmonic dictation additions: outer voices (bass, then soprano, then chords); a melody's rhythm, then its chords; jazz progressions ----
+const JAZZFORMS=[['ii–V–I (major)',[['ii7',2,'mi7'],['V7',7,'7'],['Imaj7',0,'maj7'],['Imaj7',0,'maj7']]],['iiø–V–i (minor)',[['iiø7',2,'mi7b5'],['V7',7,'7'],['i6',0,'mi6'],['i6',0,'mi6']]],
+  ['I–vi–ii–V (turnaround)',[['Imaj7',0,'maj7'],['vi7',9,'mi7'],['ii7',2,'mi7'],['V7',7,'7']]],['iii–vi–ii–V–I',[['iii7',4,'mi7'],['vi7',9,'mi7'],['ii7',2,'mi7'],['V7',7,'7'],['Imaj7',0,'maj7']]],
+  ['I–IV–I–V (blues-style)',[['I7',0,'7'],['IV7',5,'7'],['I7',0,'7'],['V7',7,'7']]]];
+function outerVoicesQ(ctx,set,isMin,K,R,L,lab,nameOf){const seq=genProgression(set,L);const sat=voiceSATB(seq,R);let pb=null;
+  const bass=seq.map((e,i)=>{const pc=_pc(R+e[1]);let best=null;for(let m=40;m<=55;m++){if(_pc(m)!==pc)continue;if(m>=sat[i][1]-2)continue;const c=pb==null?Math.abs(m-46):Math.abs(m-pb);if(best===null||c<best[0])best=[c,m];}const b=best?best[1]:sat[i][0];pb=b;return b;});
+  const sop=sat.map(v=>v[3]);const three=L%2===1;const metre=three?'3/4':'4/4',du=three?3:2;const fin=()=>du;
+  const sc=isMin?'harmonic minor':'major';const kid=isMin?({9:'Am',4:'Em',2:'Dm',11:'Bm',7:'Gm',0:'Cm'})[_pc(R)]:({0:'C',7:'G',5:'F',2:'D',10:'Bb',9:'A',3:'Eb',4:'E'})[_pc(R)];
+  const ton=_pc(R);const mk=(arr,clef)=>ENGRAVE.dictFrom({scale:sc,label:isMin?'minor':'major',key:kid,notes:arr.map((m,i)=>({s:m-(clef==='bass'?40+((ton-40)%12+12)%12:R),dur:fin(i)})),metre,clef,tonicMidi:clef==='bass'?40+((ton-40)%12+12)%12:R});
+  const dB=mk(bass,'bass'),dS=mk(sop,'treble');const lines=[{mids:bass,durs:bass.map((_,i)=>fin(i)),amp:0.8},{mids:sat.map(v=>v[1]),durs:bass.map((_,i)=>fin(i)),amp:0.4},{mids:sat.map(v=>v[2]),durs:bass.map((_,i)=>fin(i)),amp:0.4},{mids:sop,durs:bass.map((_,i)=>fin(i)),amp:0.95}];
+  const tm=R;const play=()=>AUDIO.parts(lines,0.62,{cue:{chord:[tm-12,tm-12+(isMin?3:4),tm-5]}});const keyName=keyDisplay(K)+' '+(isMin?'minor':'major');
+  const labels=seq.map(lab);const fmtL=l=>{const m=l.match(/^(\S+)(.*)$/);return m?fmtRN(m[1])+m[2]:l;};const byLab={};set.forEach(e=>byLab[lab(e)]=e);
+  const s1={kind:'pitchdict',dict:dB,given:1,scaleName:dB.scaleName,cue:false,play,playLabel:keyName+' · '+L+' chords in four parts',prompt:'Step 1: write the bass line',stepLabel:'Bass',why:'Bass: '+dB.notes.map(noteName).join(' ')+'.'};
+  const s2={kind:'pitchdict',dict:dS,given:1,scaleName:dS.scaleName,cue:false,play,playLabel:keyName+' · '+L+' chords in four parts',prompt:'Step 2: write the soprano (top) line',stepLabel:'Soprano',why:'Soprano: '+dS.notes.map(noteName).join(' ')+'.'};
+  const s3={kind:'numerals',palette:set.map(lab),fmt:fmtL,answer:labels,given:1,play,playLabel:keyName+' · use your bass line: it shows the root or inversion',prompt:'Step 3: name each chord in '+keyName,stepLabel:'Chords',
+    chordMine:ls=>{const es=ls.map(l=>byLab[l]).filter(Boolean);return es.length?AUDIO.progression(voiceProg(es,R),1.2):0;},why:seq.map(e=>fmtRN(e[0])+' ('+nameOf(e)+')').join(' – ')+'.'};
+  return {kind:'steps',steps:[s1,s2,s3],dict:dB,why:s3.why,multiPlay:false};}
+function melodyChordsQ(ctx,isMin,bars,allowed,lab){const d=ENGRAVE.buildDictation({diff:ctx.diff==='hard'?'med':'easy',scaleNames:[isMin?'harmonic minor':'major'],bars,clef:'treble',metre:A_pick(['3/4','4/4']),maxKs:maxKsFor(ctx.year),rests:false,ties:false,anacrusis:false,triplets:false,syncopation:false});
+  const H=harmonise(d,allowed);const parts=accompParts(d,H.seq,H.seg);const play=()=>playWithAccomp(d,parts);const keyName=d.scaleName.replace('harmonic minor','minor');
+  const rd=Object.assign({},d,{notes:d.notes.map(n=>Object.assign({},n,{d:34,acc:'',letter:'B'})),ks:0});const set=(isMin?HARM_MIN:HARM_MAJ).filter(e=>!allowed||allowed.includes(e[0])||e[1]===0);
+  const s1={kind:'rhythmdict',dict:rd,rhythmOnly:true,given:1,scaleName:d.metre.id+' · a melody with chords in '+keyName,play,playLabel:bars+' bars · melody with chords',prompt:'Step 1: write the rhythm of the melody',stepLabel:'Rhythm',why:'Count the beats first, then how each one splits.'};
+  const per=H.seg===2?' (two chords a bar)':' (one chord a bar)';
+  const s2={kind:'numerals',palette:set.map(e=>e[0]),answer:H.seq.map(e=>e[0]),given:1,play,playLabel:keyName+per,prompt:'Step 2: name the chords'+per,stepLabel:'Chords',why:H.seq.map(e=>fmtRN(e[0])).join(' – ')+'.'};
+  return {kind:'steps',steps:[s1,s2],dict:d,why:s2.why,multiPlay:false};}
+(function(){const P=UNITS.find(u=>u.key==='prog');const qg=P.cfg.find(g=>g.key==='qtype');
+  qg.items.push(Y('outer','Bass line, then soprano, then chords',10),Y('melch','Melody rhythm, then its chords',10),Y('jazz','Which jazz progression?',12));
+  const g0=P.gen;P.gen=function(ctx){const qt=A_pick(ctx.cfg('qtype'));const cx=Object.assign({},ctx,{cfg:k=>k==='qtype'?[qt]:ctx.cfg(k)});
+    if(qt==='jazz'){const f=A_pick(JAZZFORMS);const R=A_root(55,62);const vc=voiceProg(f[1],R);return {kind:'choice',options:JAZZFORMS.map(x=>x[0]),answer:f[0],play:()=>AUDIO.progression(vc,1.25),
+      playOpt:lab=>{const g=JAZZFORMS.find(x=>x[0]===lab);return g?AUDIO.progression(voiceProg(g[1],R),1.25):0;},playLabel:'Seventh chords: which progression is it?',why:f[0]+': '+f[1].map(e=>fmtRN(e[0])).join(' – ')+'. Listen to the bass: ii–V–I moves up a 4th each time.'};}
+    if(qt==='outer'||qt==='melch'){const ch=ctx.cfg('chords');const isMin=ch.includes('minor')&&Math.random()<0.4;
+      if(qt==='melch'){const allowed=isMin?['i','iv','V','VI']:['I','IV','V'].concat(ch.includes('ii')?['ii']:[]).concat(ch.includes('vi')?['vi']:[]);return melodyChordsQ(cx,isMin,A_pick([2,4]),allowed);}
+      const base=(isMin?PROGSET.Minor:PROGSET.Major).filter(e=>e[2]!=='7'&&(isMin?(e[4]<=9||ch.includes('ii')):(ch.includes(e[0])||e[0]==='I')));const set=base.length>=3?base:PROGSET.Major.slice(0,3);
+      const L=Math.max(3,Math.min(8,parseInt(ctx.cfg('length'),10)||4));const K=A_pick(isMin?KEYS_MIN:KEYS_MAJ),R=K[1]>64?K[1]-12:K[1];const lab=ctx.cfg('labels'),nameOf=e=>chordName(K[0],K[1],e),show=e=>lab==='names'?nameOf(e):lab==='both'?e[0]+' ('+nameOf(e)+')':e[0];
+      return outerVoicesQ(cx,set,isMin,K,R,L,show,nameOf);}
+    return g0.call(this,cx);};})();
+
+// ---- melodic dictation: real tunes as well as generated melodies ----
+(function(){const P=UNITS.find(u=>u.key==='pd');P.cfg.push(SG('source','Melodies',[{id:'gen',label:'Made by the app'},{id:'real',label:'Real tunes (folk songs and classics)'},{id:'both',label:'Both'}],'gen'));
+  const g0=P.gen;P.gen=function(ctx){const src=ctx.cfg('source');const real=src==='real'||(src==='both'&&Math.random()<0.5);if(!real)return g0.call(this,ctx);
+    const bd=ENGRAVE.buildDictation;let tune=null;ENGRAVE.buildDictation=function(o){const d=realTuneDict({bars:o.bars,scales:o.scaleNames,maxKs:o.maxKs,clef:o.clef,keys:o.keys||((typeof DOVR!=='undefined'&&DOVR&&DOVR.keys)||null)});tune=d.tune;return d;};
+    let q;try{q=g0.call(this,ctx);}finally{ENGRAVE.buildDictation=bd;}
+    if(q&&tune){q.why=(q.why||'')+' This is '+tune.name+' ('+tune.by+').';q.__tune=tune.id;}return q;};})();
+UNITS.splice(UNITS.findIndex(u=>u.key==='scl'),0,DEGU);UNITS.splice(UNITS.findIndex(u=>u.key==='dis')+1,0,SKEL);UNITS.push(DWU);
+
 const KEY_ITEMS=[{id:'any',label:'Any key'}].concat(['C','G','D','A','E','B','F','Bb','Eb','Ab','Db'].map(k=>({id:k,label:k.replace('b','♭')+' major'})),
   ['Am','Em','Bm','F#m','C#m','G#m','Dm','Gm','Cm','Fm'].map(k=>({id:k,label:k.replace('#','♯').replace(/^([A-G])b/,'$1♭').replace(/m$/,' minor')})));
 const BAR_ITEMS=(from,to)=>[...Array(to-from+1).keys()].map(i=>({id:String(from+i),label:(from+i)+' bar'+(from+i===1?'':'s')}));
@@ -476,12 +747,17 @@ const PLAY_ITEMS=[{id:'any',label:'As many as you like'}].concat([1,2,3,4,5,6].m
   setBars('rd',1,8);setBars('pd',1,8);setBars('two',2,8);setBars('dis',2,8);
   {const g=U('bord').cfg.find(x=>x.key==='bars');g.items=[4,5,6,7,8].map(n=>({id:String(n),label:n+' bars'}));}
   const add=(k,item)=>{const u=U(k);if(u&&!u.cfg.some(x=>x.key===item.key))u.cfg.push(item);};
-  ['rd','pd','two','bord','dis'].forEach(k=>add(k,SG('key','Key (melodies)',KEY_ITEMS,'any')));
+  ['rd','pd','two','bord','dis','skel'].forEach(k=>add(k,SG('key','Key (melodies)',KEY_ITEMS,'any')));
   add('rd',SG('barlines','Rhythm on noteheads: barlines',[{id:'given',label:'Printed'},{id:'add',label:'Students add them'}],'given'));
   add('rd',SG('hclef','Rhythm on noteheads: clef',[{id:'auto',label:'Year default'},{id:'treble',label:'Treble'},{id:'bass',label:'Bass'}],'auto'));
   add('pd',SG('range','Range',[{id:'usual',label:'Usual'},{id:'narrow',label:'Narrow (within a 6th)'},{id:'wide',label:'Wide (an octave or more)'}],'usual'));
-  ['rd','pd','two','bord','dis','met','prog','cad'].forEach(k=>add(k,SG('tempo','Tempo',TEMPO_ITEMS,'usual')));
-  UNITS.forEach(u=>{if(u.cfg&&!u.special)add(u.key,SG('plays','Playings allowed',PLAY_ITEMS,'any'));});})();
+  ['rd','pd','two','bord','dis','skel','met','prog','cad'].forEach(k=>add(k,SG('tempo','Tempo',TEMPO_ITEMS,'usual')));
+  UNITS.forEach(u=>{if(u.cfg&&!u.special)add(u.key,SG('plays','Playings allowed',PLAY_ITEMS,'any'));});
+  // how dictation is worked (Karpinski; Open Music Theory): listen before writing, rhythm before pitch, sketch before notes, fewer cues
+  ['rd','pd','two','dis','skel','prog'].forEach(k=>add(k,SG('listen1','First playing',[{id:'free',label:'Write any time'},{id:'listen',label:'Listen only (writing opens after it)'}],{7:'free',10:'listen'})));
+  add('pd',SG('method','How to work it out',[{id:'one',label:'All in one go'},{id:'r2p',label:'Rhythm first, then pitch'},{id:'sketch',label:'Sketch first (sol-fa or contour), then notes'},{id:'full',label:'Rhythm, then sketch, then pitch'}],'one'));
+  add('pd',SG('cues','Before the melody',[{id:'full',label:'Tonic chord, starting note and count-in'},{id:'tonic',label:'Tonic chord and count-in (no starting note)'},{id:'none',label:'Count-in only (find doh yourself)'}],'full'));
+})();
 // ---- metre as music: a tune with an accompaniment whose bass and chord pattern carries the metre ----
 // The bass falls on beat 1 (root, strongest) and the other main beats (5th); light chords fill the remaining beats
 // (oom-pah, oom-pah-pah, the 6/8 jig lilt, 3+2 in 5/4, 2+2+3 in 7/8). No clicks.
